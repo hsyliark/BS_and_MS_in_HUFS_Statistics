@@ -1,0 +1,117 @@
+---
+title: "통계학세미나"
+output: 
+  html_document:
+    toc: true
+---
+
+## 1. Load packages
+
+```{r}
+library(survival)
+library(stringr)
+```
+
+
+## 2. Data Load
+
+* pharynx : 구강내 악성종양이 있는 환자들을 두 그룹(방사선치료 단독 요법, 방사선 및 그 외 요법 병행)으로 나누어 연구한 기록을 나타낸 데이터
+
+* <https://s3.amazonaws.com/classconnection/206/flashcards/6302206/png/screen_shot_2016-02-16_at_82840_pm-152ED461562713C0204.png>
+
+```{r}
+pharynx <- read.csv("C:/Users/Kimjunyoung/Desktop/KJY/통계학세미나/Data/pharynx.csv", header = T)
+
+str(pharynx)
+```
+
+* pharynx data는 13개의 변수와 195개의 관측치로 구성되어 있음
+* `CASE` : 사례 id (각 데이터 또는 환자의 id로 봐도 무방)
+* `INST` : 참여 기관
+* `SEX` : 환자의 성별
+       + 1 : 남자
+       + 2 : 여자
+* `TX` : 치료
+       + 1 : 방사선치료 + a
+       + 2 : 방사선치료
+* `GRADE` : 악성종양이 숙주세포와 유사한 정도
+       + 1 : 매우
+       + 2 : 보통
+       + 3 : 저조
+       + 9 : 결측치
+* `AGE` : 진단 당시의 나이
+* `COND` : 진단 당시의 건강 상태
+       + 1 : 일상생활에 지장없음
+       + 2 : 일상생활이 다소 제한됨
+       + 3 : 자기 관리 및 도움 필요
+       + 4 : 침대 위
+       + 9 : 결측치
+* `SITE` : 부위(위치)   → 위 이미지 참고
+       + 1 = faucial arch
+       + 2 = tonsillar fossa 
+       + 3 = posterior pillar
+       + 4 = pharyngeal tongue
+       + 5 = posterior wall
+* `T_STAGE` : 종양 크기에 따른 단계
+       + 1 = 최대 직경 2cm 이하의 원발 종양
+       + 2 = 최대 직경 2~4cm의 원발 종양
+       + 3 = 4cm 이상의 원발 종양
+       + 4 = 거대 침습성 종양
+* `N_STAGE` : 암세포의 전이 정도에 따른 단계
+       + 0 = 림프절에 전이한 임상적 증거 없음
+       + 1 = 직경 3cm 이하의 양성 노드 1개 존재, 고정되지 않음
+       + 2 = 직경 3cm 이상의 양성 노드 1개 존재, 고정되지 않음
+       + 3 = 여러 개의 양성 노드 또는 고정된 양성 노드 존재
+* `ENTRY_DT` : 연구 시작 날짜: Day of year and year, dddyy
+* `STATUS` : censoring 여부
+       + 0 = censored
+       + 1 = dead
+* `TIME` : 진단 당시부터의 생존 시간
+
+<br>     
+
+## 3. Data 전처리
+
+* __ENTRY_DT__ 의 변수의 값이 __dddyy__ 형태이므로 `yyyy-mm-dd`형태로 변경
+
+```{r}
+# ENTRY_DT 전처리
+pharynx$ENTRY_DT <- as.character(pharynx$ENTRY_DT)
+
+day <- str_sub(pharynx$ENTRY_DT, -2, -1)
+year <- str_sub(pharynx$ENTRY_DT, -5, -3)
+ENTRY_DT <- paste(year, day, sep = " ")
+
+pharynx$ENTRY_DT <- as.Date(ENTRY_DT, format = "%j %Y")
+str_sub(pharynx$ENTRY_DT, 1, 2) <- "19"
+unique(pharynx$ENTRY_DT)
+head(pharynx)
+```
+
+
+<br>
+
+## 4.KM
+
+### 4.1 // KM
+
+### 4.2 // KM
+
+
+
+<br>
+
+## 5. PH assumption 
+
+```{r}
+
+```
+
+*
+
+<br>
+
+## 6.분석방향
+
+> cox, aft 모델 생성 후 결과 비교
+> 두 모델의 컴퓨팅 비교 할 예정(row  수 늘려서 진행)

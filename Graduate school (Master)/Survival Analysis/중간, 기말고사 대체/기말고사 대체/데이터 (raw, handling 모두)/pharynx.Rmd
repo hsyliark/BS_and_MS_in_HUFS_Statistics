@@ -1,0 +1,283 @@
+---
+title: ""
+output: html_document
+---
+
+```{r 데이터 속성, 특성 확인}
+pharynx <- read.csv('pharynx.csv', head=T)
+head(pharynx); tail(pharynx)
+str(pharynx)   # 데이터 195개, 13개 변수
+```
+
+```{r 이상치, 결측치 제거}
+which(pharynx$GRADE == 9)   # missing value
+which(pharynx$COND == 9)   # missing value
+which(pharynx$COND == 0)   # outlier
+
+pharynx <- read.csv('pharynx_handling.csv', head=T)   # 데이터 192개, 13개 변수
+```
+
+```{r 최소, 최대값 확인}
+summary(pharynx[, c(6, 13)])
+boxplot(pharynx$AGE)   # 20대 환자 이상치 (1명이라 그런 듯함)
+boxplot(pharynx$TIME)   # 생존시간이 237~783일인 환자가 제1~3분위수 (정말 오래 사는 경우는 1500일 넘음)
+```
+
+```{r 연령대 변수 생성}
+pharynx$AGE_GRP[pharynx$AGE %in% 20:29] <- '20-29'
+pharynx$AGE_GRP[pharynx$AGE %in% 30:39] <- '30-39'
+pharynx$AGE_GRP[pharynx$AGE %in% 40:49] <- '40-49'
+pharynx$AGE_GRP[pharynx$AGE %in% 50:59] <- '50-59'
+pharynx$AGE_GRP[pharynx$AGE %in% 60:69] <- '60-69'
+pharynx$AGE_GRP[pharynx$AGE %in% 70:79] <- '70-79'
+pharynx$AGE_GRP[pharynx$AGE %in% 80:89] <- '80-89'
+pharynx$AGE_GRP[pharynx$AGE %in% 90:99] <- '90-99'
+```
+
+```{r 빈도 확인}
+table(pharynx$TX)   # placebo group 98명, 방사선 치료 그룹 95명
+table(pharynx$GRADE)
+table(pharynx$AGE_GRP)   # 20대 1명, 30대 3명, 80대 5명, 90대 1명
+table(pharynx$COND)   # 3(requires assistance with self care) 6명, 4(bed confined) 1명
+table(pharynx$SITE)
+table(pharynx$T_STAGE)   # 1(primary tumor measuring 2 cm or less in largest diameter) : 9개
+table(pharynx$N_STAGE)
+```
+COND에서 데이터 수가 부족해 정확한 판단을 내리기 어려운 3, 4 옵션을 제외한 상태에서도 추가분석을 해야 더 정확한 결과가 나올지도 모른다. 마찬가지의 이유로 AGE_GRP에서 추후 20-30대, 80-90대외를, T_STAGE에서는 1 옵션을 제외해봐야 한다.
+
+
+```{r TIME+STATUS 변수 생성}
+library(survival)
+library(survminer)
+attach(pharynx)
+Y = Surv(TIME, STATUS)
+```
+
+```{r KM curve}
+(KM = survfit(Y~1))   # 공변량이 없을 때의 카플란-마이어
+plot(KM)
+```
+
+구강내 악성종양 진단을 받은 환자 절반이 465일 내(1년 3~4개월)에 사망. 오래 사는 환자는 4년 이상 살기도 한다.
+
+
+```{r survival curves - INST}
+KM_INST = survfit(Y ~ INST)
+plot(KM_INST, lty=1:6, col=1:6)
+legend(1380, 1, 1:6, lty=1:6, col=1:6, ncol=2)
+survdiff(Y ~ INST)
+```
+
+1. p-value = 0.263 > 0.05인 것으로 보아 survival curve간 큰 차이는 없어보인다
+2. plot으로 확인해보면 기관별 생존확률이 다소 차이가 있는 것으로 보이는데, 기관1, 2에 비해 기관3의 생존확률이 모든 기간에서 대체로 높아 보인다. plot만 가지고 판단할 때는 기관3에 특별한 무언가가 존재할 수도 있다. 하지만 기관3과 나머지 기관으로 나누어 분석하기에는 무리가 있다고 짐작되어 추후 분석에서는 모든 기관을 합쳐서 진행하기로 한다.
+
+
+```{r survival curves - TX (전기간)}
+KM_TX = survfit(Y ~ TX)
+ggsurvplot(KM_TX, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '치료요법', legend.lab = c('방사선+a', '방사선'), pval = T)
+survdiff(Y ~ TX)
+```
+
+1. p-value = 0.308 > 0.05인 것으로 보아 survival curve간 큰 차이는 없어보인다.
+2. plot으로 확인해보면 치료 초반(1번째 접점 이전)과 후반(2번째 접점 이후)에는 두 그룹간 차이가 없어보이나, 치료가 중반(1~2번째 접점 사이)에 들어서면 방사선치료와 다른 치료를 병행한 그룹의 생존확률이 방사선치료만 한 그룹보다 다소 높아보인다. 이로 보아 치료를 병행하는 것이 환자에게는 조금 더 좋아보인다. 실제로 치료 중반대에 두 그룹의 생존곡선에 차이가 있는지 아래 코드를 통해 알아보았다.
+
+```{r survival curves - TX (172~1092일)}
+KM_TX_mid = survfit(Y ~ TX, subset=(TIME %in% 172:1092))   # 약 6개월~3년
+ggsurvplot(KM_TX_mid, conf.int = T, break.time.by = 250, linetype = 'strata')
+survdiff(Y ~ TX, subset=(TIME %in% 1:1092)) 
+```
+
+p-value = 0.0387 < 0.05인 것으로 보아 치료가 중반부(약 6개월~3년)에 접어들면 치료방법에 따라 두 생존곡선에 차이가 있어보인다. 추후 필요에 따라서 치료 중반부가 포함되도록 다뤄보도록 한다. (이왕이면 치료 초반+중반부 합쳐서. 이 부분을 개인적으로 중시하는 이유는 치료 후 몸의 안정을 찾아가는 과정이 중요하다고 생각해서)
+(참고로 치료 초반~중반부인 1092일까지는 p-value = 0.0981 > 0.05이고, 치료 중반~후반부인 172일 이후는 p-value = 0.242 > 0.05이다.)
+
+```{r survival curves - 참고_TX (171일 이내)}
+KM_TX_early = survfit(Y ~ TX, subset=(TIME < 172))   # 약 6개월 이내
+ggsurvplot(KM_TX_early, conf.int = T, break.time.by = 250, linetype = 'strata')
+survdiff(Y ~ TX, subset=(TIME < 172))
+```
+
+p-value = 0.352 > 0.05인 것으로 보아 6달 치료하는동안 치료방법에 따른 두 생존곡선의 차이는 없어보인다. 그렇다면 치료 시작 후 약 100일까지 두 그룹간 차이가 있는지 확인해보자.
+
+```{r survival curves - 참고_TX (100일 이내)}
+KM_TX_100 = survfit(Y ~ TX, subset=(TIME <= 100))
+ggsurvplot(KM_TX_100, conf.int = T, break.time.by = 250, linetype = 'strata')
+survdiff(Y ~ TX, subset=(TIME <= 100))
+```
+
+p-value = 0.00067 < 0.05인 것으로 보아 약 100일 치료하는동안 치료방법에 따른 두 생존곡선의 차이가 커보인다. 하지만 데이터 수가 부족하여 이 기간동안의 더 많은 데이터가 모아져야 이 결과가 유의미한지 확정지을 수 있을 것이다. 이 기간동안의 데이터가 부족하기 때문에 추후 분석에서는 치료 초반에 대해 별도로 다루는 부분은 없을 것이다.
+
+
+```{r survival curves - GRADE}
+KM_GRADE = survfit(Y ~ GRADE)
+ggsurvplot(KM_GRADE, conf.int = T, break.time.by = 250, linetype = 'strata', pval = T)
+survdiff(Y ~ GRADE)
+```
+
+p-value = 0.0702 > 0.05인 것으로 보아 악성종양이 얼마나 숙주세포와 흡사하냐에 따른 생존곡선의 차이는 없는 것으로 나타났다. 하지만 그래프에서는 차이가 다소 있어보인다. 특히 악성종양이 숙주세포와 거의 다른 그룹은 특정 시점 이후 숙주세포와 흡사한 그룹보다 항상 생존확률이 높다. 단기적으로 볼 때는 세 그룹간 생존확률에 큰 차이가 없지만, 장기적으로 볼 때는 악성종양이 얼마냐 숙주세포와 흡사하냐가 어느 정도 중요한 것으로 보인다.
+
+실제로 거의 흡사하지 않은 그룹과 흡사한 그룹간 차이가 있는지 확인해보기 위해 흡사한 그룹을 묶어 위 코드를 비슷하게 수정하여 실행해보았다.
+
+```{r survival curves - GRADE(그룹 축소)}
+pharynx$GRADE_TMP[pharynx$GRADE <= 2] <- 1
+pharynx$GRADE_TMP[pharynx$GRADE == 3] <- 2
+detach(pharynx)
+attach(pharynx)
+
+KM_GRADE_TMP = survfit(Y ~ GRADE_TMP)
+ggsurvplot(KM_GRADE_TMP, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '숙주세포와의 유사 여부 :', legend.labs = c('유사', '비유사'), pval = T)
+survdiff(Y ~ GRADE_TMP)
+
+detach(pharynx)
+attach(pharynx)
+```
+
+데이터 수에 차이가 있어 다소 부정확할 수 있지만, 데이터 수를 가정하지 않는다면 p-value = 0.036 < 0.05로 악성종양과 숙주세포와의 흡사 여부 차이가 생존곡선 차이에 영향을 주는 것을 알 수 있다. 이로 보아 GRADE라는 조건도 치료시 어느 정도 중요할 것으로 보인다.
+
+
+```{r survival curves - AGE_GRP (전연령대)}
+KM_AGE_GRP = survfit(Y ~ AGE_GRP)
+plot(KM_AGE_GRP, lty=1:8, col=1:8)
+legend(1200, 1, c('20대', '30대', '40대', '50대', '60대', '70대', '80대', '90대'), lty=1:8, col=1:8, ncol=2)
+survdiff(Y ~ AGE_GRP)
+```
+
+p-value = 0.0249 < 0.05로 연령대에 따른 차이가 존재하는 것처럼 보이지만, 20~30대, 80~90대의 데이터가 현저하게 적어 이들의 정보가 이상치로 작용해 p-value에 영향을 준 것처럼 보인다. 이 영향을 제외하고 정말로 40~70대 연령에 따른 차이가 존재하는지 알아보겠다. 
+
+```{r survival curves - AGE_GRP (40~70대)}
+KM_AGE_GRP_some = survfit(Y ~ AGE_GRP, subset=(AGE %in% 40:79))
+plot(KM_AGE_GRP_some, lty=3:7, col=3:7)
+legend(1200, 1, c('40대', '50대', '60대', '70대'), lty=3:7, col=3:7, ncol=2)
+survdiff(Y ~ AGE_GRP, subset=(AGE %in% 40:79))
+```
+
+p-value = 0.247 > 0.05로 연령대에 따른 생존곡선의 차이는 없어보인다. 이로 보아 연령대보다 더 중요한 어떠한 요인이 시점별 환자의 생존확률에 영향을 준다고 생각할 수도 있다.
+
+```{r survival curves - COND}
+KM_COND = survfit(Y ~ COND)
+ggsurvplot(KM_COND, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('no disability', 'restricted work', 'requires assistance with self care', 'bed confined'), pval = T)
+survdiff(Y ~ COND)
+```
+
+p-value = 1.24e-10 < 0.05로 환자의 구강내 상태에 따라 시점별 생존확률에 큰 차이가 있어보인다. 환자가 침대에 있어야 할 정도로 심각한 경우를 제외하면, 구강내 상태가 일상생활에 지장이 없을 정도인 환자의 생존확률이 항상 가장 높고, 구강내 상태로 인해 일상생활에 지장이 점점 더 많아질수록 생존확률이 점점 감소하는 것을 볼 수 있다. 이로써 환자의 시점별 생존확률 또는 생존곡선에 환자의 구강내 상태가 매우 중요한 것으로 보인다.
+
+```{r survival curves - COND (그룹 축소)}
+pharynx$COND_TMP[pharynx$COND == 1] <- 1
+pharynx$COND_TMP[pharynx$COND >= 2] <- 2
+detach(pharynx)
+attach(pharynx)
+
+KM_COND_TMP = survfit(Y ~ COND_TMP)
+ggsurvplot(KM_COND_TMP, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('일상생활 지장X', '일상생활 지장O'), pval=T)
+survdiff(Y ~ COND_TMP)
+
+detach(pharynx)
+attach(pharynx)
+```
+
+```{r survival curves - T_STAGE}
+KM_T_STAGE = survfit(Y ~ T_STAGE)
+ggsurvplot(KM_T_STAGE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '종양 길이에 따른 단계 :', legend.labs = c('지름 2cm 미만', '지름 2~4cm', '지름 4cm 이상', '거대 침윤성'), pval=T)
+survdiff(Y ~ T_STAGE)
+```
+
+p-value = 0.0143 < 0.05로 종양 길이에 따라 시점별 생존확률에 큰 차이가 있어보인다. 지름이 2cm 미만인 종양이 있는 환자는 별로 없기 때문에 생존곡선이 위와 나타난 것처럼 보인다. 따라서 이 곡선을 제외하고 나머지 곡선을 보면 종양이 커질수록 모든 기간에서 환자의 생존확률이 낮아지는 것을 확인할 수 있다. 이로써 환자의 시점별 생존확률 또는 생존곡선에 종양 길이가 매우 중요한 것으로 보인다.
+
+```{r survival curves - T_STAGE (그룹 축소)}
+pharynx$T_STAGE_TMP[pharynx$T_STAGE <= 3] <- 1
+pharynx$T_STAGE_TMP[pharynx$T_STAGE == 4] <- 2
+
+detach(pharynx)
+attach(pharynx)
+
+KM_T_STAGE_TMP = survfit(Y ~ T_STAGE_TMP)
+ggsurvplot(KM_T_STAGE_TMP, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '종양 길이에 따른 단계 :', legend.labs = c('거대 침윤성X', '거대 침윤성'), pval=T)
+survdiff(Y ~ T_STAGE_TMP)
+
+detach(pharynx)
+attach(pharynx)
+```
+
+```{r survival curves - N_STAGE}
+KM_N_STAGE = survfit(Y ~ N_STAGE)
+ggsurvplot(KM_N_stage, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '전이의 정도 :', legend.labs = c('임상적 증거 없음', '단일 양성노드(≤3cm, not fixed)', '단일 양성노드(>3cm, not fixed)', '다수 양성노드 또는 fixed'), pval=T)
+survdiff(Y ~ N_STAGE)
+```
+
+p-value = 0.0158 < 0.05로 림프절로 전이된 암세포의 크기, 개수, 고착여부에 따라 시점별 생존확률에 큰 차이가 있어보인다. 특히, 림프절로 전이된 암세포의 개수가 여러 개이고 그 암세포가 고착된 그룹은 다른 그룹에 비해 항상 생존확률이 낮다. 단기적으로 봤을 때 나머지 그룹의 생존곡선은 차이가 없어보이지만 림프절로 전이되고 고착되지 않은 3cm 이하의 크기를 가진 암세포가 1개인 그룹이 그나마 생존확률이 높은 것을 알 수 있다. 이로 보아 환자의 시점별 생존확률 또는 생존곡선에 림프절로 전이된 암세포의 크기, 개수, 고착여부가 중요해 보인다.
+
+```{r survival curves - N_STAGE (그룹 축소), warning=FALSE}
+pharynx$N_STAGE_TMP[pharynx$N_STAGE <= 2] <- 1
+pharynx$N_STAGE_TMP[pharynx$N_STAGE == 3] <- 2
+detach(pharynx)
+attach(pharynx)
+
+KM_N_stage_TMP <- survfit(Y~N_STAGE_TMP)
+ggsurvplot(KM_N_stage_TMP, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = 'node의 전이 단계 :', legend.labs = c('전이X/단일 양성노드, 고정X', '다수 양성노드/고정O'), pval=T)
+survdiff(Y~N_STAGE_TMP)
+
+detach(pharynx)
+attach(pharynx)
+```
+
+
+```{r PH assumption test _ coxph, 기존 그룹, factor}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE))
+MASS::stepAIC(ph, direction = "both")   # Y ~ factor(SEX) + factor(COND) + factor(T_STAGE)
+cox.zph(ph, transform=rank)
+cox.zph(coxph(Y ~ factor(SEX) + factor(COND) + factor(T_STAGE)), transform=rank)
+```
+
+```{r PH assumption test _ coxph, 축소 그룹, factor}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE_TMP) + AGE + factor(COND_TMP) + factor(SITE) + factor(T_STAGE_TMP) + factor(N_STAGE_TMP))
+MASS::stepAIC(ph, direction = "both")   # Y ~ factor(SEX) + factor(GRADE_TMP) + factor(COND_TMP) + factor(T_STAGE_TMP) + factor(N_STAGE_TMP)
+cox.zph(ph, transform=rank)
+cox.zph(coxph(Y ~ factor(SEX) + factor(GRADE_TMP) + factor(COND_TMP) + factor(T_STAGE_TMP) + factor(N_STAGE_TMP)), transform=rank)   # 여기서 어디에 strata 적용하고, 어떤 변수를 제외해야할지? 그 후 교호작용을 어떻게 적용할 것인지?
+```
+☆
+
+```{r PH assumption test _ coxph, 기존 그룹, 연속형}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + GRADE + AGE + COND + factor(SITE) + T_STAGE + N_STAGE)
+MASS::stepAIC(ph, direction = "both")   # Y ~ factor(SEX) + COND + T_STAGE + N_STAGE
+cox.zph(ph, transform=rank)
+cox.zph(coxph(Y ~ factor(SEX) + COND + T_STAGE + N_STAGE), transform=rank)   # PH 가정 모두 만족
+
+# 성별 제외
+coxph(Y ~ COND + T_STAGE + N_STAGE)
+cox.zph(coxph(Y ~ COND + T_STAGE + N_STAGE), transform=rank)
+
+# 최종1 : 성별 제외 및 condition 층화
+coxph(Y ~ strata(COND) + T_STAGE + N_STAGE)
+cox.zph(coxph(Y ~ strata(COND) + T_STAGE + N_STAGE), transform=rank)
+
+# 최종2 - 교호작용 추가
+coxph(Y ~ strata(COND) + T_STAGE + N_STAGE + T_STAGE*N_STAGE)
+cox.zph(coxph(Y ~ strata(COND) + T_STAGE + N_STAGE + T_STAGE*N_STAGE), transform=rank)
+
+# AFT 적용
+survreg(, dist='loglogistic')   # or 'weibull'
+```
+★ 
+
+```{r PH assumption test _ coxph, 축소 그룹, 연속형}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + GRADE_TMP + AGE + COND_TMP + factor(SITE) + T_STAGE_TMP + N_STAGE_TMP)
+MASS::stepAIC(ph, direction = "both")   # Y ~ factor(SEX) + GRADE_TMP + COND_TMP + T_STAGE_TMP + N_STAGE_TMP
+cox.zph(ph, transform=rank)
+cox.zph(coxph(Y ~ factor(SEX) + GRADE_TMP + COND_TMP + T_STAGE_TMP + N_STAGE_TMP), transform=rank)
+
+# 성별 제외
+coxph(Y ~ GRADE_TMP + COND_TMP + T_STAGE_TMP + N_STAGE_TMP)
+cox.zph(coxph(Y ~ GRADE_TMP + COND_TMP + T_STAGE_TMP + N_STAGE_TMP), transform=rank)
+
+# 성별 제외 및 condition 층화 : GRADE_TMP 빼고 모든 회귀계수 유의, PH 가정 모두 만족
+coxph(Y ~ GRADE_TMP + strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP)
+cox.zph(coxph(Y ~ GRADE_TMP + strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP), transform=rank)
+
+# 최종1 : 성별, GRADE_TMP 제외 및 condition 층화 : 모든 회귀계수 유의, PH 가정 모두 만족
+coxph(Y ~ strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP)
+cox.zph(coxph(Y ~ strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP), transform=rank)
+
+# 최종2 - 교호작용 추가 (교호작용 항 살짝 유의X)
+coxph(Y ~ strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP + T_STAGE_TMP*N_STAGE_TMP)
+cox.zph(coxph(Y ~ strata(COND_TMP) + T_STAGE_TMP + N_STAGE_TMP + T_STAGE_TMP*N_STAGE_TMP), transform=rank)
+```
+★ 

@@ -1,0 +1,87 @@
+데이터마이닝 과제 (2013.10.15)
+========================================================
+200903877 황성윤
+-------------------------
+### 1. Bank data
+
+```{r}
+bank <- read.csv("C:/Users/student/Desktop/Sung-yoon/bank-full.csv",header=T)
+head(bank)
+```
+
+
+```{r fig.width=7, fig.height=6}
+str(bank)
+```
+
+```{r}
+bank$balance <- as.numeric(bank$balance)
+bank$duration <- as.numeric(bank$duration)
+bank$age <- as.numeric(bank$age)
+bank$day <- as.numeric(bank$day)
+bank$campaign <- as.numeric(bank$campaign)
+bank$pdays <- as.numeric(bank$pdays)
+bank$previous <- as.numeric(bank$previous)
+bank$default <- as.character(bank$default) 
+bank$default <- ifelse(bank$default == 1, "good", "bad") 
+bank$default <- as.factor(bank$default)
+bank$housing <- as.character(bank$housing) 
+bank$housing <- ifelse(bank$housing == 1, "good", "bad") 
+bank$housing <- as.factor(bank$housing)
+bank$loan <- as.character(bank$loan) 
+bank$loan <- ifelse(bank$loan == 1, "good", "bad") 
+bank$loan <- as.factor(bank$loan)
+bank$y <- as.character(bank$y) 
+bank$y <- ifelse(bank$y == 1, "good", "bad") 
+bank$y <- as.factor(bank$y)
+str(bank)
+```
+
+### 2. Growing tree
+
+```{r}
+install.packages("tree")
+install.packages("rpart")
+install.packages("partykit")
+library(tree) 
+library(rpart)
+library(partykit)
+bank.tr <- tree(y ~ ., data = bank, method = "class")
+plot(bank.tr)
+text(bank.tr)
+```
+
+```{r}
+bank.tr.gini <- tree(y ~ ., data = bank, method = "class", split = "gini") 
+plot(bank.tr.gini)
+text(bank.tr.gini)
+```
+
+```{r}
+bank.tr.dev <- tree(y ~ ., data = bank, method = "class", split = "deviance") 
+plot(bank.tr.dev)
+text(bank.tr.dev)
+```
+
+### 3. Cross - Validation
+
+```{r}
+bank.dt.cv <- rpart(y ~ ., data = bank, method = "class", control = rpart.control(xval = 20)) 
+plot(as.party(bank.dt.cv))
+```
+
+```{r}
+printcp(bank.dt.cv)
+```
+
+```{r}
+plotcp(bank.dt.cv)
+```
+
+### 4. Pruning tree
+
+```{r}
+bank.dt.pr <- prune(bank.dt.cv, cp = 0.029)
+plot(as.party(bank.dt.pr))
+```
+

@@ -1,0 +1,18 @@
+An Introduction to Statistical Learning
+ - Springer Texts in Statistics (Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani)
+
+UCI Machine Learning Repository (http://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data))
+
+로지스틱 회귀모형 (wolfpack.hnu.ac.kr/lecture/Regression/ch9_logistic.pdf)
+
+의사결정나무 (http://openlife.tistory.com/264)
+
+SVM (http://ko.wikipedia.org/wiki/%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0)
+
+선형판별분석 (jun.hansung.ac.kr/PR/12%20LDA.ppt?)
+
+KNN algorithm (http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)
+
+벡터 공간 분류 (mbm.konkuk.ac.kr/2013-1-정보검색/lecture14.pdf?)
+
+SVM을 이용한 스미싱 탐지 기법 (http://jse.or.kr/insiter.php?design_file=74309.php&article_num=72)

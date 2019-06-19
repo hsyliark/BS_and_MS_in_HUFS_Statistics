@@ -1,0 +1,127 @@
+mean(test.MR[method=="KRLC" & number=="50"])
+
+sd(test.MR[method=="KRLC" & number=="50"])
+
+mean(test.MR[method=="KRLCS" & number=="50"])
+
+sd(test.MR[method=="KRLCS" & number=="50"])
+
+mean(test.MR[method=="KRLCB1" & number=="50"])
+
+sd(test.MR[method=="KRLCB1" & number=="50"])
+
+mean(test.MR[method=="KRLCB2" & number=="50"])
+
+sd(test.MR[method=="KRLCB2" & number=="50"])
+
+mean(test.MR[method=="KRLCB3" & number=="50"])
+
+sd(test.MR[method=="KRLCB3" & number=="50"])
+
+mean(test.MR[method=="KRLCR1" & number=="50"])
+
+sd(test.MR[method=="KRLCR1" & number=="50"])
+
+mean(test.MR[method=="KRLCR2" & number=="50"])
+
+sd(test.MR[method=="KRLCR2" & number=="50"])
+
+mean(test.MR[method=="KRLCR3" & number=="50"])
+
+sd(test.MR[method=="KRLCR3" & number=="50"])
+
+mean(test.MR[method=="KRLC" & number=="100"])
+
+sd(test.MR[method=="KRLC" & number=="100"])
+
+mean(test.MR[method=="KRLCS" & number=="100"])
+
+sd(test.MR[method=="KRLCS" & number=="100"])
+
+mean(test.MR[method=="KRLCB1" & number=="100"])
+
+sd(test.MR[method=="KRLCB1" & number=="100"])
+
+mean(test.MR[method=="KRLCB2" & number=="100"])
+
+sd(test.MR[method=="KRLCB2" & number=="100"])
+
+mean(test.MR[method=="KRLCB3" & number=="100"])
+
+sd(test.MR[method=="KRLCB3" & number=="100"])
+
+mean(test.MR[method=="KRLCR1" & number=="100"])
+
+sd(test.MR[method=="KRLCR1" & number=="100"])
+
+mean(test.MR[method=="KRLCR2" & number=="100"])
+
+sd(test.MR[method=="KRLCR2" & number=="100"])
+
+mean(test.MR[method=="KRLCR3" & number=="100"])
+
+sd(test.MR[method=="KRLCR3" & number=="100"])
+
+mean(test.MR[method=="KRLC" & number=="200"])
+
+sd(test.MR[method=="KRLC" & number=="200"])
+
+mean(test.MR[method=="KRLCS" & number=="200"])
+
+sd(test.MR[method=="KRLCS" & number=="200"])
+
+mean(test.MR[method=="KRLCB1" & number=="200"])
+
+sd(test.MR[method=="KRLCB1" & number=="200"])
+
+mean(test.MR[method=="KRLCB2" & number=="200"])
+
+sd(test.MR[method=="KRLCB2" & number=="200"])
+
+mean(test.MR[method=="KRLCB3" & number=="200"])
+
+sd(test.MR[method=="KRLCB3" & number=="200"])
+
+mean(test.MR[method=="KRLCR1" & number=="200"])
+
+sd(test.MR[method=="KRLCR1" & number=="200"])
+
+mean(test.MR[method=="KRLCR2" & number=="200"])
+
+sd(test.MR[method=="KRLCR2" & number=="200"])
+
+mean(test.MR[method=="KRLCR3" & number=="200"])
+
+sd(test.MR[method=="KRLCR3" & number=="200"])
+
+mean(test.MR[method=="KRLC" & number=="400"])
+
+sd(test.MR[method=="KRLC" & number=="400"])
+
+mean(test.MR[method=="KRLCS" & number=="400"])
+
+sd(test.MR[method=="KRLCS" & number=="400"])
+
+mean(test.MR[method=="KRLCB1" & number=="400"])
+
+sd(test.MR[method=="KRLCB1" & number=="400"])
+
+mean(test.MR[method=="KRLCB2" & number=="400"])
+
+sd(test.MR[method=="KRLCB2" & number=="400"])
+
+mean(test.MR[method=="KRLCB3" & number=="400"])
+
+sd(test.MR[method=="KRLCB3" & number=="400"])
+
+mean(test.MR[method=="KRLCR1" & number=="400"])
+
+sd(test.MR[method=="KRLCR1" & number=="400"])
+
+mean(test.MR[method=="KRLCR2" & number=="400"])
+
+sd(test.MR[method=="KRLCR2" & number=="400"])
+
+mean(test.MR[method=="KRLCR3" & number=="400"])
+
+sd(test.MR[method=="KRLCR3" & number=="400"])

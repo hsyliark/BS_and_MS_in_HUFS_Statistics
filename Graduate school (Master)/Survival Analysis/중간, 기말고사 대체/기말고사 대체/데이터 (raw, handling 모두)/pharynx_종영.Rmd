@@ -1,0 +1,314 @@
+---
+title: "Survival Analysis"
+output:
+  word_document: default
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+---
+
+
+## 1. Load Packages
+
+```{r, message = FALSE, warning=FALSE}
+library(survival)
+library(survminer)
+library(stringr)
+library(dplyr)
+library(MASS)
+```
+
+
+## 2. Data
+
+* pharynx : 구강내 악성종양이 있는 환자들을 연구한 기록을 나타낸 데이터임
+
+```{r, warning=FALSE}
+pharynx <- read.csv(file.choose(), header=T)
+
+str(pharynx)
+```
+
+* pharynx data는 13개의 변수와 195개의 관측치로 구성되어 있음
+* `CASE` : 사례 id (각 데이터 또는 환자의 id로 봐도 무방)
+* `INST` : 참여 기관(1~6까지 6개의 기관이 있음)
+* `SEX` : 환자의 성별
+       + 1 : 남자
+       + 2 : 여자
+* `TX` : 치료
+       + 1 : 방사선치료 + a
+       + 2 : 방사선치료
+* `GRADE` : 악성종양이 숙주세포와 유사한 정도
+       + 1 : 매우
+       + 2 : 보통
+       + 3 : 저조
+       + 9 : 결측치
+* `AGE` : 진단 당시의 나이
+* `COND` : 진단 당시의 건강 상태
+       + 1 : 일상생활에 지장없음
+       + 2 : 일상생활이 다소 제한됨
+       + 3 : 자기 관리 및 도움 필요
+       + 4 : 침대 위
+       + 9 : 결측치
+* `SITE` : 부위(위치)   → 위 이미지 참고
+       + 1 = faucial arch
+       + 2 = tonsillar fossa 
+       + 3 = posterior pillar
+       + 4 = pharyngeal tongue
+       + 5 = posterior wall
+* `T_STAGE` : 종양 크기에 따른 단계
+       + 1 = 최대 직경 2cm 이하의 원발 종양
+       + 2 = 최대 직경 2~4cm의 원발 종양
+       + 3 = 4cm 이상의 원발 종양
+       + 4 = 거대 침습성 종양(-침습성증식 : 분열로 증식하는 종양세포가 주위의 고유조직세포사이에 퍼져가는데 이때 정상조직을 파괴하면서 확대하는 현상)
+* `N_STAGE` : 암세포의 전이 정도에 따른 단계
+       + 0 = 림프절에 전이한 임상적 증거 없음
+       + 1 = 직경 3cm 이하의 양성 노드 1개 존재, 고정되지 않음
+       + 2 = 직경 3cm 이상의 양성 노드 1개 존재, 고정되지 않음
+       + 3 = 여러 개의 양성 노드 또는 고정된 양성 노드 존재
+* `ENTRY_DT` : 연구 시작 날짜: Day of year and year, dddyy
+* `STATUS` : censoring 여부
+       + 0 = censored
+       + 1 = dead
+* `TIME` : 진단 당시부터의 생존 시간
+
+<br>     
+
+## 3. The Purpose of Analysis
+
+* 구강내 악성종양이 있는 환자들의 생존시간 시간을 바탕으로 생존분석 실시.
+
+<br>
+
+## 4. Data Exploration
+
+* Data를 분석하기 전 데이터의 구성을 살펴보기위해 Data Exploration를 진행함.
+
+<br>
+
+### 결측치(NA)
+
+```{r, warning=FALSE}
+pharynx <- filter(pharynx, pharynx$GRADE != 9,  pharynx$COND != 0, pharynx$COND != 9)  # missing value
+str(pharynx)
+```
+
+* 결측치가 있는 데이터는 분석에서 제외하여, 총 192개의 관측치로 구성된다.
+
+<br>
+
+### Event(사망) 비율 탐색
+
+```{r, warning=FALSE}
+data.frame(N = nrow(pharynx), Event = sum(pharynx$STATUS==1), Censored = sum(pharynx$STATUS==0), 
+           Ratio = round(sum(pharynx$STATUS==1)/nrow(pharynx), digits = 2))
+```
+
+* 전체 192개의 관측치 중 139개의 Event발생, 53개의 Censored되어 전체 데이터 중 약 72%정도 Event 발생함.
+
+<br>
+
+### Kaplan Meier Curve
+
+* 범주형으로 구성되어 있는 설명변수의 경우 Kaplan Meier Curve와 의미를 고려하여 새로운 범주로 부여함.
+
+<br>
+
+#### `GRADE(악성종양이 숙주세포와 유사정도)` 
+
+* GRADE의 Kaplan Meier Curve
+
+```{r}
+attach(pharynx)
+Y <- Surv(TIME, STATUS) 
+
+KM_GRADE = survfit(Y ~ GRADE)
+ggsurvplot(KM_GRADE, conf.int = T, break.time.by = 250, linetype = 'strata', pval = T)
+survdiff(Y ~ GRADE)
+```
+
+* GRADE의 경우 악성종양이 숙주세포와 흡사하면 1, 흡사하지 않으면 2으로 대체
+
+```{r}
+GRADE[GRADE <= 2] <- 1
+GRADE[GRADE == 3] <- 2
+
+KM_GRADE = survfit(Y ~ GRADE)
+plot(KM_GRADE, lty=c(4,6), col=c(4,6))
+ggsurvplot(KM_GRADE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '숙주세포와의 유사 여부 :', legend.labs = c('유사', '비유사'), pval = T)
+survdiff(Y ~ GRADE)
+```
+
+* 새로운 범주로 구분하여 KM Curve 와 Test를 그린 결과 두 Curve간의 차이가 있다고 볼 수 있다.
+
+<br>
+
+#### `COND(진단 당시의 건강상태)`
+
+* COND의 Kaplan Meier Curve
+
+```{r}
+KM_COND = survfit(Y ~ COND)
+plot(KM_COND, lty=c(2,4,6,11), col=c(2,4,6,11))
+legend(1400, 1, c('1', '2', '3', '4'), lty=c(2,4,6,11), col=c(2,4,6,11))
+ggsurvplot(KM_COND, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('일상생활 지장 없음', '다소 제한', '자기관리 및 도움 필요', '침대 위'), pval = T)
+survdiff(Y ~ COND)
+```
+
+* COND의 Curve와 구성비를 탐색한 결과 일상생활에 지장이 없으면 1, 지장이 있으면 2로 대체
+
+```{r}
+COND[COND == 1] <- 1
+COND[COND >= 2] <- 2
+KM_COND = survfit(Y ~ COND)
+plot(KM_COND, lty=c(2,4), col=c(2,4))
+legend(1400, 1, c('1', '2'), lty=c(2,4), col=c(2,4))
+ggsurvplot(KM_COND, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('일상생활 지장 없음', '일상생활 지장 있음'), pval=T)
+survdiff(Y ~ COND)
+```
+
+* 새로운 범주로 구분하여 탐색 결과 두 Curve간의 차이가 있다고 볼 수 있다.
+
+<br>
+
+#### `T_STAGE(종양의 크기)`
+
+* T_STAGE의 Kaplan Meier Curve
+
+```{r}
+KM_T_STAGE = survfit(Y ~ T_STAGE)
+plot(KM_T_STAGE, lty=c(2,4,6,11), col=c(2,4,6,111))
+legend(1400, 1, c('1', '2', '3', '4'), lty=c(2,4,6,11), col=c(2,4,6,11))
+ggsurvplot(KM_T_STAGE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '종양 길이에 따른 단계 :', legend.labs = c('지름 2cm 미만', '지름 2~4cm', '지름 4cm 이상', '거대 침윤성'), pval=T)
+survdiff(Y ~ T_STAGE)
+```
+
+* T_STAGE의 Curve와 구성비를 탐색한 결과 침습성 종양이 없으면 1, 있으면 2로 대체
+
+```{r}
+T_STAGE[T_STAGE <= 3] <- 1
+T_STAGE[T_STAGE == 4] <- 2
+
+KM_T_STAGE = survfit(Y ~ T_STAGE)
+plot(KM_T_STAGE, lty=c(2,11), col=c(2,11))
+legend(1400, 1, c('1', '2'), lty=c(2,11), col=c(2,11))
+ggsurvplot(KM_T_STAGE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '종양 길이에 따른 단계 :', legend.labs = c('거대 침윤성 아님', '거대 침윤성'), pval=T)
+survdiff(Y ~ T_STAGE)
+```
+
+* 새로운 범주로 구분하여 탐색 결과 두 Curve간의 차이가 있다고 볼 수 있다.
+
+<br>
+
+#### `N_STAGE(암세포의 전이 정도)`
+
+* N_STAGE의 Kaplan Meier Curve
+
+```{r}
+KM_N_stage <- survfit(Y~N_STAGE)
+plot(KM_N_stage, lty=c(2,4,6,11), col=c(2,4,6,11))
+legend(1400, 1, c('1', '2', '3', '4'), lty=c(2,4,6,11), col=c(2,4,6,11))
+ggsurvplot(KM_N_stage, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '전이의 정도 :', legend.labs = c('임상적 증거 없음', '단일 양성노드(≤3cm, not fixed)', '단일 양성노드(>3cm, not fixed)', '다수 양성노드 또는 fixed'), pval=T)
+survdiff(Y ~ N_STAGE)
+```
+
+* N_STAGE의 Curve와 구성비를 탐색한 결과 고정된 양성노드가 없으면 1, 있으면 2로 대체
+
+```{r}
+N_STAGE[N_STAGE <= 2] <- 1
+N_STAGE[N_STAGE == 3] <- 2
+KM_N_stage <- survfit(Y~N_STAGE)
+plot(KM_N_stage, lty=c(2,11), col=c(2,11))
+legend(1400, 1, c('1', '2'), lty=c(2,11), col=c(2,11))
+ggsurvplot(KM_N_stage, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '전이의 정도 :', legend.labs = c('전이 없음 또는 단일 양성노드(not fixed)', '다수 양성노드 또는 fixed'), pval=T)
+survdiff(Y ~ N_STAGE)
+```
+
+* 새로운 범주로 구분하여 탐색 결과 두 Curve간의 차이가 있다고 볼 수 있다.
+
+<br>
+
+* SEX의 Kaplan Meier Curve
+
+```{r}
+KM_SEX <- survfit(Y~SEX)
+plot(KM_SEX, lty=c(2,4), col=c(2,4))
+legend(1400, 1, c('1', '2'), lty=c(2,4), col=c(2,4))
+ggsurvplot(KM_SEX, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '성별 :', legend.labs = c('남성', '여성'), pval=T)
+survdiff(Y ~ SEX)
+```
+
+
+<br>
+<br>
+
+## 5. Select Variable
+
+* COX Model을 적용하기 전 `TIME(생존시간)` 에 많은 영향을 주는 변수를 선정한다.
+* 이때, Stepwise 방법을 이용하는데 이 중 `CASE`, `ENTRY_DT`, `STATUS`는 설명변수로 의미가 없으므로 제외
+
+```{r}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + 
+              factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE))
+stepAIC(ph, direction = "both")
+```
+
+* AIC가 가장 작았을 때의 Model을 최종적인 모형으로 출력함.
+* 선택된 설명변수는 다음과 같다.
+    + `SEX`, `GRADE`, `COND`, `T_STAGE`, `N_STAGE`
+
+<br>
+
+## 6. COX Model
+
+* 선택된 설명변수로 COX Model을 생성하고, COX PH Assumption을 만족하는지 검정한다.
+
+```{r}
+ph <- coxph(Y ~  factor(GRADE) + factor(COND) + factor(T_STAGE) + factor(N_STAGE))
+summary(ph)
+cox.zph(ph,transform=rank)
+```
+
+* 그 결과 위의 Model은 COX PH Assumption을 만족하지 않는다. 
+* 그 원인을 살펴보았을 때 다른 설명변수는 PH Assumption을 만족하지만 `COND` 설명변수가 PH Assumption을 만족하지 않기 때문이다.
+
+```{r}
+model1 <- coxph(Y ~ factor(GRADE) + strata(factor(COND)) + factor(T_STAGE) + 
+    factor(N_STAGE))
+cox.zph(model1,transform=rank)
+summary(model1)
+pattern1 <- data.frame(GRADE = factor(1), T_STAGE = factor(2), N_STAGE = factor(2))
+
+summary(survfit(model1,newdata=pattern1))
+plot(survfit(model1,newdata=pattern1), conf.int=F, lty = c(2, 4), col=c(2, 4), 
+     main="Survival curves for COND")
+legend(1000, 1, c("1", "2"), lty = c(2, 4), col=c(2, 4))
+
+plot(survfit(model1, newdata = pattern1), fun = "cloglog", main = "Log-log curves for Condition")
+```
+
+<br>
+
+## 7. AFT Model
+
+```{r}
+# warning message 안 뜨게 전체적으로 다 조정
+# loglogistic도 가정해보기 (lognormal은 coxph로 변환이 어려울 수도 있다고 책에 적혀있어서)
+# AIC 다시 설정
+
+# weibull
+(AFT_model_weibull <- survreg(Y ~ factor(GRADE) + factor(COND) + factor(T_STAGE) + 
+    factor(N_STAGE), dist = "weibull"))
+AIC(AFT_model_weibull)   # = 2090.821
+
+# exponential
+(AFT_model_exponential <- survreg(Y ~ factor(GRADE) + factor(COND) + factor(T_STAGE) + 
+    factor(N_STAGE), dist = "exponential"))
+AIC(AFT_model_exponential)   # = 2095.515
+
+# lognormal (AIC가 가장 작은 이 모델 선택)
+(AFT_model_lognormal <- survreg(Y ~ factor(GRADE) + factor(COND) + factor(T_STAGE) + 
+    factor(N_STAGE), dist = "lognormal"))
+AIC(AFT_model_lognormal)   # = 2059.694
+```

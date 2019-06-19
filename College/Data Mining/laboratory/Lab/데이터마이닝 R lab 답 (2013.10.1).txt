@@ -1,0 +1,37 @@
+1. Forbes2000 <- read.table("C:/data mining/Forbes2000.txt",sep=",",header=T)
+
+2. write.table(Forbes2000,"C:/data mining/Forbes2000.txt",sep="\t")
+
+3. url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+download.file(url,destfile="adult.txt")
+
+4. install.packages("HSAUR")
+   library(HSAUR)
+   data(Forbes2000, package='HSAUR')
+   head(Forbes2000)
+   res1 <- list(summary(Forbes2000))
+   is.list(res1)
+
+5. order.profits <- order(Forbes2000$profits)
+   order.profits
+   profits50 <- order.profits[1951:2000]
+   profits50
+   ex5 <- Forbes2000[profits50,]
+   ex5
+   plot(ex5$sales,ex5$assets,xlab="sales",ylab="assets",col=ex5$profits,main="Sales vs Assets")
+
+6. tapply(Forbes2000$sales,Forbes2000$country,mean,na.rm=T)
+
+7. ex7 <- function(dat) {
+   dat <- dat
+   dat2 <- subset(dat,marketvalue >= 200)
+   table(dat2$category)
+   }
+   ex7(Forbes2000)
+
+8. ex8 <- subset(Forbes2000,country=="United States" | country=="Japan")
+   tail(ex8)
+   gate <- rep(1,1067)
+   gate[ex8$country=="United States"] <- 2
+   plot(log(ex8$profits)~log(ex8$sales),col=gate,main="Profits vs Sales")
+

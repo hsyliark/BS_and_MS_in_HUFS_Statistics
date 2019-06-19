@@ -1,0 +1,1021 @@
+Summary of Assignment
+========================================================
+200903877 황 성 윤
+-------------------------
+5개의 기업의 2010년 1월 1일부터 2014년 3월 24일까지의 daily return에 관한 분석.
+---------------------------------------------------------------------------
+
+### 데이터 불러들이기 및 수익률에 관한 그래프 그리기
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+par(mfrow=c(1,2))
+plot(samsung,type="l",main="Samsung eletronics",xlab="t",ylab="Samsung")
+samsung.return <- diff(log(samsung)) 
+plot(samsung.return,type="l",main="Samsung returns",xlab="t",ylab="returns")
+```
+#### Interpretation
+삼성전자 주식에 관한 시계열 그래프에서 알 수 있듯이 
+중반부에 주식이 급격하게 상승했음을 알 수 있고
+비정상 시계열임을 알 수 있다.
+그리고 주식의 수익률에 관한 그래프를 통하여
+일반적인 주식의 특징이라고 할 수 있는
+수익률의 변동성이 변화했을 때 그 변화에 대한
+지속기간이 대체적으로 길게 나타나고 있음을 알 수 있다.
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+par(mfrow=c(1,2))
+plot(kt,type="l",main="KT corporation",xlab="t",ylab="KT")
+kt.return <- diff(log(kt)) 
+plot(kt.return,type="l",main="KT returns",xlab="t",ylab="returns")
+```
+#### Interpretation
+KT corporation 의 주식에 관한 시계열 그래프에서 알 수 있듯이 
+최근 5년동안 주식이 하락하는 추세를 보이고 있으며
+비정상 시계열임을 알 수 있다.
+그리고 중간에 주식이 큰 폭으로 떨어지는 부분이 있다는 것이 
+특징이다.
+또한 주식의 수익률에 관한 그래프를 통하여
+일반적인 주식의 특징이라고 할 수 있는
+수익률의 변동성이 변화했을 때 그 변화에 대한
+지속기간이 대체적으로 길게 나타나고 있음을 알 수 있다.
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+par(mfrow=c(1,2))
+plot(lg,type="l",main="LG Display Co. Ltd",xlab="t",ylab="LG")
+lg.return <- diff(log(lg)) 
+plot(lg.return,type="l",main="LG returns",xlab="t",ylab="returns")
+```
+#### Interpretation
+LG Display 주식에 관한 시계열 그래프에서 알 수 있듯이 
+중반부 시점에서 주가가 크게 하락하였고 
+전반적으로 최근 5년 동안 주가가 하락하는
+추세를 보였음을 알 수 있다.
+그리고 주식의 수익률에 관한 그래프를 보면
+수익률의 변동성에 대한 지속기간이
+전반적으로 길게 나타나고 있는 것으로 판단된다.
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+par(mfrow=c(1,2))
+plot(bmw,type="l",main="BMW",xlab="t",ylab="BMW")
+bmw.return <- diff(log(bmw)) 
+plot(bmw.return,type="l",main="BMW returns",xlab="t",ylab="returns")
+```
+#### Interpretation
+BMW 주식에 관한 시계열 그래프에서 알 수 있듯이 
+전반부 시점에서 주가가 크게 상승하였음을 알 수 있다. 
+그리고 주식의 수익률에 관한 그래프를 보면
+수익률의 변동성에 대한 지속기간이
+전반적으로 길게 나타나고 있는 것으로 판단된다.
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+par(mfrow=c(1,2))
+plot(apple,type="l",main="Apple Inc",xlab="t",ylab="Apple")
+apple.return <- diff(log(apple)) 
+plot(apple.return,type="l",main="Apple returns",xlab="t",ylab="returns")
+```
+#### Interpretation
+Apple Inc 주식에 관한 시계열 그래프에서 알 수 있듯이 
+전반적으로 주가가 상승하는 추세를 보였음을 알 수 있으며
+중반부와 후반부 시점 중간에 큰 폭으로 상승했다는 것도 
+확인할 수 있다.
+그리고 주식의 수익률에 관한 그래프를 보면
+일반적인 수익률의 경우와 마찬가지로
+수익률의 변동성에 대한 지속기간이
+전반적으로 길게 나타나고 있는 것으로 판단된다.
+
+### 수익률에 대한 평균, 표준편차, 왜도, 그리고 첨도
+
+#### 1. Samsung eletronics 
+```{r}
+z <- scale(samsung.return) 
+skew.samsung <- mean(z^3) ; kurt.samsung <- mean(z^4)
+print(c(mean(samsung.return),sd(samsung.return),skew.samsung,kurt.samsung)) 
+```
+#### Interpretation
+평균 : 0.0004178181, 표준편차 : 0.0176937566,
+왜도 : 0.0788363519 > 0 --> 양수인 것으로 보아 오른쪽으로 꼬리가 형성되는 것으로 보임,
+첨도 : 4.0592690227 > 3 --> 일반적인 정규분포의 그래프보다 더 뾰족한 형태의 분포를 형성할 것이라고 예상할 수 있음.
+#### 2. KT corporation
+```{r}
+z <- scale(kt.return) 
+skew.kt <- mean(z^3) ; kurt.kt <- mean(z^4)
+print(c(mean(kt.return),sd(kt.return),skew.kt,kurt.kt)) 
+```
+#### Interpretation
+평균 : -0.000227397, 표준편차 : 0.016546067,
+왜도 : -0.164602632 < 0 --> 음수인 것으로 보아 왼쪽으로 꼬리가 형성되는 것으로 보임,
+첨도 : 5.589264940 > 3 --> 일반적인 정규분포의 그래프보다 더 뾰족한 형태의 분포를 형성할 것이라고 예상할 수 있음.
+#### 3. LG Display Co. Ltd 
+```{r}
+z <- scale(lg.return) 
+skew.lg <- mean(z^3) ; kurt.lg <- mean(z^4)
+print(c(mean(lg.return),sd(lg.return),skew.lg,kurt.lg)) 
+```
+#### Interpretation
+평균 : -0.0003830322, 표준편차 : 0.0264105771,
+왜도 : -0.0010760994 , 0 --> 음수인 것으로 보아 왼쪽으로 꼬리가 형성되는 것으로 보임,
+첨도 : 5.5608465389 > 3 --> 일반적인 정규분포의 첨도인 3보다 크기 때문에 뾰족한 모양의 분포를 형성하고 있는 것으로 보인다.
+#### 4. BMW 
+```{r}
+z <- scale(bmw.return) 
+skew.bmw <- mean(z^3) ; kurt.bmw <- mean(z^4)
+print(c(mean(bmw.return),sd(bmw.return),skew.bmw,kurt.bmw)) 
+```
+#### Interpretation
+평균 : 0.0009282477, 표준편차 : 0.0193515181,
+왜도 : -0.1430340687 < 0 --> 음수인 것으로 보아 왼쪽으로 꼬리가 형성되는 것으로 보임,
+첨도 : 4.8958161469 > 3 --> 일반적인 정규분포의 첨도인 3보다 크기 때문에 뾰족한 모양의 분포를 형성하고 있는 것으로 보인다.
+#### 5. Apple Inc
+```{r}
+z <- scale(apple.return) 
+skew.apple <- mean(z^3) ; kurt.apple <- mean(z^4)
+print(c(mean(apple.return),sd(apple.return),skew.apple,kurt.apple)) 
+```
+#### Interpretation
+평균 : 0.0008606177, 표준편차 : 0.0174216501,
+왜도 : -0.3852795005 , 0 --> 음수인 것으로 보아 왼쪽으로 꼬리가 형성되는 것으로 보임,
+첨도 : 7.9795077037 > 3 --> 일반적인 정규분포의 첨도인 3보다 크기 때문에 뾰족한 모양의 분포를 형성하고 있는 것으로 보인다.
+
+### 일별 주식은 정규성을 보이는가?
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(samsung.return),sd(samsung.return)),col=2) 
+```
+#### Interpretation
+히스토그램의 형태가 정규분포와 비교했을 때 더 뾰족하고 오른쪽에서 꼬리가 형성되고 있으며 더 두꺼움을 알 수 있다. 일반적으로 왼쪽에서 꼬리가 형성되는 경우가 많다는 사실과 비교했을 때 특이한 case라고 할 수 있겠다.
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(kt.return),sd(kt.return)),col=2) 
+```
+#### Interpretation
+히스토그램의 형태가 정규분포와 비교했을 때 더 뾰족하고 왼쪽에서 꼬리가 형성되고 있으며 더 두꺼움을 알 수 있다. 이는 수익률의 분포가 정규분포와는 거리가 멀다는 것을 뜻한다.
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2) 
+```
+#### Interpretation
+히스토그램의 형태가 정규분포와 비교했을 때 뾰족하고 왼쪽에서 꼬리가 형성되고 있으며 더 두꺼움을 알 수 있다. 이 사실을 통해 정규성을 가정하는 것에 있어서는 조심해야 할 것으로 보인다.
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+```
+#### Interpretation
+히스토그램의 형태가 정규분포와 비교했을 때 뾰족하고 왼쪽에서 꼬리가 형성되고 있으며 더 두꺼움을 알 수 있다. 차이가 있는 것으로 보아 정규성을 가정하는 것에 있어서는 조심해야 할 것으로 보인다.
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(apple.return),sd(apple.return)),col=2) 
+```
+#### Interpretation
+히스토그램의 형태가 정규분포와 비교했을 때 뾰족하고 왼쪽에서 꼬리가 형성되고 있으며 더 두꺼움을 알 수 있다. 차이가 있는 것으로 보아 정규성을 가정하는 것에 있어서는 무리가 있을 것이라 여겨진다.
+
+### 정규성 검정(Shapiro-Wilk normality test)
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+qqnorm(samsung.return)
+qqline(samsung.return)
+shapiro.test(samsung.return)
+```
+#### Interpretation
+Q-Q plot을 통해서 알 수 있듯이 그래프가 직선과 동떨어지는 부분이 양끝에서 발생하고 있음을 알 수 있고, 검정결과 유의확률이 0.05보다 작은 것으로 보아 데이터가 정규분포를 따른다는 H0를 기각한다. 즉, 수익률이 정규성을 띄고 있다고 말할 수 없다.
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+qqnorm(kt.return)
+qqline(kt.return)
+shapiro.test(kt.return)
+```
+#### Interpretation
+Q-Q plot을 통해서 알 수 있듯이 그래프가 직선과 동떨어지는 부분이 양끝에서 발생하고 있음을 알 수 있고, 검정결과 유의확률이 0.05보다 작은 것으로 보아 데이터가 정규분포를 따른다는 H0를 기각한다. 즉, 수익률이 정규성을 띄고 있다고 말할 수 없다.
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+qqnorm(lg.return)
+qqline(lg.return)
+shapiro.test(lg.return)
+```
+#### Interpretation
+Q-Q plot을 통해서 알 수 있듯이 그래프가 직선과 동떨어지는 부분이 양끝에서 발생하고 있음을 알 수 있고, 검정결과 유의확률이 0.05보다 매우 작은 것으로 보아 데이터가 정규분포를 따른다는 H0를 기각한다. 즉, 수익률이 정규성을 띄고 있다고 말할 수 없다.
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+qqnorm(bmw.return)
+qqline(bmw.return)
+shapiro.test(bmw.return)
+```
+#### Interpretation
+Q-Q plot을 통해서 알 수 있듯이 그래프가 직선과 동떨어지는 부분이 양끝에서 발생하고 있음을 알 수 있고, 검정결과 유의확률이 0.05보다 매우 작은 것으로 보아 데이터가 정규분포를 따른다는 H0를 기각한다. 즉, 수익률이 정규성을 띄고 있다고 말할 수 없다.
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+qqnorm(apple.return)
+qqline(apple.return)
+shapiro.test(apple.return)
+```
+#### Interpretation
+Q-Q plot을 통해서 알 수 있듯이 그래프가 직선과 동떨어지는 부분이 양끝에서 발생하고 있음을 알 수 있고, 검정결과 유의확률이 0.05보다 매우 작은 것으로 보아 데이터가 정규분포를 따른다는 H0를 기각한다. 즉, 수익률이 정규성을 띄고 있다고 말할 수 없다.
+
+### 자기상관함수 (Autocorrelation function)
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,1))
+acf(samsung.return) 
+acf(abs(samsung.return))
+```
+#### Interpretation
+수익률에 대한 ACF를 보면 대부분 신뢰구간을 벗어나지 않고 있으므로 이전날의 수익률이 현재의 수익률에 미치는 영향이 거의 없음을 알 수 있다. 하지만 수익률의 절대값에 관한 ACF를 보면 적기는 하지만 신뢰구간을 뚫고 나오는 경우가 종종 있음을 알 수 있다. 그러므로 크지는 않지만 이전날의 수익률의 변화가 현재의 수익률에 변화에 어느 정도 영향력을 행사하고 있음을 알 수 있다.
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,1))
+acf(kt.return) 
+acf(abs(kt.return))
+```
+#### Interpretation
+수익률에 대한 ACF를 보면 대부분 신뢰구간을 벗어나지 않고 있으므로 이전날의 수익률이 현재의 수익률에 미치는 영향이 거의 없음을 알 수 있다. 수익률의 절대값에 대한 ACF 또한 일부 시차를 제외하면 동일한 결과를 보여주는 것으로 보아 이전날의 수익률의 변화 또한 현재의 수익률의 변화에 별다른 영향을 주지 못하고 있는 것으로 해석할 수 있겠다. 하지만 그 이후의 분석결과에 따라 내용이 달라질 수 있으니 유의를 해야 하겠다.
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,1))
+acf(lg.return) 
+acf(abs(lg.return))
+```
+#### Interpretation
+수익률에 대한 ACF를 보면 대부분 신뢰구간을 벗어나지 않고 있으므로 이전날의 수익률이 현재의 수익률에 미치는 영향력이 크다고 할 수는 없겠다. 그러나 수익률의 절대값에 관한 ACF를 보면 신뢰구간을 뚫고 나오는 경우가 많이 존재하고 있다. 즉, 이전날의 수익률의 변화가 현재의 수익률의 변화에 많은 영향력을 행사하고 있음을 알 수 있다. 그러므로 수익률 자체를 분석하는 것보다 수익률의 변화에 대해서 연구해보는 것이 더 바람직할 것으로 여겨진다.
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,1))
+acf(bmw.return) 
+acf(abs(bmw.return))
+```
+#### Interpretation
+수익률에 대한 ACF를 보면 대부분 신뢰구간을 벗어나지 않고 있으므로 이전날의 수익률이 현재의 수익률에 미치는 영향력이 크다고 할 수는 없겠다. 그러나 수익률의 절대값에 대한 ACF에서는 이전날의 수익률의 변화가 현재의 수익률의 변화에 영향을 미치는 것으로 나타나고 있다. 그러므로 수익률 자체를 분석하는 것보다 수익률의 변화에 대해서 연구해보는 것이 더 바람직할 것으로 여겨진다.
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,1))
+acf(apple.return) 
+acf(abs(apple.return))
+```
+#### Interpretation
+수익률에 대한 ACF를 보면 대부분 신뢰구간을 벗어나지 않고 있으므로 이전날의 수익률이 현재의 수익률에 미치는 영향력이 크다고 할 수는 없겠다. 수익률의 절대값에 대한 ACF 또한 일부 시차를 제외하면 동일한 결과를 보여주는 것으로 보아 이전날의 수익률의 변화 또한 현재의 수익률의 변화에 별다른 영향을 주지 못하고 있는 것으로 해석할 수 있겠다. 하지만 그 이후의 분석결과에 따라 내용이 달라질 수 있으니 유의를 해야 하겠다.
+
+Genelarized Hyperbolic Distribution (Normal-Inverse Gaussian Distribution)
+---------------------------------------------------------------------------
+
+### 패키지 fBasics 설치 및 변동성 구하는 함수 생성
+
+```{r fig.width=13, fig.height=10} 
+install.packages("fBasics")
+library(fBasics)
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+```
+
+### 5개의 자료에 대한 모수 추정 (Normal-Inverse Gaussian Distribution) 및 히스토그램과 그래프
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+nigFit(samsung.return)
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(samsung.return),sd(samsung.return)),col=2) 
+lines(x,dnig(x,78.239151023,7.288384337,0.024389717,-0.001864134),col=3)
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+nigFit(kt.return)
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(kt.return),sd(kt.return)),col=2) 
+lines(x,dnig(x,55.4120323065,-1.2010779678,0.0152491054,0.0001032147),col=3)
+```
+#### 3. LG Display Co., Ltd
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+nigFit(lg.return)
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2)  
+lines(x,dnig(x,41.6633981699,0.8777504231,0.0288644214,-0.0009912696),col=3)
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+nigFit(bmw.return)
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+lines(x,dnig(x,51.173095881,-0.869998878,0.019418487,0.001254031),col=3)
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+nigFit(apple.return)
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(apple.return),sd(apple.return)),col=2) 
+lines(x,dnig(x,62.809409119,-3.042336396,0.018477287,0.001756665),col=3)
+```
+#### Summary interpretation
+수익률의 분포는 정규분포와 거리가 멀다는 것을 확인할 수 있다. 그래프에서 확인할 수 있듯이 Normal-Inverse Gaussian Distribution 에 의한 곡선이 자료의 히스토그램과 더 잘 맞는다는 것을 알 수 있겠다.
+
+### Volatility at Risk
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+vol.samsung <- nig.volatility(78.239151023,7.288384337,0.024389717,-0.001864134)
+std.samsung <- sd(samsung.return)
+print(c(vol.samsung,std.samsung))
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+vol.kt <- nig.volatility(55.4120323065,-1.2010779678,0.0152491054,0.0001032147)
+std.kt <- sd(kt.return)
+print(c(vol.kt,std.kt))
+```
+#### 3. LG Display Co., Ltd
+```{r fig.width=13, fig.height=10}
+vol.lg <- nig.volatility(41.6633981699,0.8777504231,0.0288644214,-0.0009912696)
+std.lg <- sd(lg.return)
+print(c(vol.lg,std.lg))
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+vol.bmw <- nig.volatility(51.173095881,-0.869998878,0.019418487,0.001254031)
+std.bmw <- sd(bmw.return)
+print(c(vol.bmw,std.bmw))
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+vol.apple <- nig.volatility(62.809409119,-3.042336396,0.018477287,0.001756665)
+std.apple <- sd(apple.return)
+print(c(vol.apple,std.apple))
+```
+#### Summary interpretation
+분포에 의해서 추정된 변동성(volatility)(표준편차)의 값이 실제 자료에 의해서 얻어진 값과 매우 비슷하다.
+
+### Value-at Risk
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+a1 <- qnig(0.05,78.239151023,7.288384337,0.024389717,-0.001864134) # 95% VaR
+a2 <- qnorm(0.05,mean(samsung.return),sd(samsung.return)) # 95% VaR
+print(c(a1,a2))
+a3 <- qnig(0.005,78.239151023,7.288384337,0.024389717,-0.001864134) # 99.5% VaR
+a4 <- qnorm(0.005,mean(samsung.return),sd(samsung.return)) # 99.5% VaR
+print(c(a3,a4))
+a5 <- qnig(0.01,78.239151023,7.288384337,0.024389717,-0.001864134) # 99% VaR
+a6 <- qnorm(0.01,mean(samsung.return),sd(samsung.return)) # 99% VaR
+print(c(a5,a6))
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+a1 <- qnig(0.05,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 95% VaR
+a2 <- qnorm(0.05,mean(kt.return),sd(kt.return)) # 95% VaR
+print(c(a1,a2))
+a3 <- qnig(0.005,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 99.5% VaR
+a4 <- qnorm(0.005,mean(kt.return),sd(kt.return)) # 99.5% VaR
+print(c(a3,a4))
+a5 <- qnig(0.01,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 99% VaR
+a6 <- qnorm(0.01,mean(kt.return),sd(kt.return)) # 99% VaR
+print(c(a5,a6))
+```
+#### 3. LG Display Co., Ltd
+```{r fig.width=13, fig.height=10}
+a1 <- qnig(0.05,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 95% VaR
+a2 <- qnorm(0.05,mean(lg.return),sd(lg.return)) # 95% VaR
+print(c(a1,a2))
+a3 <- qnig(0.005,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99.5% VaR
+a4 <- qnorm(0.005,mean(lg.return),sd(lg.return)) # 99.5% VaR
+print(c(a3,a4))
+a5 <- qnig(0.01,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99% VaR
+a6 <- qnorm(0.01,mean(lg.return),sd(lg.return)) # 99% VaR
+print(c(a5,a6))
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+a1 <- qnig(0.05,51.173095881,-0.869998878,0.019418487,0.001254031) # 95% VaR
+a2 <- qnorm(0.05,mean(bmw.return),sd(bmw.return)) # 95% VaR
+print(c(a1,a2))
+a3 <- qnig(0.005,51.173095881,-0.869998878,0.019418487,0.001254031) # 99.5% VaR
+a4 <- qnorm(0.005,mean(bmw.return),sd(bmw.return)) # 99.5% VaR
+print(c(a3,a4))
+a5 <- qnig(0.01,51.173095881,-0.869998878,0.019418487,0.001254031) # 99% VaR
+a6 <- qnorm(0.01,mean(bmw.return),sd(bmw.return)) # 99% VaR
+print(c(a5,a6))
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+a1 <- qnig(0.05,62.809409119,-3.042336396,0.018477287,0.001756665) # 95% VaR
+a2 <- qnorm(0.05,mean(apple.return),sd(apple.return)) # 95% VaR
+print(c(a1,a2))
+a3 <- qnig(0.005,62.809409119,-3.042336396,0.018477287,0.001756665) # 99.5% VaR
+a4 <- qnorm(0.005,mean(apple.return),sd(apple.return)) # 99.5% VaR
+print(c(a3,a4))
+a5 <- qnig(0.01,62.809409119,-3.042336396,0.018477287,0.001756665) # 99% VaR
+a6 <- qnorm(0.01,mean(apple.return),sd(apple.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+### Summary interpretation
+금융자료에서 나오는 수익률은 정규분포와는 거리가 멀다.
+하지만 Normal-Inverse Gaussian Distribution을 가정하면 그래프를 통해 알 수 있듯이 더 fitting이 바람직하게 됨을 확인할 수 있다.
+따라서 Normal-Inverse Gaussian Distribution을 이용하여 분석하는 것이
+더 현명한 방법이라고 할 수 있으며
+Value-at-Risk 에서도 알 수 있듯이 정규분포는 위험을 더 과소평가하는 경향이 있으므로 정규분포임을 가정하여 수익률을 분석할 경우 잘못된 해석결과가 나올 수 있으니 조심해야 하겠다.
+
+### 패키지 tseries 설치
+
+```{r fig.width=13, fig.height=10}
+install.packages("tseries")
+library(tseries)
+```
+
+
+## Finance time series model
+
+### Conditional Heteroscedastic Model
+### S(t) : asset price
+### r(t) = log(S(t))-log(S(t-1)) : log-return or return
+### r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+### sigma(t)^2 = Var(r(t) | r(t-1), r(t-2), ...)
+### = E(r(t)^2 | r(t-1), r(t-2), ...)
+### GARCH 모형에서 모수를 추정 후 잔차를 이용하여 검진실시.
+### (잔차에 대한 acf 그림을 그린다.
+### 그리고 Box-Ljung test 실시. H0 : 상관관계 없음.)
+
+### Generalized Autoregressive Conditional Heteroscedastic Model
+### (GARCH Model) 
+### (자기회귀 & 이분산성 (과거의 기록을 조건부로 이용))
+### Engle -> Bollerslev
+### Volatility 를 모형화하기 위한 model
+
+### ARCH(p) --> 
+### sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+### alpha(2)*r(t-2)^2 + ... + alpha(p)*r(t-p)^2 (t=1,2,...,T)
+
+### GARCH(p,q) -->
+### sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+### alpha(2)*r(t-2)^2 + ... + alpha(p)*r(t-p)^2 +
+### beta(1)*sigma(t-1)^2 + beta(2)*sigma(t-2)^2 + ...
+### + beta(q)*sigma(t-q)^2 (t=1,2,...,T)
+### 일반적으로 GARCH(1,1) 으로 충분하다고 알려져있음.
+
+
+### 수익률, 자료에 적합된 GARCH model에 의해 추정된 변동성 및 잔차에 관한 그래프 (여기에서는 GARCH(1,1) 모형을 가정하고 분석할 것임.)
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+vol.samsung <- garch(samsung.return)
+par(mfrow=c(3,1))
+plot(samsung.return,type="l",main="Samsung returns")
+plot(vol.samsung$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.samsung$residuals,type="l",main="Residuals")
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+vol.kt <- garch(kt.return)
+par(mfrow=c(3,1))
+plot(kt.return,type="l",main="KT returns")
+plot(vol.kt$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.kt$residuals,type="l",main="Residuals")
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+vol.lg <- garch(lg.return)
+par(mfrow=c(3,1))
+plot(lg.return,type="l",main="LG returns")
+plot(vol.lg$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.lg$residuals,type="l",main="Residuals")
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+vol.bmw <- garch(bmw.return)
+par(mfrow=c(3,1))
+plot(bmw.return,type="l",main="BMW returns")
+plot(vol.bmw$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.bmw$residuals,type="l",main="Residuals")
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+vol.apple <- garch(apple.return)
+par(mfrow=c(3,1))
+plot(apple.return,type="l",main="Apple returns")
+plot(vol.apple$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.apple$residuals,type="l",main="Residuals")
+```
+
+#### Summary interpretation
+공통적으로 수익률의 변동성이 시간에 따라 달라지는 것으로 보아 GARCH model을 적합시켜 분석해볼 필요가 있겠다.
+
+### 적합된 GARCH model에 대한 검진(GARCH(1,1))
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+summary(vol.samsung)
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+summary(vol.kt)
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+summary(vol.lg)
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+summary(vol.bmw)
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+summary(vol.apple)
+```
+
+#### Summary interpretation
+5개의 자료 모두 approximation t-test에 의하면 추정된 모수가 모두 유의한 것으로 나타났고 Jarque Bera test 결과 유의확률이 0.05본다 매우 작은 값으로 나타나므로 변동성을 분석할 때 정규분포를 가정하는 것에는 무리가 있다고 할 수 있다. 또한 Box-Ljung test 결과 유의확률이 0.05보다 큰 값으로 나타나고 있으므로 모형이 자료를 잘 적합시키고 있다고 판단할 수 있겠다.
+
+### 잔차의 ACF를 이용한 모형의 검진
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(samsung.return)
+acf(samsung.return^2)
+acf(vol.samsung$residuals[-1])
+acf(vol.samsung$residuals[-1]^2)
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(kt.return)
+acf(kt.return^2)
+acf(vol.kt$residuals[-1])
+acf(vol.kt$residuals[-1]^2)
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(lg.return)
+acf(lg.return^2)
+acf(vol.lg$residuals[-1])
+acf(vol.lg$residuals[-1]^2)
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(bmw.return)
+acf(bmw.return^2)
+acf(vol.bmw$residuals[-1])
+acf(vol.bmw$residuals[-1]^2)
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(apple.return)
+acf(apple.return^2)
+acf(vol.apple$residuals[-1])
+acf(vol.apple$residuals[-1]^2)
+```
+
+#### Summary interpretation
+5개의 기업 모두 공통적으로 잔차에 대한 ACF와 잔차를 제곱한 값에 대한 ACF가 대부분 신뢰구간 안에 들어가 있으므로 모형적합이 잘 되었다고 말할 수 있다. 그리고 수익률에 대한 ACF를 통하여 수익률 자체를 분석하는 것 보다는 그것을 제곱하여 얻어진 값들을 분석하는 것이 더 타당하다고 할 수 있겠다.
+
+#### If r ~ N( 0 , sigma^2 ) , it is not true..
+#### r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+#### e(t) is called random shocks..
+#### GARCH(1,1) -> sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2
+#### + beta(1)*sigma(t-1)^2
+#### Refer to Jarque Bera Test, e(t) is nonnormal~~!!
+#### 잔차의 분포를 구할 필요성.
+#### 잔차에 관해서 plot을 그리고 정규성 확인
+
+### 잔차 epsilon에 대한 분포 점검
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+vol.samsung <- garch(samsung.return)
+res.samsung <- vol.samsung$residuals[-1]
+nigFit(res.samsung)
+hist(res.samsung,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.5981890,0.1320987,1.5978737,-0.1163623),col=3)
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+vol.kt <- garch(kt.return)
+res.kt <- vol.kt$residuals[-1]
+nigFit(res.kt)
+hist(res.kt,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,0.97230521,-0.02994705,0.97445152,0.01132703),col=3)
+```
+#### 3. LG Display Co. Ltd
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+vol.lg <- garch(lg.return)
+res.lg <- vol.lg$residuals[-1]
+nigFit(res.lg)
+hist(res.lg,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.52580370,-0.01264153,1.53086941,-0.00903504),col=3)
+```
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+vol.bmw <- garch(bmw.return)
+res.bmw <- vol.bmw$residuals[-1]
+nigFit(res.bmw)
+hist(res.bmw,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.33979343,0.00415084,1.33176238,0.05003278),col=3)
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,2))
+vol.apple <- garch(apple.return)
+res.apple <- vol.apple$residuals[-1]
+nigFit(res.apple)
+hist(res.apple,prob=T,nclass=50)
+x <- seq(-6,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.17006981,-0.05964409,1.13887513,0.11048502),col=3)
+```
+#### Summary interpretation
+5개의 자료 모두 GARCH(1,1) 모형을 통해서 얻어진 잔차의 분포를 정규분포로 가정하기에는 무리가 있음을 알 수 있다. 대신 Normal Inverse Gaussian Distribution을 이용하여 적합시켰을 경우에는 적합도가 상당히 좋아지는 것을 히스토그램과 그래프를 통하여 알 수 있다.
+
+## Time varying VaR (시간에 따라 변하는 Value-at-Risk)
+#### P(r(t) <= x ) = 0.01 (Value-at-Risk)
+#### P(sigma(t)*e(t) <= sigma(t)*y ) = 0.01 (Find y!!)
+#### epsilon(t)의 분포는 고정되어있다고 가정하고 sigma(t)는 시간에 따라 변하고 있다고 가정하게 되면 epsilon(t)의 분포를 통해 얻어지는 VaR의 값에 GARCH 모형을 통해 적합된 변동성(volatility)의 값을 곱하여 시간에 따라 변하는 Value-at-Risk를 얻어낼 수 있다.
+
+### Time varying VaR
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(samsung.return)
+plot(samsung.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(kt.return)
+plot(kt.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+#### 3. LG Display Co. Ltd
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(lg.return)
+plot(lg.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(bmw.return)
+plot(bmw.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(apple.return)
+plot(apple.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+#### Summary interpretation
+그래프에서 빨간색선은 95% VaR, 녹색선은 99% VaR, 그리고 파란색선은 99.5% VaR를 나타낸다. 이는 수익률에 해당하는 검정색 그래프가 빨간색선 아래쪽으로 1000번 중 50번, 녹색선 아래로 10번, 그리고 파란색선 아래로 5번 정도 내려간다는 것을 의미한다. 실제 위에 있는 5개의 그래프를 보면 평균적으로 이러한 형태를 보이고 있다.
+
+### 정확도 확인
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(samsung.return[-1] < VaR.N95)),abs(0.05-mean(samsung.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(samsung.return[-1] < VaR.N99)),abs(0.01-mean(samsung.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(samsung.return[-1] < VaR.N995)),abs(0.005-mean(samsung.return[-1] < VaR.995))))
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(kt.return[-1] < VaR.N95)),abs(0.05-mean(kt.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(kt.return[-1] < VaR.N99)),abs(0.01-mean(kt.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(kt.return[-1] < VaR.N995)),abs(0.005-mean(kt.return[-1] < VaR.995))))
+```
+#### 3. LG Display Co. Ltd
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(lg.return[-1] < VaR.N95)),abs(0.05-mean(lg.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(lg.return[-1] < VaR.N99)),abs(0.01-mean(lg.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(lg.return[-1] < VaR.N995)),abs(0.005-mean(lg.return[-1] < VaR.995))))
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(bmw.return[-1] < VaR.N95)),abs(0.05-mean(bmw.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(bmw.return[-1] < VaR.N99)),abs(0.01-mean(bmw.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(bmw.return[-1] < VaR.N995)),abs(0.005-mean(bmw.return[-1] < VaR.995))))
+```
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(apple.return[-1] < VaR.N95)),abs(0.05-mean(apple.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(apple.return[-1] < VaR.N99)),abs(0.01-mean(apple.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(apple.return[-1] < VaR.N995)),abs(0.005-mean(apple.return[-1] < VaR.995))))
+```
+#### Summary interpretation
+위에 있는 내용은 분포를 가정해서 얻어진 위험성과 실제 우리가 얻고자 기대하는 위험성 간의 차이를 비교해본 것이다. 값이 더 클수록 위험성을 부정확하게 측정했다고 판단하면 된다. 결과를 보면 전반적으로 정규분포를 가정했을 때보다 Normal Inverse Gaussian Distribution을 가정했을 경우에 위험성이 더 정확하게 측정되고 있음을 알 수 있다. 일반적으로 정규분포는 수익률의 위험성을 과소평가하는 경향이 있다는 것도 참고적으로 남겨둔다.
+
+## Backtest VaR (Value-at-Risk를 평가하는 방법)
+
+### N : number of 100*(1-p)% VaR violations
+### T : total number of observations
+### H0 : N ~ B(T,p) vs H1 : not H0
+### LRT statistic = - 2*log{((1-p)^(T-N))*((p)^(N))} + 2*log{((1-N/T)^(T-N))*((N/T)^(N))}
+### -->d(Convergence in distribution) 
+### Chi-square distribution with df=1 under H0
+### (LRT statistic = -2*log(L0/L))
+### p-value의 값이 유의수준 0.05보다 큰 값을 가지는 경우
+### 수익률에 대한 분포의 가정이 올바르게 되었다고 판단.
+
+### 가설검정을 위한 함수 작성
+```{r fig.width=13, fig.height=10}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+```
+
+### NIG Assumption
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(samsung.return[-1] < VaR.95),length(samsung.return[-1]),0.05)
+backtest.VaR(sum(samsung.return[-1] < VaR.99),length(samsung.return[-1]),0.01)
+backtest.VaR(sum(samsung.return[-1] < VaR.995),length(samsung.return[-1]),0.005)
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(kt.return[-1] < VaR.95),length(kt.return[-1]),0.05)
+backtest.VaR(sum(kt.return[-1] < VaR.99),length(kt.return[-1]),0.01)
+backtest.VaR(sum(kt.return[-1] < VaR.995),length(kt.return[-1]),0.005)
+```
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(bmw.return[-1] < VaR.95),length(bmw.return[-1]),0.05)
+backtest.VaR(sum(bmw.return[-1] < VaR.99),length(bmw.return[-1]),0.01)
+backtest.VaR(sum(bmw.return[-1] < VaR.995),length(bmw.return[-1]),0.005)
+```
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(apple.return[-1] < VaR.95),length(apple.return[-1]),0.05)
+backtest.VaR(sum(apple.return[-1] < VaR.99),length(apple.return[-1]),0.01)
+backtest.VaR(sum(apple.return[-1] < VaR.995),length(apple.return[-1]),0.005)
+```
+#### Summary interpretation
+95% VaR, 99% VaR, 그리고 99.5% VaR 모두 p-value의 값이 0.05보다 큰 값을 나타내고 있다. 따라서 분포의 가정이 올바르다는 귀무가설을 기각하지 못하게 된다. 그러므로 수익률을 분석할 때 Normal Inverse Gaussian Distribution을 가정하는 것이 타당하다고 말할 수 있겠다. 
+
+### Normality Assumption
+
+#### 1. Samsung eletronics
+```{r fig.width=13, fig.height=10}
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(samsung.return[-1] < VaR.N95),length(samsung.return[-1]),0.05)
+backtest.VaR(sum(samsung.return[-1] < VaR.N99),length(samsung.return[-1]),0.01)
+backtest.VaR(sum(samsung.return[-1] < VaR.N995),length(samsung.return[-1]),0.005)
+```
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(kt.return[-1] < VaR.N95),length(kt.return[-1]),0.05)
+backtest.VaR(sum(kt.return[-1] < VaR.N99),length(kt.return[-1]),0.01)
+backtest.VaR(sum(kt.return[-1] < VaR.N995),length(kt.return[-1]),0.005)
+```
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+#### 4. BMW
+```{r fig.width=13, fig.height=10}
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(bmw.return[-1] < VaR.N95),length(bmw.return[-1]),0.05)
+backtest.VaR(sum(bmw.return[-1] < VaR.N99),length(bmw.return[-1]),0.01)
+backtest.VaR(sum(bmw.return[-1] < VaR.N995),length(bmw.return[-1]),0.005)
+```
+#### 5. Apple Inc 
+```{r fig.width=13, fig.height=10}
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(apple.return[-1] < VaR.N95),length(apple.return[-1]),0.05)
+backtest.VaR(sum(apple.return[-1] < VaR.N99),length(apple.return[-1]),0.01)
+backtest.VaR(sum(apple.return[-1] < VaR.N995),length(apple.return[-1]),0.005)
+```
+#### Summary interpretation
+주어진 결과를 보면 p-value의 값이 0.05보다 큰 경우도 있지만 그렇지 않은 경우가 더 많다. 이 말은 수익률에 관해 정규분포를 가정할 경우 문제가 있을 수 있다는 이야기이다. 결국 수익률을 분석할 때 정규분포를 가정하는 것은 잘못된 방법이라고 할 수 있겠다.

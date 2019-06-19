@@ -1,0 +1,351 @@
+Statistical Computing with R (Due to Nov.29th)
+========================================================
+200903877 황성윤
+-------------------------
+Department of Statistics
+-------------------------
+
+### Assignment
+
+- UCI(Univ. of California, Inrvine)의 machine learning repository에 가면 많은 분석용 데이터가 있습니다. 
+- 이 중 wine quality data ( http://archive.ics.uci.edu/ml/datasets/Wine+Quality)라고 있는데... 이 데이터로 ggplot2를 이용한 아름다운 그림을 그려 보세요.
+- 피겨 스케이팅 시 기본 점수에서는 각종 난이도에 해당하는 기술이 펼쳐져야 하는 만큼 다음과 같은 그래프가 반드시 포함되어야 합니다.
+- bar chart, scatter plot, histogram, stacked chart, pie chart, rose chart 그리고 facet 적용!!
+- 재미있는 이야기 ggplot2로 재미있는 그림책 같은 이야기 만들어 보길 바랍니다.
+
+### Fasten your seat belt. Get ready? Start !!
+
+먼저 필요한 패키지들을 열고 그림을 그리는 데 사용할 데이터를 불러들이도록 하겠다.
+
+```{r}
+library(UsingR)
+library(knitr)
+library(lattice)
+library(ggplot2)
+redwine <- read.csv("D:/수업자료/(2)Sophomore/2-2/통계계산및실습(1전공)/과제/winequality-red.csv",sep=";",header=T)
+whitewine <- read.csv("D:/수업자료/(2)Sophomore/2-2/통계계산및실습(1전공)/과제/winequality-white.csv",sep=";",header=T)
+```
+
+redwine과 whitewine 이 두가지 데이터에는 빨간색 와인과 흰색 와인에 대한 여러가지 정보들이 들어있다. 
+이 데이터에 나와있는 요소들을 번역해보면 다음과 같다.
+fixed acidity : 고유산성
+volatile acidity : 휘발성
+citric acid : 구연산
+residual sugar : 잔여설탕
+chlorides : 염화물
+free sulfur dioxide : 아황산가스
+total sulfur dioxide : 총 아황산가스
+density : 밀도
+pH : 산성도
+sulphates : 황산염
+alcohol : 알코올
+quality : 와인의 질
+
+많은 이들이 아마도 빨간색 와인과 흰색 와인이 과연 어떠한 특징과 차이가 있는지 궁금해할 것이라고 생각한다.
+그래서 그래프를 번갈아 그려가면서 이러한 것들을 알아보고자 한다.
+
+#### 1. 밀도와 산성도에 따른 와인의 상태?
+
+먼저 각각의 와인에 대하여 밀도와 산성도에 관한 그래프를 그려보도록 하자.
+
+```{r}
+ggplot(redwine,aes(x=density,y=pH))+geom_point(shape=1)+geom_smooth(method=lm)
+ggplot(whitewine,aes(x=density,y=pH))+geom_point(shape=1)+geom_smooth(method=lm)
+```
+
+이 두 그림을 살펴보자.
+빨간색 와인과 흰색 와인 모두 밀도와 산성도가 크게 퍼져있지 않고 한 곳에 집중되어 있는 것으로 보인다.
+굳이 차이점을 찾아보라고 한다면 흰색 와인의 경우 밀도가 드러나게 크게 나타나는 두개의 특이점이 존재한다고 얘기할 수 있겠다.
+그렇다면 이 밀도와 산성도에 따라서 와인의 질이 달라질 수 있지 않을까?
+다시 그래프를 그려보도록 하자.
+
+먼저 빨간색 와인에 대한 두 그래프이다.
+
+```{r}
+ggplot(redwine,aes(density,fill=factor(quality)))+geom_histogram()
+ggplot(redwine,aes(pH,fill=factor(quality)))+geom_histogram()
+```
+
+이제 흰색 와인에 대해서도 그려보자.
+
+```{r}
+ggplot(whitewine,aes(density,fill=factor(quality)))+geom_histogram()
+ggplot(whitewine,aes(pH,fill=factor(quality)))+geom_histogram()
+```
+
+각각의 경우에서 첫번째 그림은 밀도, 두번째 그림은 산성도에 대해 히스토그램을 그리고 와인의 질에 따라서 색깔을 구별하여 칠한 것이다.
+일단 먼저 알 수 있는 사실은 두 와인 모두 밀도와 산성도에 따라 와인의 상태에 변화가 생김을 확인이 가능하고 이 두가지 요소가 와인의 질을 결정하는데 큰 역할을 함을 알 수 있다.
+다만 와인의 색깔에 따라서 밀도와 산성도의 분포가 차이가 있기는 하다.
+
+#### 2. 휘발성과 알코올, 그리고 구연산과의 관계?
+
+일단 와인에도 술과 마찬가지로 알코올이 들어가기 때문에 휘발성을 빼놓고 넘어갈 수 없을 것 같다.
+그러면 먼저 각각의 와인에 대해 와인의 상태가 어떤 분포를 나타내는지 그림을 통해 알아보도록 하자.
+
+```{r}
+ggplot(redwine,aes(factor(quality),fill=factor(quality)))+geom_bar()+coord_polar()
+ggplot(redwine,aes(factor(quality),fill=factor(quality)))+geom_bar()+coord_polar(theta="y")
+```
+
+일단 빨간색 와인은 상태의 수준이 5와 6 그리고 7에서 많이 분포하는 것으로 보여진다.
+
+```{r}
+ggplot(whitewine,aes(factor(quality),fill=factor(quality)))+geom_bar()+coord_polar()
+ggplot(whitewine,aes(factor(quality),fill=factor(quality)))+geom_bar()+coord_polar(theta="y")
+```
+
+흰색 와인도 빨간색의 경우와 마찬가지 경향을 보이고 있다.
+
+이제 휘발성과 알코올의 상관관계가 어느 정도인지 알아보도록 하자.
+
+```{r}
+ggplot(redwine,aes(alcohol,volatile.acidity))+geom_point(aes(colour=factor(quality)))
+ggplot(whitewine,aes(alcohol,volatile.acidity))+geom_point(aes(colour=factor(quality)))
+```
+
+이 그림을 보면 알코올과 휘발성이 양의 상관관계를 가지고 있다고 자신있게 주장하는 것에는 무리가 있다고 보여진다.
+직관적으로 양의 상관관계가 있을거라고 추측하는 사람들이 대다수일거라 여겨지는데 결과는 전혀 다르게 나타나고 있다. 
+재미있는 사실이다.
+그렇다면 구연산의 경우는 어떠할까?
+먼저 구연산에 대해서 그림을 그려보고 그 다음에 관계를 살펴보도록 하자.
+
+```{r}
+ggplot(redwine,aes(citric.acid,fill=factor(quality)))+geom_bar()+facet_grid(.~quality)
+ggplot(whitewine,aes(citric.acid,fill=factor(quality)))+geom_bar()+facet_grid(.~quality)
+```
+
+그래프는 상태에 따라 나누어서 그렸다.
+두 와인에 대한 구연산의 분포가 차이는 있지만 중간 수준에서 많이 분포하는 경향을 보이고 있다.
+그럼 이제 구연산과 알코올의 상관관계에 대해서도 살펴보도록 하자.
+
+```{r}
+ggplot(redwine,aes(alcohol,citric.acid))+geom_point(width=1,aes(colour=factor(quality)))+facet_grid(.~quality)
+ggplot(whitewine,aes(alcohol,citric.acid))+geom_point(width=1,aes(colour=factor(quality)))+facet_grid(.~quality)
+```
+
+이 경우도 그닥 강한 상관관계가 드러나고 있지는 않아보인다.
+
+#### 3. 와인에 포함된 염화물에 관한 간단한 분석
+
+한가지 흥미로운 것은 와인 속에 우리가 미처 모르고 있던 염화물이 포함되어 있다는 사실이다.
+여기서는 간단히 stacked chart를 이용해 두 와인의 경우 각각의 염화물의 분포형태만 살펴보도록 하자. 
+
+(1) red wine
+
+```{r}
+qplot(chlorides,data=redwine,geom="histogram",fill=factor(quality),position="stack")
+qplot(chlorides,data=redwine,geom="histogram",fill=factor(quality),position="dodge")
+qplot(chlorides,data=redwine,geom="histogram",fill=factor(quality),position="fill")
+qplot(chlorides,data=redwine,geom="histogram",fill=factor(quality),position="identity")
+qplot(chlorides,data=redwine,geom="freqpoly",group=quality,colour=quality,position="identity")
+qplot(chlorides,data=redwine,geom="freqpoly",group=factor(quality),colour=factor(quality),position="identity")
+qplot(chlorides,data=redwine,geom="freqpoly",group=factor(quality),colour=factor(quality),position="stack")
+```
+
+(2) white wine
+
+```{r}
+qplot(chlorides,data=whitewine,geom="histogram",fill=factor(quality),position="stack")
+qplot(chlorides,data=whitewine,geom="histogram",fill=factor(quality),position="dodge")
+qplot(chlorides,data=whitewine,geom="histogram",fill=factor(quality),position="fill")
+qplot(chlorides,data=whitewine,geom="histogram",fill=factor(quality),position="identity")
+qplot(chlorides,data=whitewine,geom="freqpoly",group=quality,colour=quality,position="identity")
+qplot(chlorides,data=whitewine,geom="freqpoly",group=factor(quality),colour=factor(quality),position="identity")
+qplot(chlorides,data=whitewine,geom="freqpoly",group=factor(quality),colour=factor(quality),position="stack")
+```
+
+#### 4. 와인 속에 아황산가스가 들어있다??
+
+다소 약간 충격(?)적으로 들린다.
+사실 지금 글을 쓰고 있는 내 자신도 생일이나 기타 여러 행사장에 가서 와인을 자주 마셔본 사람인데 와인 속에 아황산가스가 포함되어있다는 사실은 처음 본다.
+와인이라는 것이 단순하게 알코올이 포함된 술의 종류 중 하나라고만 알고 있었는데 redwine과 whitewine에 대한 데이터를 보고 분석을 해보면서 참 흥미로운 것들을 많이 알게 되었다.
+그럼 이제 와인 속의 아황산가스에 대해 몇가지 그림을 그려보도록 하자. 
+
+(1) scatter plot
+
+```{r}
+ggplot(redwine,aes(free.sulfur.dioxide,total.sulfur.dioxide))+geom_point(width=1,aes(colour=density))
+ggplot(redwine,aes(free.sulfur.dioxide,total.sulfur.dioxide))+geom_point(width=1,aes(colour=factor(density)))
+ggplot(whitewine,aes(free.sulfur.dioxide,total.sulfur.dioxide))+geom_point(width=1,aes(colour=pH))
+ggplot(whitewine,aes(free.sulfur.dioxide,total.sulfur.dioxide))+geom_point(width=1,aes(colour=factor(pH)))
+```
+
+아황산가스의 양과 총 아황산가스의 양의 상관관계를 알아보기 위해 산점도를 그리고 밀도와 산성도에 따라 색깔을 구분해 봤다.
+대체적으로 양의 상관관계를 나타내는 것으로 보여지지만 강하다고는 할 수 없을 듯 하다.
+
+(2) histogram
+
+```{r}
+ggplot(redwine,aes(total.sulfur.dioxide,fill=factor(quality)))+geom_histogram()
+ggplot(whitewine,aes(total.sulfur.dioxide,fill=factor(quality)))+geom_histogram()
+```
+
+총 아황산가스의 양에 대한 히스토그램을 그리고 와인의 상태에 따라 색을 다르게 입혀봤다.
+
+(3) violin chart
+
+
+```{r}
+ggplot(redwine,aes(total.sulfur.dioxide,sulphates,fill=factor(quality)))+geom_violin(aes(colour=factor(quality)))
+ggplot(whitewine,aes(total.sulfur.dioxide,fixed.acidity,fill=factor(quality)))+geom_violin(aes(colour=factor(quality)))
+```
+
+총 아황산가스의 양에 따른 황산염의 양과 고유산성도의 분포를 알아보기 위해 violin chart를 그려봤다.
+이름 그대로 정말 바이올린의 모양을 하고 있다.
+대체적으로 황산염의 농도는 0.7 근방에 밀집해 있고, 고유산성도는 7 근방에 밀집해 있음을 확인이 가능하다.
+
+이제부터 와인 마실 일이 생기면 신중(?)하게 생각하고 마셔야 할 듯 하다.
+
+#### 5. 아황산가스와 황산염과의 관계에 관한 분석
+
+와인 속에 들어있는 물질 중 신기한 것을 하나 더 얘기하자면 황산염이라고 할 수 있을 듯.
+와인을 단순히 마시고 즐기는 술이라고만 생각했는데 계속 깊숙하게 분석해보니까 신기한 것들을 많이 숨기고 있고 알면 알수록 더 재미있는 녀석인 듯 하다.
+여기서는 아황산가스와 황산염의 농도가 과연 관계가 있다고 할 수 있는지 알아보고자 한다. 그럼 이제 두 와인에 따라 각각 그림을 그려보도록 하자.
+그럼 먼저 빨간색 와인부터 시작해보자.
+
+```{r}
+ggplot(redwine,aes(sulphates,free.sulfur.dioxide))+geom_point(aes(colour=factor(pH)))+geom_smooth(method=lm)
+ggplot(redwine,aes(sulphates,free.sulfur.dioxide))+geom_point(aes(colour=factor(alcohol)))+geom_smooth(method=lm)
+```
+
+이제 흰색 와인에 대해서도 그려보자.
+
+```{r}
+ggplot(whitewine,aes(sulphates,free.sulfur.dioxide))+geom_point(aes(colour=factor(pH)))+geom_smooth(method=lm)
+ggplot(whitewine,aes(sulphates,free.sulfur.dioxide))+geom_point(aes(colour=factor(alcohol)))+geom_smooth(method=lm)
+```
+
+두 경우 모두 뚜렷한 상관관계가 있다고 볼 수는 없을 듯 하다. 
+그림에 추가해서 회귀직선을 그려봤는데 그 직선이 데이터를 충분히 설명하고 있다고 얘기하기도 곤란하다.
+
+#### 6. 와인 속에 들어있는 설탕에 관한 고찰
+
+와인이라는게 술의 일종이기 때문에 쓴맛이 있는건 사실이지만 특유의 달콤한 향기도 가지고 있기 때문에 매력이 있다고 생각한다.
+이러한 향기와 풍미를 내기 위해서 기본적으로 필요한 설탕을 빼놓을 수 없을 것 같다.
+설탕을 상황에 따라 어느정도 그리고 어떻게 조절해서 넣느냐에 따라 와인의 맛과 질이 달라질 수 있기 때문이다.
+그럼 먼저 와인에 들어있는 설탕의 양과 와인의 질이 어떻게 관련이 있는지 그래프를 통해서 확인해보도록 하자.
+
+```{r}
+ggplot(redwine,aes(residual.sugar,fill=factor(quality)))+geom_bar(binwidth=0.5)
+ggplot(whitewine,aes(residual.sugar,fill=factor(quality)))+geom_bar(binwidth=0.5)
+```
+
+두 그래프를 비교해보니 흰색 와인이 빨간색 와인보다 첨가된 설탕의 양이 상대적으로 더 많다는 것을 확인할 수 있다.
+그러면 이제 설탕의 양과 밀도, 그리고 산성도는 어떤 관계가 있는지 살펴보자.
+
+먼저 빨간색 와인의 경우이다.
+
+```{r}
+ggplot(redwine,aes(residual.sugar,density))+geom_point(aes(colour=factor(volatile.acidity)))+facet_grid(.~quality)
+ggplot(redwine,aes(residual.sugar,pH))+geom_point(aes(colour=factor(alcohol)))+facet_grid(.~quality)
+```
+
+그 다음으로 흰색 와인의 경우이다.
+
+```{r}
+ggplot(whitewine,aes(residual.sugar,density))+geom_point(aes(colour=factor(volatile.acidity)))+facet_grid(.~quality)
+ggplot(whitewine,aes(residual.sugar,pH))+geom_point(aes(colour=factor(alcohol)))+facet_grid(.~quality)
+```
+
+그림을 비교해서 살펴보도록 하자.
+밀도의 경우 빨간색 와인에서는 그 분포가 0.996 근방에서 밀집되어 있는 것으로 보인다.
+흰색 와인의 경우도 그러한 경향이 있지만 질의 수준이 6인 경우에 상대적으로 밀도가 특이하게 높은 점이 있는 것이 특징이다. 
+산성도의 경우에는 빨간색 와인, 흰색 와인 모두 3.3 근방에 밀집되어 있지만 흰색 와인이 상대적으로 산성도가 약간 더 강한 것으로 보여진다. 
+
+```{r}
+ggplot(redwine,aes(quality))+geom_bar(binwidth=0.5,aes(colour=factor(residual.sugar)))
+ggplot(whitewine,aes(quality))+geom_bar(binwidth=0.5,aes(colour=factor(residual.sugar)))
+```
+
+위의 두 그림은 와인의 상태에 따른 막대그래프에 설탕의 양에 따라 색깔을 다르게 하여 그려본 그래프이다.
+
+#### 7. 와인의 색깔에 따른 고유한 산성도
+
+와인은 색깔에 따라 제조하는 방법이 차이가 있을 수 있기 때문에 고유산성도가 달라질 수 있다.
+여기서 고유산성도는 우리가 일반적으로 알고 있는 pH로 표기되는 산성도하고는 다른 것임을 인지할 필요가 있다.
+일반적인 술도 만드는 방법, 걸리는 시간 등에 따라 고유의 특성이 나타날 수 있다.
+이러한 요소들 중 하나가 바로 고유산성도라고 생각하면 이해가 쉬울 것이다.
+이제 여러가지 그래프들을 통해서 살펴보도록 하자.
+
+(1) red wine
+
+```{r}
+ggplot(redwine,aes(fixed.acidity))+geom_histogram()
+ggplot(redwine,aes(fixed.acidity))+geom_histogram(aes(fill=..count..))
+ggplot(redwine,aes(fixed.acidity))+geom_histogram(aes(fill=..count..))+scale_fill_gradient("Count",low="green",high="red")
+ggplot(redwine,aes(fixed.acidity))+geom_histogram(aes(y=..density..))+geom_density()
+ggplot(redwine,aes(fixed.acidity))+geom_histogram(aes(y=..density..,colour=factor(alcohol)))+geom_density()
+ggplot(redwine,aes(citric.acid,fixed.acidity))+geom_point(aes(colour=factor(quality)))
+ggplot(redwine,aes(citric.acid,fixed.acidity))+geom_point(aes(colour=factor(chlorides)))
+ggplot(redwine,aes(fixed.acidity))+geom_density()
+ggplot(redwine,aes(fixed.acidity))+geom_density(aes(fill=factor(quality)),size=2)
+ggplot(redwine,aes(quality,fixed.acidity))+geom_violin(aes(fill=factor(quality)))
+ggplot(redwine,aes(quality,fixed.acidity))+geom_violin(aes(fill=factor(quality)))+geom_jitter()
+```
+
+(2) white wine
+
+```{r}
+ggplot(whitewine,aes(fixed.acidity))+geom_histogram()
+ggplot(whitewine,aes(fixed.acidity))+geom_histogram(aes(fill=..count..))
+ggplot(whitewine,aes(fixed.acidity))+geom_histogram(aes(fill=..count..))+scale_fill_gradient("Count",low="green",high="red")
+ggplot(whitewine,aes(fixed.acidity))+geom_histogram(aes(y=..density..))+geom_density()
+ggplot(whitewine,aes(fixed.acidity))+geom_histogram(aes(y=..density..,colour=factor(alcohol)))+geom_density()
+ggplot(whitewine,aes(citric.acid,fixed.acidity))+geom_point(aes(colour=factor(quality)))
+ggplot(whitewine,aes(citric.acid,fixed.acidity))+geom_point(aes(colour=factor(chlorides)))
+ggplot(whitewine,aes(fixed.acidity))+geom_density()
+ggplot(whitewine,aes(fixed.acidity))+geom_density(aes(fill=factor(quality)),size=2)
+ggplot(whitewine,aes(quality,fixed.acidity))+geom_violin(aes(fill=factor(quality)))
+ggplot(whitewine,aes(quality,fixed.acidity))+geom_violin(aes(fill=factor(quality)))+geom_jitter()
+```
+
+빨간색 와인과 흰색 와인 모두 대체적으로 상태의 수준이 중간인 정도에서 분포가 더 크게 나타남을 확인할 수 있다. 
+또한 히스토그램과 밀도곡선을 통해 대략적인 분포를 알아봤고, 시각적으로 볼 수 있도록 요소에 따라 색깔을 다르게 칠해봤다.
+추가적으로 구연산과 고유산성도 사이의 관계가 존재하는지 알아보기 위해 산점도도 그려봤는데 강하지는 않지만 양의 상관관계를 가지고 있다고 판단된다.
+
+#### 8. 데이터의 요소들에 대한 산점도
+
+이제 와인에 대한 수많은 정보들을 알려주고 있는 요소들에 대한 산점도를 그려봄으로서 한번에 파악하기 어려운 데이터에 대한 concept을 잡아보도록 하자.
+산점도 행렬을 그림으로서 12가지 요소들에 대한 상관관계를 한눈에 파악할 수 있을 것이다.
+
+(1) red wine
+
+```{r}
+splom(redwine[1:12],main="Scatter plot Matrix of Red wine")
+splom(redwine[1:6],main="Scatter plot Matrix of Red wine")
+splom(redwine[7:12],main="Scatter plot Matrix of Red wine")
+```
+
+(2) white wine
+
+```{r}
+splom(whitewine[1:12],main="Scatter plot Matrix of White wine")
+splom(whitewine[1:6],main="Scatter plot Matrix of White wine")
+splom(whitewine[7:12],main="Scatter plot Matrix of White wine")
+```
+
+#### 9. Summary of Red wine and White wine
+
+마지막으로 redwine과 whitewine 이 두 데이터에 대한 요약정리를 해보도록 하겠다.
+
+(1) Red wine
+
+```{r}
+summary(redwine)
+```
+
+(2) White wine
+
+```{r}
+summary(whitewine)
+```
+
+결과물에는 와인의 특성을 결정짓는 12가지 요소들에 대한 최소값, 최대값, 중위수, 그리고 제 1,2,3 사분위수가 표시되어 있다.
+
+#### 글을 쓰면서 느낀점(소감)
+
+사실 R이라는 언어가 굉장히 강력하고 앞으로 데이터를 분석하는 데 있어서 큰 기여를 할 것이라고만 알고 통계계산 수업을 들어왔다.
+하지만 이번 학기가 거의 끝나가는 이 시점에서 R에 대해 큰 매력을 느끼고 있다.
+확률분포론 시간에 R을 이용해서 확률분포에 대한 p.m.f와 p.d.f를 그려보고 아울러 통계계산 시간에 R을 실제적으로 많이 다루어봄으로서 R을 잘 다루는 능력이 있으면 나중에 졸업하고 대학원에 가서 공부를 할 때 뿐만 아니라 통계관련 기업에 들어가서 데이터를 수집하고 분석을 할 때 정말 유용하게 쓸 수 있을 것 같다는 확신이 들었다.
+지금도 R은 전세계에 수많은 통계학자들이 자신의 정보들을 공유해서 새로운 기능들을 만들어내고 이러한 것들을 바탕으로 계속 진화하고 있다.
+앞으로도 R에 대해서 더 많은 관심을 가져볼 생각이다.

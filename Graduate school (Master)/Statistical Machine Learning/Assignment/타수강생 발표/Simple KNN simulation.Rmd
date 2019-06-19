@@ -1,0 +1,96 @@
+---
+output:
+  html_document:
+    keep_md: yes
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(MASS)
+```
+
+# KNN simulation
+
+## Prepare Data 
+
+```{r}
+(tmp1 <- data.frame(mvrnorm(n=10,mu=c(100,100),Sigma=matrix(c(30^2,0,0,30^2),ncol=2)), Group="A", Group.col=3))
+(tmp2 <- data.frame(mvrnorm(n=15,mu=c(200,200),Sigma=matrix(c(70^2,0,0,70^2),ncol=2)), Group="B", Group.col=4))
+data <- data.frame(rbind(tmp1, tmp2))
+data
+```
+
+## Plot
+
+```{r fig.width=7, fig.height=7}
+plot(X2~X1, data=data, xlim=c(0,400), ylim=c(0,400), col=Group.col, xlab=NA, ylab=NA, pch=20, cex=1.5)
+legend(0, 400, legend=c("A","B"), col=c(3,4), pch=20)
+```
+
+Generate grid points 80*80=6400
+
+```{r fig.width=7, fig.height=7}
+plot(X2~X1, data=data, xlim=c(0,400), ylim=c(0,400), col=Group.col, xlab=NA, ylab=NA, pch=20, cex=1.5)
+grid <- expand.grid(X1=seq(0, 400, length.out=80), X2=seq(0, 400, length.out=80))
+points(grid, pch=1, cex=.01)
+legend(0, 400, legend=c("A","B"), col=c(3,4), pch=20)
+```
+
+let's do KNN about the grid points "Green" and "Blue"  
+
+```{r}
+KNN.function <- function(data, grid, k){
+  if(k%%2 == 0){
+    cat("K is even number. Please insert odd number K\n")
+  }
+  else{
+    cat("KNN..(If the number of grid points are enormous, process Slow\n")
+    for(i in 1:nrow(grid)){
+      tmp <- rbind(as.matrix(grid[i,1:2]), as.matrix(data[1:2]))
+      attributes(tmp)$dimnames <- list(0:nrow(data), c("X1","X2"))
+      nearest.K <- as.integer(attributes(sort(as.matrix(dist(tmp))[,1][-1])[1:k])$names)
+      grid$select[i] <- names(which.max(table(data[nearest.K,]$Group)))
+    }
+  cat("Complete KNN\n")}
+  return(grid)
+}
+
+grid <- KNN.function(data=data, grid=grid, k=5)
+
+grid$select.col <- 3 
+grid$select.col[grid$select=="B"] <- 4 
+head(grid)
+```
+
+```{r fig.width=7, fig.height=7}
+plot(X2~X1, data=data, xlim=c(0,400), ylim=c(0,400), col=Group.col, xlab=NA, ylab=NA, pch=20, cex=1.5)
+points(X2~X1, pch=1, cex=0.1, col=select.col, data=grid)
+legend(0, 400, legend=c("A","B"), col=c(3,4), pch=20)
+```
+
+## Conclusion (animation)
+
+```{r eval=F}
+
+## please maunally run
+
+for(i in 1:200){
+  tmp1 <- data.frame(mvrnorm(n=10,mu=c(100,100),Sigma=matrix(c(30^2,0,0,30^2),ncol=2)), Group="A", Group.col=3)
+  tmp2 <- data.frame(mvrnorm(n=15,mu=c(200,200),Sigma=matrix(c(70^2,0,0,70^2),ncol=2)), Group="B", Group.col=4)
+  data <- data.frame(rbind(tmp1, tmp2))
+  grid <- expand.grid(X1=seq(0, 400, length.out=80), X2=seq(0, 400, length.out=80))
+  
+  grid <- KNN.function(data=data, grid=grid, k=3)
+  grid$select.col <- 3
+  grid$select.col[grid$select=="B"] <- 4
+  
+  plot(X2~X1, 
+       data=data, xlim=c(0,400), ylim=c(0,400), col=Group.col, xlab=NA, ylab=NA, pch=20, cex=1.5)
+  points(X2~X1, pch=1, cex=0.1, col=select.col, data=grid)
+  legend(0, 400, legend=c("A","B"), col=c(3,4), pch=20)
+  Sys.sleep(.1)
+}
+```

@@ -1,0 +1,23 @@
+final <- read.csv("D:/수업자료/대학/(3)Junior/3-2/데이터마이닝실습(1전공)/Final project/Data for analysis/초등학생 취학률/Data for analysis (Final).csv",sep=",",header=T)
+
+View(final)
+str(final)
+
+final$year <- as.factor(final$year)
+final$vaccine <- as.numeric(final$vaccine)
+final$oneparents <- as.numeric(final$oneparents)
+final$household <- as.numeric(final$household)
+final$nurture <- as.numeric(final$nurture)
+final$parking <- as.numeric(final$parking)
+final$hospital <- as.numeric(final$hospital)
+final$tubercle <- as.numeric(final$tubercle)
+final$basic <- as.numeric(final$basic)
+final$infect <- as.numeric(final$infect)
+final$school <- as.numeric(final$school)
+final$violence <- as.numeric(final$violence)
+final$economy <- as.numeric(final$economy)
+final$foreign <- as.numeric(final$foreign)
+final$roadkill <- as.numeric(final$roadkill)
+final$noenter <- as.numeric(final$noenter)
+
+str(final)

@@ -1,0 +1,144 @@
+---
+title: "중간고사 대체 Report (201630314 김선화)"
+output: html_document
+---
+-------------
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ovarian data (난소암 환자들의 생존시간 데이터)  
+  - **futime** : 생존시간  
+  - **fustat** : censoring 여부  
+  - **age** : 나이 (년)  
+  - **resid.ds** : 잔존질환 발생 여부 (1-발생하지 않음, 2-발생)  
+  - **rx** : 치료 방법 
+  
+  
+-------------  
+# 다음을 구하라
+1. Kaplan-Meier plot + C.I.
+2. rx에 따른 차이 확인
+  + Kaplan-Meier curves
+  + log-rank test
+3. Cox model with 3 covariates 해석
+4. Proportional hazards assumption 확인
+  + Graph
+  + Test  
+    
+    
+```{r}
+library(survival)
+attach(ovarian)
+Y = Surv(futime, fustat)
+```
+
+
+# 1. Kaplan-Meier plot + C.I.
+```{r}
+KM = survfit(Y~1)
+summary(KM)
+plot(KM, main='ovarian data의 Kaplan-Meier curve 및 95% 신뢰구간', xlab='futime', ylab='survival probability')
+```
+  
+실선은 ovarian data에 대한 Kaplan-Meier curve이고, 두 점선은 이 curve에 대한 95% 신뢰구간이다. 실선 아래에 있는 점선은 신뢰하한, 실선 위에 있는 점선은 신뢰상한이다. 위 `summary(KM)`을 통해서 각 futime별 생존확률에 대한 95% 신뢰구간을 확인할 수 있다.
+
+
+# 2. rx에 따른 차이 확인
+```{r}
+KM1 = survfit(Y ~ rx)
+summary(KM1)
+```
+#### **2-1. Kaplan-Meier curves를 이용하여 확인**
+```{r}
+plot(KM1, lty=c(1, 2), col=c(1, 2), main='rx 그룹별 Kaplan-Meier curves', xlab='futime', ylab='survival probability')
+legend(900, 1, c('그룹1 (rx=1)', '그룹2 (rx=2)'), col=c(1, 2), lty=c(1, 2), text.col = c(1, 2))
+```
+
+검정선은 그룹1(rx=1)의 Kaplan-Meier curve, 빨간선은 그룹2(rx=2)의 Kaplan-Meier curve이다. futime이 500~600일 때까지 두 곡선 사이의 간격이 다소 넓다. 따라서 rx 그룹에 따라 두 Kaplan-Meier curve는 차이가 있어보인다.  
+
+#### **2-2. log-rank test를 이용하여 확인**
+```{r}
+survdiff(Y~rx)
+```
+$H_0$ : rx 그룹에 따른 두 Kaplan-Meier curve의 차이가 없다   vs   $H_1$ : rx 그룹에 따른 두 Kaplan-Meier curve의 차이가 있다.  
+결과에서 p=0.303 > 0.05이므로 귀무가설을 기각할 수 없다. 따라서 rx 그룹에 따른 두 Kaplan-Meier curve는 서로 다르다고 할 근거가 없다.  
+
+
+# 3. Cox model with 3 covariates 해석
+#### **3-1. Proportional hazards model for 3 variables**
+```{r}
+ph = coxph(Y ~ age + resid.ds + rx)
+summary(ph)
+```
+1. 각 변수의 유의미 여부  
+- age의 p-value는 0.00657로 유의수준 0.05보다 작아 age 변수는 유의하다  
+- resid.ds의 p-value는 0.35858로 유의수준 0.05보다 크므로 resid.ds 변수는 유의하지 않다  
+- rx의 p-value는 0.18416로 유의수준 0.05보다 크므로 rx 변수는 유의하지 않다  
+2. 각 변수별 그룹의 위험 정도
+- age가 1 단위 많아지면 exp(0.1285), 즉, 약 1.1배 더 위험해진다.  
+- 잔존질환이 발생한 그룹(resid.ds=2)이 발생하지 않은 그룹(resid.ds=1)보다 exp(0.6964), 즉, 약 2배 위험하다.  
+- 치료법1을 적용한 그룹(rx=1)이 치료법2를 적용한 그룹(rx=2)보다 exp(0.8489), 즉, 약 2.3배 위험하다.  
+      
+#### **3-2. LRT (Likelihood Ratio Test)**
+```{r}
+ph1 = coxph(Y ~ age + resid.ds + rx + rx*resid.ds + rx*age + age*resid.ds)
+anova(ph, ph1)
+```
+$H_0$ : 교호작용이 없다   vs   $H_1$ : 교호작용이 있다  
+귀무가설 가정하에서 likelihoo ratio 검정통계량은 2.9574 값이 나오고, 이것은 자유도가 3인 카이제곱분포를 따른다. 이 때의 p=0.3982 > 0.05이어서 귀무가설을 기각하지 못 한다. 교호작용이 없는 모델, 즉, "ph = coxph(Y ~ age + resid.ds + rx)"을 선택한다.  
+
+
+## 4. Proportional hazards assumption 확인 ##
+#### **4-1. Graph를 이용하여 확인**  
+##### 4-1-①. Proportional hazards assumption for resid.ds
+```{r}
+new1 = data.frame(rx0 = mean(rx), age0 = mean(age))
+I1 = (resid.ds == 1); I2 = (resid.ds == 2)
+rx0 = rx[I1]; age0 = age[I1]
+ph2_1 = coxph(Y[I1] ~ rx0 + age0)
+plot(survfit(ph2_1, newdata = new1), conf.int=F, fun="cloglog", xlim=c(50, 1300), ylim=c(-4, 0), main='resid.ds 그룹별 log-log survival curves', xlab='futime', ylab='log-log survival probability')   # 잔존질환이 발생하지 않은 그룹의 log-log survival curve
+rx0 = rx[I2]; age0 = age[I2]
+ph2_2 = coxph(Y[I2] ~ rx0 + age0)
+lines(survfit(ph2_2, newdata = new1), conf.int=F, fun="cloglog", col=2, lty = 2)   # 잔존질환이 발생한 그룹의 log-log survival curve
+legend(50, 0, c('잔존질환 미발생 (resid.ds=1)', '잔존질환 발생 (resid.ds=2)'), col=c(1, 2), lty=c(1, 2), text.col = c(1, 2))
+```
+
+두 그룹의 log-log survival curve가 교차되는 지점이 없고 거의 평행한 것으로 보아 resid.ds 변수는 Proportional hazards 가정을 만족한다.  
+
+##### 4-1-②. Proportional hazards assumption for rx
+```{r}
+new2 = data.frame(resid.ds0 = mean(resid.ds), age0 = mean(age))
+I1 = (rx == 1); I2 = (rx == 2)
+resid.ds0 = resid.ds[I1]; age0 = age[I1]
+ph3_1 = coxph(Y[I1] ~ resid.ds0 + age0)
+plot(survfit(ph3_1, newdata = new2), conf.int=F, fun="cloglog", xlim=c(50, 1300), ylim=c(-4, 1), main='rx 그룹별 log-log survival curves', xlab='futime', ylab='log-log survival probability')   # 치료법 1을 적용한 그룹(rx=1)의 log-log survival curve
+resid.ds0 = resid.ds[I2]; age0 = age[I2]
+ph3_2 = coxph(Y[I2] ~ resid.ds0 + age0)
+lines(survfit(ph3_2, newdata = new2), conf.int=F, fun="cloglog", col=2, lty = 2)   # 치료법 2를 적용한 그룹(rx=2)의 log-log survival curve
+legend(50, 1, c('치료법1 적용 (rx=1)', '치료법2 적용 (rx=2)'), col=c(1, 2), lty=c(1, 2), text.col = c(1, 2))
+```
+
+두 그룹의 log-log survival curve가 교차되는 지점이 없고 거의 평행한 것으로 보아 rx 변수는 Proportional hazards 가정을 만족한다.  
+
+##### 4-1-③. Proportional hazards assumption for age
+```{r}
+new3 = data.frame(resid.ds0 = mean(resid.ds), rx0 = mean(rx))
+I1 = (age < 56.69865); I2 = (age >= 56.69865)
+rx0 = rx[I1]; resid.ds0 = resid.ds[I1]
+ph4_1 = coxph(Y[I1] ~ rx0 + resid.ds0)
+plot(survfit(ph4_1, newdata = new3), conf.int=F, fun="cloglog", xlim=c(50, 1300), ylim=c(-3.5, 0.5), main='age 그룹별 log-log survival curves', xlab='futime', ylab='log-log survival probability')   # age가 56.69865 미만인 그룹의 log-log survival curve
+rx0 = rx[I2]; resid.ds0 = resid.ds[I2]
+ph4_2 = coxph(Y[I2] ~ rx0 + resid.ds0)
+lines(survfit(ph4_2, newdata = new3), conf.int=F, fun="cloglog", col=2, lty = 2)   # age가 56.69865 이상인 그룹의 log-log survival curve
+legend(50, 0.5, c('age < 56.69865', 'age > 56.69865'), col=c(1, 2), lty=c(1, 2), text.col = c(1, 2))
+```
+
+두 그룹의 log-log survival curve가 교차되는 지점이 없고 거의 평행한 것으로 보아 age 변수는 Proportional hazards 가정을 만족한다.  
+
+#### **4-2. Proportional hazards assumption test를 이용하여 확인**
+```{r}
+cox.zph(ph, transform = rank)
+```
+$H_0$ : Proportional hazards 가정을 만족한다  vs  $H_1$ : Proportional hazards 가정을 만족하지 않는다  
+age, resid.ds, rx의 p-value가 유의수준 0.05보다 크므로 귀무가설을 기각할 수 없다. 따라서 Proportional hazards 가정을 만족하지 않는다는 충분한 근거가 없다.

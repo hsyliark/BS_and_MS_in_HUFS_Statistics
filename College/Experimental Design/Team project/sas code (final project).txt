@@ -1,0 +1,159 @@
+/* Make data */
+data helicopter ;
+input A B C D Block $ time @@ ;
+cards ;
+7 7 2 3 thick 1.3 7 7 2 3 thick 2.0 7 7 2 3 thick 2.6
+7 7 2 3 thick 1.8 7 7 2 3 thick 2.2 7 7 2 3 thick 1.4
+7 7 2 5.25 thick 1.8 7 7 2 5.25 thick 1.8 7 7 2 5.25 thick 1.8
+7 7 2 5.25 thick 1.8 7 7 2 5.25 thick 1.5 7 7 2 5.25 thick 1.6
+7 7 3 3 thick 1.7 7 7 3 3 thick 1.6 7 7 3 3 thick 1.9
+7 7 3 3 thick 2.2 7 7 3 3 thick 1.8 7 7 3 3 thick 2.5
+7 7 3 5.25 thick 1.7 7 7 3 5.25 thick 2.2 7 7 3 5.25 thick 1.7
+7 7 3 5.25 thick 1.5 7 7 3 5.25 thick 1.6 7 7 3 5.25 thick 2.1
+7 10 2 3 thick 1.3 7 10 2 3 thick 2.3 7 10 2 3 thick 2.3
+7 10 2 3 thick 2.3 7 10 2 3 thick 2.7 7 10 2 3 thick 1.2
+7 10 2 5.25 thick 1.9 7 10 2 5.25 thick 1.7 7 10 2 5.25 thick 2.0
+7 10 2 5.25 thick 1.7 7 10 2 5.25 thick 1.5 7 10 2 5.25 thick 1.7  
+7 10 3 3 thick 2.1 7 10 3 3 thick 1.8 7 10 3 3 thick 2.4
+7 10 3 3 thick 2.5 7 10 3 3 thick 1.9 7 10 3 3 thick 1.6
+7 10 3 5.25 thick 1.7 7 10 3 5.25 thick 2.0 7 10 3 5.25 thick 1.6
+7 10 3 5.25 thick 1.9 7 10 3 5.25 thick 1.9 7 10 3 5.25 thick 1.7
+10 7 2 3 thick 1.7 10 7 2 3 thick 1.8 10 7 2 3 thick 2.2
+10 7 2 3 thick 2.6 10 7 2 3 thick 2.3 10 7 2 3 thick 2.9
+10 7 2 5.25 thick 2.6 10 7 2 5.25 thick 2.4 10 7 2 5.25 thick 2.1
+10 7 2 5.25 thick 1.8 10 7 2 5.25 thick 2.6 10 7 2 5.25 thick 2.3
+10 7 3 3 thick 2.5 10 7 3 3 thick 2.1 10 7 3 3 thick 1.8
+10 7 3 3 thick 2.5 10 7 3 3 thick 2.8 10 7 3 3 thick 1.7
+10 7 3 5.25 thick 2.1 10 7 3 5.25 thick 2.0 10 7 3 5.25 thick 2.1
+10 7 3 5.25 thick 1.8 10 7 3 5.25 thick 2.0 10 7 3 5.25 thick 1.9
+10 10 2 3 thick 2.2 10 10 2 3 thick 2.0 10 10 2 3 thick 2.7
+10 10 2 3 thick 2.9 10 10 2 3 thick 1.6 10 10 2 3 thick 2.9
+10 10 2 5.25 thick 2.2 10 10 2 5.25 thick 1.7 10 10 2 5.25 thick 2.1
+10 10 2 5.25 thick 2.1 10 10 2 5.25 thick 2.5 10 10 2 5.25 thick 2.0
+10 10 3 3 thick 2.2 10 10 3 3 thick 2.1 10 10 3 3 thick 1.5
+10 10 3 3 thick 2.3 10 10 3 3 thick 2.6 10 10 3 3 thick 3.1
+10 10 3 5.25 thick 1.7 10 10 3 5.25 thick 2.1 10 10 3 5.25 thick 1.8
+10 10 3 5.25 thick 1.9 10 10 3 5.25 thick 1.9 10 10 3 5.25 thick 2.0
+15 7 2 3 thick 1.3 15 7 2 3 thick 2.3 15 7 2 3 thick 1.9
+15 7 2 3 thick 2.3 15 7 2 3 thick 2.8 15 7 2 3 thick 2.2
+15 7 2 5.25 thick 2.0 15 7 2 5.25 thick 2.5 15 7 2 5.25 thick 2.2
+15 7 2 5.25 thick 2.1 15 7 2 5.25 thick 2.1 15 7 2 5.25 thick 2.0
+15 7 3 3 thick 1.9 15 7 3 3 thick 1.9 15 7 3 3 thick 2.6
+15 7 3 3 thick 1.8 15 7 3 3 thick 2.1 15 7 3 3 thick 1.7
+15 7 3 5.25 thick 3.1 15 7 3 5.25 thick 2.5 15 7 3 5.25 thick 2.4
+15 7 3 5.25 thick 3.2 15 7 3 5.25 thick 2.8 15 7 3 5.25 thick 2.6
+15 10 2 3 thick 2.3 15 10 2 3 thick 2.8 15 10 2 3 thick 2.3
+15 10 2 3 thick 2.4 15 10 2 3 thick 2.3 15 10 2 3 thick 2.6
+15 10 2 5.25 thick 2.5 15 10 2 5.25 thick 2.7 15 10 2 5.25 thick 2.4
+15 10 2 5.25 thick 2.6 15 10 2 5.25 thick 2.9 15 10 2 5.25 thick 2.7
+15 10 3 3 thick 2.9 15 10 3 3 thick 3.0 15 10 3 3 thick 2.5
+15 10 3 3 thick 2.6 15 10 3 3 thick 2.3 15 10 3 3 thick 2.0
+15 10 3 5.25 thick 2.9 15 10 3 5.25 thick 2.4 15 10 3 5.25 thick 2.5
+15 10 3 5.25 thick 2.4 15 10 3 5.25 thick 1.9 15 10 3 5.25 thick 2.5
+7 7 2 3 thin 2.3 7 7 2 3 thin 2.4 7 7 2 3 thin 2.0
+7 7 2 3 thin 2.3 7 7 2 3 thin 2.3 7 7 2 3 thin 2.0
+7 7 2 5.25 thin 2.0 7 7 2 5.25 thin 1.7 7 7 2 5.25 thin 2.1
+7 7 2 5.25 thin 2.0 7 7 2 5.25 thin 2.1 7 7 2 5.25 thin 2.0
+7 7 3 3 thin 2.7 7 7 3 3 thin 1.8 7 7 3 3 thin 2.4
+7 7 3 3 thin 2.5 7 7 3 3 thin 2.4 7 7 3 3 thin 2.4
+7 7 3 5.25 thin 2.0 7 7 3 5.25 thin 1.8 7 7 3 5.25 thin 1.9
+7 7 3 5.25 thin 2.0 7 7 3 5.25 thin 1.9 7 7 3 5.25 thin 1.9
+7 10 2 3 thin 2.3 7 10 2 3 thin 2.7 7 10 2 3 thin 1.8
+7 10 2 3 thin 2.1 7 10 2 3 thin 2.3 7 10 2 3 thin 2.1
+7 10 2 5.25 thin 1.6 7 10 2 5.25 thin 1.8 7 10 2 5.25 thin 1.8
+7 10 2 5.25 thin 1.9 7 10 2 5.25 thin 2.3 7 10 2 5.25 thin 1.7
+7 10 3 3 thin 2.4 7 10 3 3 thin 1.7 7 10 3 3 thin 2.5
+7 10 3 3 thin 1.9 7 10 3 3 thin 2.2 7 10 3 3 thin 1.9
+7 10 3 5.25 thin 2.1 7 10 3 5.25 thin 2.0 7 10 3 5.25 thin 1.6
+7 10 3 5.25 thin 2.2 7 10 3 5.25 thin 1.8 7 10 3 5.25 thin 1.7
+10 7 2 3 thin 3.1 10 7 2 3 thin 2.3 10 7 2 3 thin 2.3
+10 7 2 3 thin 3.1 10 7 2 3 thin 3.2 10 7 2 3 thin 3.0
+10 7 2 5.25 thin 2.1 10 7 2 5.25 thin 1.9 10 7 2 5.25 thin 2.3
+10 7 2 5.25 thin 2.0 10 7 2 5.25 thin 1.9 10 7 2 5.25 thin 1.9
+10 7 3 3 thin 2.9 10 7 3 3 thin 1.9 10 7 3 3 thin 3.2
+10 7 3 3 thin 3.0 10 7 3 3 thin 2.7 10 7 3 3 thin 2.6
+10 7 3 5.25 thin 2.2 10 7 3 5.25 thin 2.3 10 7 3 5.25 thin 2.4
+10 7 3 5.25 thin 2.4 10 7 3 5.25 thin 2.3 10 7 3 5.25 thin 2.1
+10 10 2 3 thin 2.4 10 10 2 3 thin 2.3 10 10 2 3 thin 2.1
+10 10 2 3 thin 2.5 10 10 2 3 thin 2.7 10 10 2 3 thin 2.5
+10 10 2 5.25 thin 2.3 10 10 2 5.25 thin 2.3 10 10 2 5.25 thin 2.2
+10 10 2 5.25 thin 2.2 10 10 2 5.25 thin 1.8 10 10 2 5.25 thin 2.1
+10 10 3 3 thin 2.8 10 10 3 3 thin 2.7 10 10 3 3 thin 2.8
+10 10 3 3 thin 2.7 10 10 3 3 thin 3.1 10 10 3 3 thin 2.7
+10 10 3 5.25 thin 2.1 10 10 3 5.25 thin 2.2 10 10 3 5.25 thin 2.1
+10 10 3 5.25 thin 2.1 10 10 3 5.25 thin 2.2 10 10 3 5.25 thin 2.1
+15 7 2 3 thin 2.2 15 7 2 3 thin 1.9 15 7 2 3 thin 1.9
+15 7 2 3 thin 2.0 15 7 2 3 thin 1.9 15 7 2 3 thin 2.1
+15 7 2 5.25 thin 2.4 15 7 2 5.25 thin 2.3 15 7 2 5.25 thin 1.6
+15 7 2 5.25 thin 1.8 15 7 2 5.25 thin 1.9 15 7 2 5.25 thin 2.6
+15 7 3 3 thin 1.9 15 7 3 3 thin 2.1 15 7 3 3 thin 2.0
+15 7 3 3 thin 2.0 15 7 3 3 thin 2.1 15 7 3 3 thin 1.9
+15 7 3 5.25 thin 2.2 15 7 3 5.25 thin 2.4 15 7 3 5.25 thin 2.3
+15 7 3 5.25 thin 1.7 15 7 3 5.25 thin 2.1 15 7 3 5.25 thin 2.0
+15 10 2 3 thin 1.7 15 10 2 3 thin 2.6 15 10 2 3 thin 2.3
+15 10 2 3 thin 1.3 15 10 2 3 thin 2.1 15 10 2 3 thin 1.8
+15 10 2 5.25 thin 1.5 15 10 2 5.25 thin 2.2 15 10 2 5.25 thin 1.5
+15 10 2 5.25 thin 1.8 15 10 2 5.25 thin 1.9 15 10 2 5.25 thin 2.2
+15 10 3 3 thin 2.0 15 10 3 3 thin 1.7 15 10 3 3 thin 2.3
+15 10 3 3 thin 1.5 15 10 3 3 thin 1.4 15 10 3 3 thin 1.9
+15 10 3 5.25 thin 3.1 15 10 3 5.25 thin 2.5 15 10 3 5.25 thin 2.3
+15 10 3 5.25 thin 1.8 15 10 3 5.25 thin 2.2 15 10 3 5.25 thin 2.1
+;
+run ;
+proc print data=helicopter ;
+run ; 
+
+/* Analysis of Variance(PROC GLM) */
+proc glm data=helicopter ;
+class A B C D Block ;
+model time=A B C D A*B A*C A*D B*C B*D C*D Block ;
+run ; quit ;
+
+/* Multiple comparison (A and D) */
+ods graphics on ;
+proc glm data=helicopter plots=meanplot(cl connect) intplot ;
+class A B C D Block ;
+model time=A B C D A*B A*C A*D B*C B*D C*D Block ;
+lsmeans A*D / pdiff=all adjust=tukey ;
+lsmeans A*D / slice=A ;
+lsmeans A*D / slice=D ;
+run ; quit ;
+ods graphics off ;
+
+/* Make data */
+data helicopter1 ;
+input x1 x2 y @@ ;
+cards ;
+11 4.5 6.5 11 4.5 6.07 11 4.5 6.24
+15 3 5.8 15 3 6.14
+16.67 4.5 5.5 16.67 4.5 6.14
+5.34 4.5 4.07 
+15 6 7.54 15 6 5.58 15 6 5.45
+7 6 4.3 
+11 6.62 4.62 
+7 3 5.68 
+11 2.38 8.27 11 2.38 7.82
+;
+run ;
+proc print data=helicopter1 ;
+run ;
+
+/* Response surface analysis */
+proc rsreg data=helicopter1 ;
+model y=x1 x2 / covar=2 lackfit ;
+run ; quit ;
+proc rsreg data=helicopter1 ;
+model y=x1 x2 / lackfit ;
+run ; quit ;
+
+/* Drawing pictures */
+ods graphics on ;
+proc rsreg data=helicopter1 plots(unpack)=surface ;
+model y=x1 x2 / lackfit ;
+run ; quit ;
+ods graphics off ;
+ods graphics on ;
+proc rsreg data=helicopter1 plots(unpack)=surface(3d) ;
+model y=x1 x2 / lackfit ;
+run ; quit ;
+ods graphics off ;

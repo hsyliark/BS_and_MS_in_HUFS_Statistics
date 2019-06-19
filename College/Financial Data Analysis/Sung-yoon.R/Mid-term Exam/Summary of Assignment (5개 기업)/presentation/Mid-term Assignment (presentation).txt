@@ -1,0 +1,2688 @@
+
+Mid-term 
+========================================================
+author: Sung-yoon Hwang (200903877) 
+date: 2014.4.23
+autosize: true
+font-family: 'Helvetica'
+
+Analysis of returns in daily data of 5 company...
+(Samsung eletronics, KT corporation, LG Display Co. Ltd, 
+BMW, Apple Inc)
+
+Log return
+========================================================
+r(t) = log(S(t))-log(S(t-1)) = log(S(t)/S(t-1)) = log(1+R(t)) (log return)
+R(t)= (S(t) - S(t-1))/(S(t-1)) = (S(t)/S(t-1)) - 1 (return)
+==> r(t) =: R(t) (By Taylor's expansion in the vicinity of 0.)
+
+Graph of stocks and returns
+========================================================
+### 1. Samsung eletronics
+```{r, eval=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+par(mfrow=c(1,2))
+plot(samsung,type="l",main="Samsung eletronics",xlab="t",ylab="Samsung")
+samsung.return <- diff(log(samsung)) 
+plot(samsung.return,type="l",main="Samsung returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+plot(samsung,type="l",main="Samsung eletronics",xlab="t",ylab="Samsung")
+```
+
+Graph of stocks and returns
+========================================================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung)) 
+plot(samsung.return,type="l",main="Samsung returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 2. KT corporation
+```{r,eval=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+par(mfrow=c(1,2))
+plot(kt,type="l",main="KT corporation",xlab="t",ylab="KT")
+kt.return <- diff(log(kt)) 
+plot(kt.return,type="l",main="KT returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+plot(kt,type="l",main="KT corporation",xlab="t",ylab="KT")
+```
+
+Graph of stocks and returns
+========================================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt)) 
+plot(kt.return,type="l",main="KT returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 3. LG Display Co. Ltd
+```{r,eval=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+par(mfrow=c(1,2))
+plot(lg,type="l",main="LG Display Co. Ltd",xlab="t",ylab="LG")
+lg.return <- diff(log(lg)) 
+plot(lg.return,type="l",main="LG returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+plot(lg,type="l",main="LG Display Co. Ltd",xlab="t",ylab="LG")
+```
+
+Graph of stocks and returns
+========================================================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg)) 
+plot(lg.return,type="l",main="LG returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 4. BMW
+```{r,eval=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+par(mfrow=c(1,2))
+plot(bmw,type="l",main="BMW",xlab="t",ylab="BMW")
+bmw.return <- diff(log(bmw)) 
+plot(bmw.return,type="l",main="BMW returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+plot(bmw,type="l",main="BMW",xlab="t",ylab="BMW")
+```
+
+Graph of stocks and returns
+========================================================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw)) 
+plot(bmw.return,type="l",main="BMW returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 5. Apple Inc
+```{r,eval=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+par(mfrow=c(1,2))
+plot(apple,type="l",main="Apple Inc",xlab="t",ylab="Apple")
+apple.return <- diff(log(apple)) 
+plot(apple.return,type="l",main="Apple returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+plot(apple,type="l",main="Apple Inc",xlab="t",ylab="Apple")
+```
+
+Graph of stocks and returns
+========================================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple)) 
+plot(apple.return,type="l",main="Apple returns",xlab="t",ylab="returns")
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### 1. Samsung eletronics
+```{r}
+z <- scale(samsung.return) 
+skew.samsung <- mean(z^3) ; kurt.samsung <- mean(z^4)
+print(c(mean(samsung.return),sd(samsung.return),skew.samsung,kurt.samsung)) 
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### 2. KT corporation
+```{r}
+z <- scale(kt.return) 
+skew.kt <- mean(z^3) ; kurt.kt <- mean(z^4)
+print(c(mean(kt.return),sd(kt.return),skew.kt,kurt.kt)) 
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### 3. LG Display Co. Ltd
+```{r}
+z <- scale(lg.return) 
+skew.lg <- mean(z^3) ; kurt.lg <- mean(z^4)
+print(c(mean(lg.return),sd(lg.return),skew.lg,kurt.lg)) 
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### 4. BMW
+```{r}
+z <- scale(bmw.return) 
+skew.bmw <- mean(z^3) ; kurt.bmw <- mean(z^4)
+print(c(mean(bmw.return),sd(bmw.return),skew.bmw,kurt.bmw))
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### 5. Apple Inc
+```{r}
+z <- scale(apple.return) 
+skew.apple <- mean(z^3) ; kurt.apple <- mean(z^4)
+print(c(mean(apple.return),sd(apple.return),skew.apple,kurt.apple))
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+#### Summary interpretation
+In Normal distribution, skewness is 0 and kurtosis is 3.
+But, it is not true in daily returns of 5 company.
+Hence, we have to find another distribution which is
+well fit returns.
+
+Daily returns follow Normal distribution??
+==============================================================
+### 1. Samsung eletronics
+```{r , eval=FALSE}
+par(mfrow=c(1,1))
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(samsung.return),sd(samsung.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(samsung.return),sd(samsung.return)),col=2)
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 2. KT corporation
+```{r, eval=FALSE}
+par(mfrow=c(1,1))
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(kt.return),sd(kt.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(kt.return),sd(kt.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 3. LG Display Co. Ltd 
+```{r, eval=FALSE }
+par(mfrow=c(1,1))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 4. BMW 
+```{r, eval=FALSE }
+par(mfrow=c(1,1))
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 5. Apple Inc 
+```{r, eval=FALSE }
+par(mfrow=c(1,1))
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(apple.return),sd(apple.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(apple.return),sd(apple.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+#### Summary interpretation
+Refer to the histogram and graph,
+we can easily catch distribution of daily returns is
+not normal.
+
+Shapiro-Wilk normality test
+===============================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+qqnorm(samsung.return)
+qqline(samsung.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 1. Samsung eletronics
+```{r, echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+shapiro.test(samsung.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+qqnorm(kt.return)
+qqline(kt.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 2. KT corporation
+```{r, echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+shapiro.test(kt.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+qqnorm(lg.return)
+qqline(lg.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 3. LG Display Co. Ltd 
+```{r, echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+shapiro.test(lg.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+qqnorm(bmw.return)
+qqline(bmw.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 4. BMW 
+```{r, echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+shapiro.test(bmw.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+qqnorm(apple.return)
+qqline(apple.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### 5. Apple Inc 
+```{r, echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+shapiro.test(apple.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+#### Summary interpretation
+Refer to Q-Q plot, graph and line are not match each other.
+And in statistical test, p-value is greater than 0.05.
+So we can conclude daily returns are not normality.
+
+Autocorrelation function
+===============================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+acf(samsung.return) 
+```
+
+Autocorrelation function
+===============================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+acf(abs(samsung.return))
+```
+
+Autocorrelation function
+===============================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+acf(kt.return) 
+```
+
+Autocorrelation function
+===============================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+acf(abs(kt.return))
+```
+
+Autocorrelation function
+===============================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+acf(lg.return) 
+```
+
+Autocorrelation function
+===============================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+acf(abs(lg.return))
+```
+
+Autocorrelation function
+===============================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+acf(bmw.return) 
+```
+
+Autocorrelation function
+===============================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+acf(abs(bmw.return))
+```
+
+Autocorrelation function
+===============================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+acf(apple.return) 
+```
+
+Autocorrelation function
+===============================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+acf(abs(apple.return))
+```
+
+Autocorrelation function
+===============================
+#### Summary interpretation
+We have to analyze into variation of returns rather than 
+returns itself refer to the two autocorrelation function.
+
+Genelarized Hyperbolic Distribution (Normal-Inverse Gaussian Distribution)
+=============================================================================================
+
+### Install package 'fBasics' and make function of calculate volatility in NIG assumption
+```{r} 
+library(fBasics)
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 1. Samsung eletronics
+```{r, eval=FALSE}
+nigFit(samsung.return)
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(samsung.return),sd(samsung.return)),col=2) 
+lines(x,dnig(x,78.239151023,7.288384337,0.024389717,-0.001864134),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+hist(samsung.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(samsung.return),sd(samsung.return)),col=2) 
+lines(x,dnig(x,78.239151023,7.288384337,0.024389717,-0.001864134),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 2. KT corporation
+```{r, eval=FALSE}
+nigFit(kt.return)
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(kt.return),sd(kt.return)),col=2) 
+lines(x,dnig(x,55.4120323065,-1.2010779678,0.0152491054,0.0001032147),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+hist(kt.return,prob=T,nclass=50)
+x <- seq(from=-0.05,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(kt.return),sd(kt.return)),col=2) 
+lines(x,dnig(x,55.4120323065,-1.2010779678,0.0152491054,0.0001032147),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 3. LG Display Co., Ltd
+```{r, eval=FALSE}
+nigFit(lg.return)
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2)  
+lines(x,dnig(x,41.6633981699,0.8777504231,
+             0.0288644214,-0.0009912696),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 3. LG Display Co., Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2)  
+lines(x,dnig(x,41.6633981699,0.8777504231,0.0288644214,-0.0009912696),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 4. BMW
+```{r, eval=FALSE}
+nigFit(bmw.return)
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+lines(x,dnig(x,51.173095881,-0.869998878,0.019418487,0.001254031),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+hist(bmw.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean=mean(bmw.return),sd(bmw.return)),col=2) 
+lines(x,dnig(x,51.173095881,-0.869998878,0.019418487,0.001254031),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 5. Apple Inc
+```{r, eval=FALSE}
+nigFit(apple.return)
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(apple.return),sd(apple.return)),col=2) 
+lines(x,dnig(x,62.809409119,-3.042336396,0.018477287,0.001756665),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+hist(apple.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.05,by=0.0001)
+lines(x,dnorm(x,mean(apple.return),sd(apple.return)),col=2) 
+lines(x,dnig(x,62.809409119,-3.042336396,0.018477287,0.001756665),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+#### Summary interpretation
+Refer to the histogram and graph, when NIG assumption,
+it is well fit daily returns compared to the Normal assumption.
+
+Volatility at Risk
+=============================
+### 1. Samsung eletronics
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.samsung <- nig.volatility(78.239151023,7.288384337,0.024389717,-0.001864134)
+std.samsung <- sd(samsung.return)
+print(c(vol.samsung,std.samsung))
+```
+
+Volatility at Risk
+=============================
+### 2. KT corporation
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.kt <- nig.volatility(55.4120323065,-1.2010779678,0.0152491054,0.0001032147)
+std.kt <- sd(kt.return)
+print(c(vol.kt,std.kt))
+```
+
+Volatility at Risk
+=============================
+### 3. LG Display Co., Ltd
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.lg <- nig.volatility(41.6633981699,0.8777504231,0.0288644214,-0.0009912696)
+std.lg <- sd(lg.return)
+print(c(vol.lg,std.lg))
+```
+
+Volatility at Risk
+=============================
+### 4. BMW
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.bmw <- nig.volatility(51.173095881,-0.869998878,0.019418487,0.001254031)
+std.bmw <- sd(bmw.return)
+print(c(vol.bmw,std.bmw))
+```
+
+Volatility at Risk
+=============================
+### 5. Apple Inc
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.apple <- nig.volatility(62.809409119,-3.042336396,0.018477287,0.001756665)
+std.apple <- sd(apple.return)
+print(c(vol.apple,std.apple))
+```
+
+Volatility at Risk
+=============================
+#### Summary interpretation
+When use Normal Inverse Gaussian Distribution,
+estimate of volatility is almost similar to the real volatility.
+
+Value-at Risk
+=============================
+### 1. Samsung eletronics
+```{r}
+a1 <- qnig(0.05,78.239151023,7.288384337,0.024389717,-0.001864134) # 95% VaR
+a2 <- qnorm(0.05,mean(samsung.return),sd(samsung.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### 1. Samsung eletronics
+```{r}
+a3 <- qnig(0.005,78.239151023,7.288384337,0.024389717,-0.001864134) # 99.5% VaR
+a4 <- qnorm(0.005,mean(samsung.return),sd(samsung.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### 1. Samsung eletronics
+```{r}
+a5 <- qnig(0.01,78.239151023,7.288384337,0.024389717,-0.001864134) # 99% VaR
+a6 <- qnorm(0.01,mean(samsung.return),sd(samsung.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+### 2. KT corporation
+```{r}
+a1 <- qnig(0.05,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 95% VaR
+a2 <- qnorm(0.05,mean(kt.return),sd(kt.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### 2. KT corporation
+```{r}
+a3 <- qnig(0.005,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 99.5% VaR
+a4 <- qnorm(0.005,mean(kt.return),sd(kt.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### 2. KT corporation
+```{r}
+a5 <- qnig(0.01,55.4120323065,-1.2010779678,0.0152491054,0.0001032147) # 99% VaR
+a6 <- qnorm(0.01,mean(kt.return),sd(kt.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+### 3. LG Display Co., Ltd
+```{r}
+a1 <- qnig(0.05,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 95% VaR
+a2 <- qnorm(0.05,mean(lg.return),sd(lg.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### 3. LG Display Co., Ltd
+```{r}
+a3 <- qnig(0.005,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99.5% VaR
+a4 <- qnorm(0.005,mean(lg.return),sd(lg.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### 3. LG Display Co., Ltd
+```{r}
+a5 <- qnig(0.01,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99% VaR
+a6 <- qnorm(0.01,mean(lg.return),sd(lg.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+### 4. BMW
+```{r}
+a1 <- qnig(0.05,51.173095881,-0.869998878,0.019418487,0.001254031) # 95% VaR
+a2 <- qnorm(0.05,mean(bmw.return),sd(bmw.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### 4. BMW
+```{r}
+a3 <- qnig(0.005,51.173095881,-0.869998878,0.019418487,0.001254031) # 99.5% VaR
+a4 <- qnorm(0.005,mean(bmw.return),sd(bmw.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### 4. BMW
+```{r}
+a5 <- qnig(0.01,51.173095881,-0.869998878,0.019418487,0.001254031) # 99% VaR
+a6 <- qnorm(0.01,mean(bmw.return),sd(bmw.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+### 5. Apple Inc
+```{r}
+a1 <- qnig(0.05,62.809409119,-3.042336396,0.018477287,0.001756665) # 95% VaR
+a2 <- qnorm(0.05,mean(apple.return),sd(apple.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### 5. Apple Inc
+```{r}
+a3 <- qnig(0.005,62.809409119,-3.042336396,0.018477287,0.001756665) # 99.5% VaR
+a4 <- qnorm(0.005,mean(apple.return),sd(apple.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### 5. Apple Inc
+```{r}
+a5 <- qnig(0.01,62.809409119,-3.042336396,0.018477287,0.001756665) # 99% VaR
+a6 <- qnorm(0.01,mean(apple.return),sd(apple.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+#### Summary interpretation
+Refer to the Value-at-Risk, Normal distribution is 
+underestimated risk of returns.
+So we have to analyze daily returns carefully.
+When we analyze daily returns,
+NIG assumptions is better than Normal assumptions.
+
+Conditional Heteroscedastic Model
+==================================
+Suppose that S(t) is asset price.
+
+r(t) = log(S(t))-log(S(t-1)) : log-return or return
+
+r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+
+sigma(t)^2 = Var(r(t) | r(t-1), r(t-2), ...)
+
+= E(r(t)^2 | r(t-1), r(t-2), ...)
+
+Parameter estimate in GARCH(1,1) model and checking residuals.
+-> Plot ACF. -> Box-Ljung test (H0 : Not correlation.)
+
+Generalized Autoregressive Conditional Heteroscedastic Model (GARCH Model)
+==============================================================================
+GARCH(1,1) -->
+
+sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+
+beta(1)*sigma(t-1)^2 (t=1,2,...,T)
+
+We have to check Goodness-of fit of GARCH(1,1) model.
+
+Install package 'tseries' 
+====================================================
+```{r}
+library(tseries)
+```
+
+Fitted GARCH(1,1) model to volatility of data
+===============================================
+```{r, eval=FALSE}
+vol.samsung <- garch(samsung.return)
+vol.kt <- garch(kt.return)
+vol.lg <- garch(lg.return)
+vol.bmw <- garch(bmw.return)
+vol.apple <- garch(apple.return)
+```
+
+Estimated volatility and Residuals
+============================================
+### 1. Samsung eletronics 
+```{r,eval=FALSE}
+vol.samsung <- garch(samsung.return)
+plot(vol.samsung$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.samsung$residuals,type="l",main="Residuals")
+```
+
+Estimated volatility and Residuals
+============================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.samsung$fitted.values[,1],type="l",main="Estimated volatility")
+```
+
+Estimated volatility and Residuals
+============================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.samsung$residuals,type="l",main="Residuals")
+```
+
+Estimated volatility and Residuals
+============================================
+### 2. KT corporation
+```{r,eval=FALSE}
+vol.kt <- garch(kt.return)
+plot(vol.kt$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.kt$residuals,type="l",main="Residuals")
+```
+
+Estimated volatility and Residuals
+============================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.kt$fitted.values[,1],type="l",main="Estimated volatility")
+```
+
+Estimated volatility and Residuals
+============================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.kt$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 3. LG Display Co. Ltd 
+```{r,eval=FALSE}
+vol.lg <- garch(lg.return)
+plot(vol.lg$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.lg$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.lg$fitted.values[,1],type="l",main="Estimated volatility")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.lg$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 4. BMW 
+```{r,eval=FALSE}
+vol.bmw <- garch(bmw.return)
+plot(vol.bmw$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.bmw$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.bmw$fitted.values[,1],type="l",main="Estimated volatility")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.bmw$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 5. Apple Inc
+```{r,eval=FALSE}
+vol.apple <- garch(apple.return)
+plot(vol.apple$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.apple$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple)) 
+vol.apple <- garch(apple.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.apple$fitted.values[,1],type="l",main="Estimated volatility")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple)) 
+vol.apple <- garch(apple.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+plot(vol.apple$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+#### Summary interpretation
+We can check variation of volatility when time goes.
+So we have to use GARCH model to modeling this.
+
+Checking fitted GARCH model
+============================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.samsung)
+```
+
+Checking fitted GARCH model
+============================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.kt)
+```
+
+Checking fitted GARCH model
+============================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.lg)
+```
+
+Checking fitted GARCH model
+============================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.bmw)
+```
+
+Checking fitted GARCH model
+============================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+vol.apple <- garch(apple.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.apple)
+```
+
+Checking fitted GARCH model
+============================
+#### Summary interpretation
+Refer to approximation t-test, we can say estimated parameters are not equal to 0. And in Jarque Bera test, p-value is less than 0.05. That means residuals are not normality. Also in Box-Ljung test, p-value is greater than 0.05. So, GARCH(1,1) is well fitted volatility.
+
+Autocorrelation check for residuals
+=====================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+acf(samsung.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+acf(samsung.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.samsung$residuals[-1])
+```
+
+Autocorrelation check for residuals
+=====================================
+### 1. Samsung eletronics 
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.samsung$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 2. KT corporation 
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+acf(kt.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 2. KT corporation 
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+acf(kt.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 2. KT corporation 
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.kt$residuals[-1])
+```
+
+Autocorrelation check for residuals
+=====================================
+### 2. KT corporation 
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.kt$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+acf(lg.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+acf(lg.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.lg$residuals[-1])
+```
+
+Autocorrelation check for residuals
+=====================================
+### 3. LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.lg$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+acf(bmw.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+acf(bmw.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.bmw$residuals[-1])
+```
+
+Autocorrelation check for residuals
+=====================================
+### 4. BMW 
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.bmw$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+acf(apple.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+acf(apple.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+vol.apple <- garch(apple.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.apple$residuals[-1])
+```
+
+Autocorrelation check for residuals
+=====================================
+### 5. Apple Inc 
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+vol.apple <- garch(apple.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+acf(vol.apple$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+#### Summary interpretation
+Refer to the autocorrelation function of residuals, almost residuals are in the confidence interval. So we can say residuals have not autocorrelation. That means GARCH(1,1) model is well fitted volatility.
+
+Modeling daily returns
+=======================
+If r ~ N( 0 , sigma^2 ) , it is not true..
+
+r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+
+e(t) is called random shocks..
+
+GARCH(1,1) -> sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2
+
++ beta(1)*sigma(t-1)^2
+
+Refer to Jarque Bera Test, e(t) is nonnormal~~!!
+
+Checking distribution of epsilon
+=================================
+### 1. Samsung eletronics
+```{r,eval=FALSE}
+vol.samsung <- garch(samsung.return)
+res.samsung <- vol.samsung$residuals[-1]
+nigFit(res.samsung)
+hist(res.samsung,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.5981890,0.1320987,1.5978737,-0.1163623),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+vol.samsung <- garch(samsung.return)
+res.samsung <- vol.samsung$residuals[-1]
+```
+***
+```{r fig.align='center', echo=FALSE}
+hist(res.samsung,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.5981890,0.1320987,1.5978737,-0.1163623),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 2. KT corporation
+```{r,eval=FALSE}
+vol.kt <- garch(kt.return)
+res.kt <- vol.kt$residuals[-1]
+nigFit(res.kt)
+hist(res.kt,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,0.97230521,-0.02994705,0.97445152,0.01132703),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+vol.kt <- garch(kt.return)
+res.kt <- vol.kt$residuals[-1]
+```
+***
+```{r fig.align='center', echo=FALSE}
+hist(res.kt,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,0.97230521,-0.02994705,0.97445152,0.01132703),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 3. LG Display Co. Ltd
+```{r,eval=FALSE}
+vol.lg <- garch(lg.return)
+res.lg <- vol.lg$residuals[-1]
+nigFit(res.lg)
+hist(res.lg,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.52580370,-0.01264153,1.53086941,-0.00903504),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+res.lg <- vol.lg$residuals[-1]
+```
+***
+```{r fig.align='center', echo=FALSE}
+hist(res.lg,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.52580370,-0.01264153,1.53086941,-0.00903504),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 4. BMW
+```{r,eval=FALSE}
+vol.bmw <- garch(bmw.return)
+res.bmw <- vol.bmw$residuals[-1]
+nigFit(res.bmw)
+hist(res.bmw,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.33979343,0.00415084,1.33176238,0.05003278),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw))
+vol.bmw <- garch(bmw.return)
+res.bmw <- vol.bmw$residuals[-1]
+```
+***
+```{r fig.align='center', echo=FALSE}
+hist(res.bmw,prob=T,nclass=50)
+x <- seq(-4,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.33979343,0.00415084,1.33176238,0.05003278),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 5. Apple Inc
+```{r,eval=FALSE}
+vol.apple <- garch(apple.return)
+res.apple <- vol.apple$residuals[-1]
+nigFit(res.apple)
+hist(res.apple,prob=T,nclass=50)
+x <- seq(-6,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.17006981,-0.05964409,1.13887513,0.11048502),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple))
+vol.apple <- garch(apple.return)
+res.apple <- vol.apple$residuals[-1]
+```
+***
+```{r fig.align='center', echo=FALSE}
+hist(res.apple,prob=T,nclass=50)
+x <- seq(-6,4,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.17006981,-0.05964409,1.13887513,0.11048502),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+#### Summary interpretation
+Refer to the histogram and graph, when use NIG assumption, residuals from the GARCH(1,1) are well fitted.
+
+Time varying Value-at Risk
+===========================
+P(r(t) <= x ) = 0.01 (Value-at-Risk)
+
+P(sigma(t)*e(t) <=
+
+sigma(t)*y ) = 0.01 (Find y!!)
+
+We have to find y. And product estimated sigma(t) from the GARCH(1,1) model. Let's calculate this and plot it.
+
+Time varying Value-at Risk
+===========================
+### 1. Samsung eletronics
+```{r,eval=FALSE}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(samsung.return)
+plot(samsung.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 1. Samsung eletronics
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(samsung.return)
+plot(samsung.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 2. KT corporation
+```{r,eval=FALSE}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(kt.return)
+plot(kt.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 2. KT corporation
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(kt.return)
+plot(kt.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 3. LG Display Co. Ltd
+```{r,eval=FALSE}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(lg.return)
+plot(lg.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 3. LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(lg.return)
+plot(lg.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 4. BMW
+```{r,eval=FALSE}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(bmw.return)
+plot(bmw.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 4. BMW
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(bmw.return)
+plot(bmw.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 5. Apple Inc
+```{r,eval=FALSE}
+par(mfrow=c(1,1))
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(apple.return)
+plot(apple.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### 5. Apple Inc
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(apple.return)
+plot(apple.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Checking accuracy
+===================
+### 1. Samsung eletronics
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(samsung.return[-1] < VaR.N95)),abs(0.05-mean(samsung.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(samsung.return[-1] < VaR.N99)),abs(0.01-mean(samsung.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(samsung.return[-1] < VaR.N995)),abs(0.005-mean(samsung.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 1. Samsung eletronics
+```{r}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(samsung.return[-1] < VaR.N95)),abs(0.05-mean(samsung.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### 1. Samsung eletronics
+```{r}
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(samsung.return[-1] < VaR.N99)),abs(0.01-mean(samsung.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### 1. Samsung eletronics
+```{r}
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(samsung.return[-1] < VaR.N995)),abs(0.005-mean(samsung.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 2. KT corporation
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(kt.return[-1] < VaR.N95)),abs(0.05-mean(kt.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(kt.return[-1] < VaR.N99)),abs(0.01-mean(kt.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(kt.return[-1] < VaR.N995)),abs(0.005-mean(kt.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 2. KT corporation
+```{r}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(kt.return[-1] < VaR.N95)),abs(0.05-mean(kt.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### 2. KT corporation
+```{r}
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(kt.return[-1] < VaR.N99)),abs(0.01-mean(kt.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### 2. KT corporation
+```{r}
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(kt.return[-1] < VaR.N995)),abs(0.005-mean(kt.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 3. LG Display Co. Ltd
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(lg.return[-1] < VaR.N95)),abs(0.05-mean(lg.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(lg.return[-1] < VaR.N99)),abs(0.01-mean(lg.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(lg.return[-1] < VaR.N995)),abs(0.005-mean(lg.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 3. LG Display Co. Ltd
+```{r}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(lg.return[-1] < VaR.N95)),abs(0.05-mean(lg.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### 3. LG Display Co. Ltd
+```{r}
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(lg.return[-1] < VaR.N99)),abs(0.01-mean(lg.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### 3. LG Display Co. Ltd
+```{r}
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(lg.return[-1] < VaR.N995)),abs(0.005-mean(lg.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 4. BMW
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(bmw.return[-1] < VaR.N95)),abs(0.05-mean(bmw.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(bmw.return[-1] < VaR.N99)),abs(0.01-mean(bmw.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(bmw.return[-1] < VaR.N995)),abs(0.005-mean(bmw.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 4. BMW
+```{r}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(bmw.return[-1] < VaR.N95)),abs(0.05-mean(bmw.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### 4. BMW
+```{r}
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(bmw.return[-1] < VaR.N99)),abs(0.01-mean(bmw.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### 4. BMW
+```{r}
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(bmw.return[-1] < VaR.N995)),abs(0.005-mean(bmw.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 5. Apple Inc
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(apple.return[-1] < VaR.N95)),abs(0.05-mean(apple.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(apple.return[-1] < VaR.N99)),abs(0.01-mean(apple.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(apple.return[-1] < VaR.N995)),abs(0.005-mean(apple.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### 5. Apple Inc
+```{r}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(apple.return[-1] < VaR.N95)),abs(0.05-mean(apple.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### 5. Apple Inc
+```{r}
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(apple.return[-1] < VaR.N99)),abs(0.01-mean(apple.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### 5. Apple Inc
+```{r}
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(apple.return[-1] < VaR.N995)),abs(0.005-mean(apple.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+#### Summary interpretation
+According to the result, Normal Inverse Gaussian Distribution is better than Normal Distribution when checking Value-at-Risk of daily returns. In addition, Normal distribution is underestimated risk of daily returns.
+
+Backtest Value-at-Risk
+=======================
+Suppose that N is number of 100*(1-p)% VaR violations and T is the total number of observations.
+
+H0 : N ~ B(T,p) vs H1 : not H0
+
+LRT statistic = - 2*log{((1-p)^(T-N))
+*((p)^(N))} + 
+2*log{((1-N/T)^(T-N)
+)*((N/T)^(N))}
+
+-->d (Convergence in distribution) Chi-square distribution with df=1 under H0
+
+(LRT statistic = -2*log(L0/L))
+
+Backtest Value-at-Risk
+=======================
+### Make function for backtest Value-at-Risk
+```{r,eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 1. Samsung eletronics
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.01 <- qnig(0.01,1.5981890,0.1320987,1.5978737,-0.1163623)
+q.005 <- qnig(0.005,1.5981890,0.1320987,1.5978737,-0.1163623)
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(samsung.return[-1] < VaR.95),length(samsung.return[-1]),0.05)
+backtest.VaR(sum(samsung.return[-1] < VaR.99),length(samsung.return[-1]),0.01)
+backtest.VaR(sum(samsung.return[-1] < VaR.995),length(samsung.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.95),length(samsung.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.99),length(samsung.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.995),length(samsung.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 2. KT corporation
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.01 <- qnig(0.01,0.97230521,-0.02994705,0.97445152,0.01132703)
+q.005 <- qnig(0.005,0.97230521,-0.02994705,0.97445152,0.01132703)
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(kt.return[-1] < VaR.95),length(kt.return[-1]),0.05)
+backtest.VaR(sum(kt.return[-1] < VaR.99),length(kt.return[-1]),0.01)
+backtest.VaR(sum(kt.return[-1] < VaR.995),length(kt.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.95),length(kt.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.99),length(kt.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.995),length(kt.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 3. LG Display Co. Ltd 
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 4. BMW
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.33979343,0.00415084,1.33176238,0.05003278)
+q.01 <- qnig(0.01,1.33979343,0.00415084,1.33176238,0.05003278)
+q.005 <- qnig(0.005,1.33979343,0.00415084,1.33176238,0.05003278)
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(bmw.return[-1] < VaR.95),length(bmw.return[-1]),0.05)
+backtest.VaR(sum(bmw.return[-1] < VaR.99),length(bmw.return[-1]),0.01)
+backtest.VaR(sum(bmw.return[-1] < VaR.995),length(bmw.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.95),length(bmw.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.99),length(bmw.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.995),length(bmw.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 5. Apple Inc 
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.01 <- qnig(0.01,1.17006981,-0.05964409,1.13887513,0.11048502)
+q.005 <- qnig(0.005,1.17006981,-0.05964409,1.13887513,0.11048502)
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(apple.return[-1] < VaR.95),length(apple.return[-1]),0.05)
+backtest.VaR(sum(apple.return[-1] < VaR.99),length(apple.return[-1]),0.01)
+backtest.VaR(sum(apple.return[-1] < VaR.995),length(apple.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.95),length(apple.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.99),length(apple.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.995),length(apple.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+#### Summary interpretation
+Refer to the backtest in NIG assumption, p-value is greater than 0.05. So we can conclude Normal Inverse Gaussian Distribution is well fitted daily returns.
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 1. Samsung eletronics
+```{r,eval=FALSE}
+sigma.t <- vol.samsung$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(samsung.return[-1] < VaR.N95),length(samsung.return[-1]),0.05)
+backtest.VaR(sum(samsung.return[-1] < VaR.N99),length(samsung.return[-1]),0.01)
+backtest.VaR(sum(samsung.return[-1] < VaR.N995),length(samsung.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.N95),length(samsung.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.N99),length(samsung.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 1. Samsung eletronics
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(samsung.return[-1] < VaR.N995),length(samsung.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 2. KT corporation
+```{r,eval=FALSE}
+sigma.t <- vol.kt$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(kt.return[-1] < VaR.N95),length(kt.return[-1]),0.05)
+backtest.VaR(sum(kt.return[-1] < VaR.N99),length(kt.return[-1]),0.01)
+backtest.VaR(sum(kt.return[-1] < VaR.N995),length(kt.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.N95),length(kt.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.N99),length(kt.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 2. KT corporation
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(kt.return[-1] < VaR.N995),length(kt.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 3. LG Display Co. Ltd 
+```{r,eval=FALSE}
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 3. LG Display Co. Ltd 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 4. BMW
+```{r,eval=FALSE}
+sigma.t <- vol.bmw$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(bmw.return[-1] < VaR.N95),length(bmw.return[-1]),0.05)
+backtest.VaR(sum(bmw.return[-1] < VaR.N99),length(bmw.return[-1]),0.01)
+backtest.VaR(sum(bmw.return[-1] < VaR.N995),length(bmw.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.N95),length(bmw.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.N99),length(bmw.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 4. BMW
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(bmw.return[-1] < VaR.N995),length(bmw.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 5. Apple Inc 
+```{r,eval=FALSE}
+sigma.t <- vol.apple$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(apple.return[-1] < VaR.N95),length(apple.return[-1]),0.05)
+backtest.VaR(sum(apple.return[-1] < VaR.N99),length(apple.return[-1]),0.01)
+backtest.VaR(sum(apple.return[-1] < VaR.N995),length(apple.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.N95),length(apple.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.N99),length(apple.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### 5. Apple Inc 
+```{r}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(apple.return[-1] < VaR.N995),length(apple.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+#### Summary interpretation
+Refer to the backtest result, in general, p-value is not always greater than 0.05. So it is wrong method to use Normal Distribution when analyze daily returns. Be careful!!

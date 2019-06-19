@@ -1,0 +1,249 @@
+Final Assignment 1 (금융자료분석 및 실습)
+========================================================
+200903877 황 성 윤
+-------------------------
+
+# 다수의 월별주식에서 나오는 수익률을 이용한 최적의 포트폴리오 찾기.
+## 기간 : 2004년 1월 ~ 2014년 4월
+## (우리나라의 10개 기업 : Doosan, Hanwha, Hynix, Hyosung, Hyundai, Kia, Kyobo, Lotte, Posco, S-oil)
+
+### KOSPI 에서 나오는 월별 수익률은 Benchmarking 하는데 쓰일 것이다.
+
+### 데이터 읽어들이기 & 월별 수익률 계산
+```{r fig.width=10, fig.height=10}
+kospi <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/kospi_month.csv", sep = ",", header = T)
+x <- kospi$Close
+n <- length(x)
+kospi.return <- x[2:n]/x[1:(n - 1)] - 1
+doosan <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/doosan_month.csv", sep = ",", header = T)
+x <- doosan$Close
+n <- length(x)
+doosan.return <- x[2:n]/x[1:(n - 1)] - 1
+hanwha <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/hanwha_month.csv", sep = ",", header = T)
+x <- hanwha$Close
+n <- length(x)
+hanwha.return <- x[2:n]/x[1:(n - 1)] - 1
+hynix <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/hynix_month.csv", sep = ",", header = T)
+x <- hynix$Close
+n <- length(x)
+hynix.return <- x[2:n]/x[1:(n - 1)] - 1
+hyosung <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/hyosung_month.csv", sep = ",", header = T)
+x <- hyosung$Close
+n <- length(x)
+hyosung.return <- x[2:n]/x[1:(n - 1)] - 1
+hyundai <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/hyundai_month.csv", sep = ",", header = T)
+x <- hyundai$Close
+n <- length(x)
+hyundai.return <- x[2:n]/x[1:(n - 1)] - 1
+kia <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/kia_month.csv", sep = ",", header = T)
+x <- kia$Close
+n <- length(x)
+kia.return <- x[2:n]/x[1:(n - 1)] - 1
+kyobo <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/kyobo_month.csv", sep = ",", header = T)
+x <- kyobo$Close
+n <- length(x)
+kyobo.return <- x[2:n]/x[1:(n - 1)] - 1
+lotte <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/lotte_month.csv", sep = ",", header = T)
+x <- lotte$Close
+n <- length(x)
+lotte.return <- x[2:n]/x[1:(n - 1)] - 1
+posco <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/posco_month.csv", sep = ",", header = T)
+x <- posco$Close
+n <- length(x)
+posco.return <- x[2:n]/x[1:(n - 1)] - 1
+soil <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Final Exam/Final Assignment 1/s-oil_month.csv", sep = ",", header = T)
+x <- soil$Close
+n <- length(x)
+soil.return <- x[2:n]/x[1:(n - 1)] - 1
+```
+
+### 수익률 행렬 및 평균 수익률, 공분산행렬 산출
+```{r fig.width=10, fig.height=10}
+Returns <- cbind(doosan.return, hanwha.return, hynix.return, hyosung.return, hyundai.return, kia.return, kyobo.return, lotte.return, posco.return, soil.return)
+summary(Returns)
+apply(Returns, 2, mean)
+cov(Returns)
+```
+#### Interpretation
+결과에 의하면 10개의 기업의 월별 수익률에 대한 평균값이 거의 0에 가까이 있다. 그리고 공분산행렬을 살펴봤을 때 대각원소를 제외한 값들 대부분이 절대값이 작기 때문에 서로 강한 상관관계가 있다고 보여지는 조합은 거의 없는 것으로 보여진다. 이제 다수의 주식에 대한 최적의 포트폴리오를 찾아보도록 하자.
+
+## 다수의 주식에 대한 포트폴리오
+
+#### Portfolio with multivariate stocks (w1,w2,...,wn)
+#### w1 + w2 + ... + wn = 1
+#### R1, R2, R3, ... , Rn
+#### Rp = w1 * R1 + w2 * R2 + ... + wn * Rn = t(w) % * % ( R )
+#### mu(p) = E(Rp) = t(w) % * % E ( R ) = t(w) % * % (MU)
+#### sigma(p)^2 = Var(Rp) = t(w) % * % Var ( R ) % * % (w)
+#### = t(w) % * % (SIGMA) % * % (w)
+#### MU : mean vector , SIGMA : covariance matrix
+#### We have to predict distribution of portfolio returns.
+
+#### We can't control MU and SIGMA.
+#### So we have to decide vector w carefully.
+
+#### Find the vector w with minimizing sigma(p).
+#### (The method of Lagrange multiplier)
+#### ( t(w) % * % (MU) = mu(p) , w1 + w2 + ... + wn = 1 )
+
+#### When element of vector w is less then 0,
+#### we have to borrow stock and sell it. (Short selling)
+#### Because stocks are traded in one markets, 
+#### correlation coefficient is positive number in many cases.
+
+### Method to find the optimal portfolio when specific return is decided.
+
+#### When mu(p) is decided, find the wector w with minimizing volatility.
+#### When t(w) % * % (MU)=mu(p), w1 + w2 + ... + wn = 1 ,
+#### find the vector w with minimizing 
+#### t(w) % * % (SIGMA) % * % (w) .  (Optimizing)
+#### MU : mean vector , SIGMA : covariance matrix
+
+### 함수 'Minimum.variance.portfolio' 작성
+```{r fig.width=10, fig.height=10}
+Minimum.variance.portfolio <- function(Returns, mu.p, plot=F, prt=F)
+{
+  n.p <- length(mu.p)
+  mu <- apply(Returns, 2, mean)
+  Sigma <- cov(Returns)
+  Sigma.inv <- solve(Sigma)
+  ones <- rep(1, dim(Returns)[2])
+  
+  Av <- (t(ones)%*%Sigma.inv%*%mu)[1,1]
+  Bv <- (t(mu)%*%Sigma.inv%*%mu)[1,1]
+  Cv <- (t(ones)%*%Sigma.inv%*%ones)[1,1]
+  Dv <- Bv*Cv-Av*Av
+  
+  g <- (Bv*Sigma.inv%*%ones-Av*Sigma.inv%*%mu)/Dv
+  h <- (Cv*Sigma.inv%*%mu-Av*Sigma.inv%*%ones)/Dv
+  
+  w.p <- sigma.p <- NULL
+  for ( j in 1:n.p ) {
+    w <- g+h*mu.p[j]
+    w.p <- cbind(w.p, w)
+    sigma.p <- c(sigma.p, sqrt((t(w)%*%Sigma%*%w)[1,1]))
+  }
+  
+  if (plot) {
+    plot(sigma.p, mu.p, xlim=c(0, max(sigma.p)), xlab="volatility", ylab="mean return")
+    lines(sigma.p, mu.p, col=2)
+  }
+  if (prt) print(cbind(mu.p, sigma.p, t(w.p)))
+  
+  return(list(mu.p=mu.p, sigma.p=sigma.p, w.p=w.p))
+}
+```
+
+### 각각의 수익률에 대한 최적의 포트폴리오 산출
+```{r fig.width=10, fig.height=10}
+mu.p <- seq(from=0.001,to=0.05,by=0.0005)
+mvp <- Minimum.variance.portfolio(Returns,mu.p,plot=T,prt=T)
+```
+#### Interpretation
+결과에 의하면 수익률을 0.0160 으로 정하고 포트폴리오를 만들었을 때 변동성의 값이 최소가 된다. 하지만 이러한 방법은 특정한 수익률을 미리 정해야만 한다는 제약이 따르게 된다. 그러므로 변동성의 값이 0인 무위험자산(risk-free asset)을 이용한 최적의 포트폴리오를 찾는 방법을 적용해 볼 필요가 있다.
+
+## Tangency portfolio
+
+#### (Optimal portfolio with a risk-free asset)
+#### Find portfolio with maximizing Sharpe ratio. (risk-adjusted excess return)
+#### Sharpe ratio = (mu-Rf)/(sigma) , Rf = risk-free asset
+#### In geometrically, Sharpe ratio is a slope of the tangent
+#### which is the line of connect any point in the graph and
+#### risk-free asset point.
+#### So, we have to find the tangent when slope has a maximum value.
+
+### 함수 'Tangency.portfolio' 작성
+```{r fig.width=10, fig.height=10}
+Tangency.portfolio <- function(Returns, r.f, plot=F)
+{
+  mu <- apply(Returns, 2, mean)
+  Sigma <- cov(Returns)
+  Sigma.inv <- solve(Sigma)
+  ones <- rep(1, dim(Returns)[2])
+  tmp <- mu-r.f*ones
+  w.bar <- Sigma.inv%*%tmp
+  
+  lb <- 0.8*min(mu)
+  ub <- 1.2*max(mu)
+  mvp <- Minimum.variance.portfolio(Returns, mu.p=seq(from=lb, to=ub, len=20), plot=plot, prt=F)
+  w.q <- w.bar/sum(w.bar)
+  mu.q <- crossprod(w.q, mu)
+  sigma.q <- sqrt((t(w.q)%*%Sigma%*%w.q)[1,1])
+  if (plot) {
+    slope <- (mu.q-r.f)/sigma.q
+    abline(r.f, slope, col=3)
+    points(sigma.q, mu.q, pch=17, col=2)
+  }
+  
+  return(list(mu.q=mu.q, sigma.q=sigma.q, w.q=w.q))
+}
+```
+
+### 결과에 대한 그래프와 결과물 (무위험자산의 값은 0.001로 정함.)
+```{r fig.width=10, fig.height=10}
+tp <- Tangency.portfolio(Returns,r.f=0.001,plot=T)
+tp
+```
+#### Interpretation
+결과에 의하면 우리는 다음과 같은 비율로 투자를 해야 한다. (Doosan : 20.2%, Hynix : 9.5%, Hyosung : 24.2%, Hyundai : 15.4%, Kia : 29.2%, Lotte : 41.3%, and S-oil : 3.1%) 그러나 Hanwha, Kyobo 그리고 Posco의 경우는 주식을 빌려와서 파는 공매를 해야 한다.
+이제 Tangency portfolio를 이용한 방법과 동일가중평균을 이용한 방법 중 어느 것이 더 현명한 방법인지 4가지의 척도(Sharpe ratio, Jensen's alpha, Beta coefficient and Treynor index)를 통하여 살펴보도록 하자.
+(10개의 기업이 모두 우리나라에 속해있기 때문에 KOSPI에서 나온 월별 수익률을 Benchmarking 하는데 쓰도록 하겠다.)
+
+## Capital Asset Pricing Model
+
+#### Sharpe ratio = (mu-Rf)/(sigma) , Rf = risk-free asset
+#### Jensen's alpha & Beta coefficient : 
+#### They are slope and intercept from simple linear regression
+#### with dependent variable (evaluation return - risk-free asset)
+#### and independent variable (benchmarking return - risk-free asset).
+#### Treynor index = (mu-Rf)/(beta)
+
+### The method of evaluation
+#### Sharpe ratio and Treynor index : The larger is better.
+#### Jensen's alpha : The larger is better in positive case.
+#### Beta coefficient : If the (Beta coefficient - 1) is
+#### nearly to zero in positive case, it is better.
+
+### 함수 'capm.measure' 작성
+```{r fig.width=10, fig.height=10}
+capm.measure <- function(port.return,bm.return,r.f,plot=F) {
+  x <- bm.return-r.f
+  y <- port.return-r.f
+  plot(x,y,xlab="BM",ylab="")
+  res <- lm(y~x)
+  summary(res)
+  abline(res$coef,ylab="")
+  
+  mu <- mean(y)
+  sigma <- sd(y)
+  sharpe <- (mu-r.f)/sigma
+  alpha <- res$coef[1]
+  beta <- res$coef[2]
+  treynor <- (mu-r.f)/beta
+  
+  return(list(mu=mu,sigma=sigma,sharpe=sharpe,alpha=alpha,beta=beta,treynor=treynor))
+}
+```
+
+### Tangency portfolio 의 방법론을 적용한 경우
+```{r fig.width=10, fig.height=10}
+tangency1 <- Returns%*%tp$w.q
+capm.measure(tangency1,kospi.return,r.f=0.001,plot=T)
+```
+#### Interpretation
+- mu = 0.02325741, sigma = 0.07920552
+- Sharpe ratio = 0.2810083, Jensen's alpha = 0.01614131
+- Beta coefficient = 0.9298652, Treynor index = 0.02393617
+
+### 동일가중평균을 적용한 경우
+```{r fig.width=10, fig.height=10}
+tangency2 <- Returns%*%rep(0.1,10)
+capm.measure(tangency2,kospi.return,r.f=0.001,plot=T)
+```
+#### Interpretation
+- mu = 0.01854347, sigma = 0.08219025
+- Sharpe ratio = 0.2134495, Jensen's alpha = 0.008475261
+- Beta coefficient = 1.31562, Treynor index = 0.01333476
+
+### Tangency portfolio v.s Same weighted average
+결과에 의하면 Tangency portfolio 의 경우가 동일가중평균에 비해 Sharpe ratio, Treynor index 그리고 Jensen’s alpha의 값들이 양수로서 더 큰 값을 취하고 있다. 그러나 Beta coefficient의 값은 Tangency portfolio를 적용했을 때는 1보다 작으며 동일가중평균을 적용했을 때는 1보다 큰 값을 가진다. 그러므로 전체적으로 봤을 때 Tangency portfolio의 방법론을 적용하는 것이 더 현명한 방법이라고 할 수 있다.

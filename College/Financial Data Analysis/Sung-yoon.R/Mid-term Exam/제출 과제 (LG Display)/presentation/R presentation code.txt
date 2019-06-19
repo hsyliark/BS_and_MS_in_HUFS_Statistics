@@ -1,0 +1,825 @@
+Mid-term Assignment
+========================================================
+author: Sung-yoon Hwang (200903877) 
+date: 2014.4.21
+autosize: true
+font-family: 'Helvetica'
+
+Analysis of returns in daily data of LG Display Co. Ltd...
+
+Log return
+========================================================
+- r(t) = log(S(t))-log(S(t-1)) = log(S(t)/S(t-1)) = log(1+R(t)) (log return)
+- R(t)= (S(t) - S(t-1))/(S(t-1)) = (S(t)/S(t-1)) - 1 (return)
+==> r(t) =: R(t) (By Taylor's expansion in the vicinity of 0.)
+
+Graph of stocks and returns
+========================================================
+### LG Display Co. Ltd
+```{r,eval=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+plot(lg,type="l",main="LG Display Co. Ltd",xlab="t",ylab="LG")
+lg.return <- diff(log(lg)) 
+plot(lg.return,type="l",main="LG returns",xlab="t",ylab="returns")
+```
+
+Graph of stocks and returns
+========================================================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+plot(lg,type="l",main="LG Display Co. Ltd",xlab="t",ylab="LG")
+```
+
+Graph of stocks and returns
+========================================================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg)) 
+plot(lg.return,type="l",main="LG returns",xlab="t",ylab="returns")
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+### LG Display Co. Ltd
+```{r}
+z <- scale(lg.return) 
+skew.lg <- mean(z^3) ; kurt.lg <- mean(z^4)
+print(c(mean(lg.return),sd(lg.return),skew.lg,kurt.lg)) 
+```
+
+Mean, Standard deviation(Volatility), Skewness, and Kurtosis
+==============================================================
+#### Interpretation
+In Normal distribution, skewness is 0 and kurtosis is 3.
+But, it is not true in daily returns of 5 company.
+Hence, we have to find another distribution which is
+well fit returns.
+
+Daily returns follow Normal distribution??
+==============================================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE }
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2) 
+```
+
+Daily returns follow Normal distribution??
+==============================================================
+#### Interpretation
+Refer to the histogram and graph,
+we can easily catch distribution of daily returns is
+not normal.
+
+Shapiro-Wilk normality test
+===============================
+```{r, eval=FALSE}
+qqnorm(lg.return)
+qqline(lg.return)
+shapiro.test(lg.return)
+```
+
+
+Shapiro-Wilk normality test
+===============================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+qqnorm(lg.return)
+qqline(lg.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+shapiro.test(lg.return)
+```
+
+Shapiro-Wilk normality test
+===============================
+#### Interpretation
+Refer to Q-Q plot, graph and line are not match each other.
+And in statistical test, p-value is greater than 0.05.
+So we can conclude daily returns are not normality.
+
+Autocorrelation function
+===============================
+```{r, eval=FALSE}
+acf(lg.return)
+acf(abs(lg.return))
+```
+
+Autocorrelation function
+===============================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+acf(lg.return) 
+```
+
+Autocorrelation function
+===============================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+acf(abs(lg.return))
+```
+
+Autocorrelation function
+===============================
+#### Interpretation
+We have to analyze into variation of returns rather than 
+returns itself refer to the two autocorrelation function.
+
+Genelarized Hyperbolic Distribution (Normal-Inverse Gaussian Distribution)
+=============================================================================================
+
+### Install package 'fBasics' and make function of calculate volatility in NIG assumption
+```{r} 
+library(fBasics)
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### LG Display Co., Ltd
+```{r, eval=FALSE}
+nigFit(lg.return)
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2)  
+lines(x,dnig(x,41.6633981699,0.8777504231,
+             0.0288644214,-0.0009912696),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+### LG Display Co., Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+hist(lg.return,prob=T,nclass=50)
+x <- seq(from=-0.10,to=0.15,by=0.0001)
+lines(x,dnorm(x,mean=mean(lg.return),sd(lg.return)),col=2)  
+lines(x,dnig(x,41.6633981699,0.8777504231,0.0288644214,-0.0009912696),col=3)
+```
+
+Parameter estimate in NIG assumption and histogram, graph
+===============================================================
+#### Interpretation
+Refer to the histogram and graph, when NIG assumption,
+it is well fit daily returns compared to the Normal assumption.
+
+Volatility at Risk
+=============================
+### LG Display Co., Ltd
+```{r}
+nig.volatility <- function(alpha,beta,delta,mu) {
+  gamma <- sqrt(alpha^2-beta^2)
+  ans <- sqrt(delta*alpha^2/gamma^3)
+  return(ans)
+}
+vol.lg <- nig.volatility(41.6633981699,0.8777504231,0.0288644214,-0.0009912696)
+std.lg <- sd(lg.return)
+print(c(vol.lg,std.lg))
+```
+
+Volatility at Risk
+=============================
+#### Interpretation
+When use Normal Inverse Gaussian Distribution,
+estimate of volatility is almost similar to the real volatility.
+
+Value-at Risk
+=============================
+### LG Display Co., Ltd
+```{r}
+a1 <- qnig(0.05,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 95% VaR
+a2 <- qnorm(0.05,mean(lg.return),sd(lg.return)) # 95% VaR
+print(c(a1,a2))
+```
+
+Value-at Risk
+=============================
+### LG Display Co., Ltd
+```{r}
+a3 <- qnig(0.005,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99.5% VaR
+a4 <- qnorm(0.005,mean(lg.return),sd(lg.return)) # 99.5% VaR
+print(c(a3,a4))
+```
+
+Value-at Risk
+=============================
+### LG Display Co., Ltd
+```{r}
+a5 <- qnig(0.01,41.6633981699,0.8777504231,0.0288644214,-0.0009912696) # 99% VaR
+a6 <- qnorm(0.01,mean(lg.return),sd(lg.return)) # 99% VaR
+print(c(a5,a6))
+```
+
+Value-at Risk
+=============================
+#### Interpretation
+Refer to the Value-at-Risk, Normal distribution is 
+underestimated risk of returns.
+So we have to analyze daily returns carefully.
+When we analyze daily returns,
+NIG assumptions is better than Normal assumptions.
+
+Conditional Heteroscedastic Model
+==================================
+Suppose that S(t) is asset price.
+
+r(t) = log(S(t))-log(S(t-1)) : log-return or return
+
+r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+
+sigma(t)^2 = Var(r(t) | r(t-1), r(t-2), ...)
+
+= E(r(t)^2 | r(t-1), r(t-2), ...)
+
+Parameter estimate in GARCH(1,1) model and checking residuals.
+-> Plot ACF. -> Box-Ljung test (H0 : Not correlation.)
+
+Generalized Autoregressive Conditional Heteroscedastic Model (GARCH Model)
+==============================================================================
+GARCH(1,1) -->
+
+sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+
+beta(1)*sigma(t-1)^2 (t=1,2,...,T)
+
+We have to check Goodness-of fit of GARCH(1,1) model.
+
+Install package 'tseries' 
+====================================================
+```{r}
+library(tseries)
+```
+
+Fitted GARCH(1,1) model to volatility of data
+===============================================
+```{r, eval=FALSE}
+vol.lg <- garch(lg.return)
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### LG Display Co. Ltd 
+```{r,eval=FALSE}
+vol.lg <- garch(lg.return)
+plot(vol.lg$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.lg$residuals,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+vol.lg.fit <- garch(lg.return)$fitted.values[,1]
+```
+Returns, Estimated volatility and Residuals
+============================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+plot(vol.lg.fit,type="l",main="Estimated volatility")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+vol.lg.res <- garch(lg.return)$residuals
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+plot(vol.lg.res,type="l",main="Residuals")
+```
+
+Returns, Estimated volatility and Residuals
+============================================
+#### Interpretation
+We can check variation of volatility when time goes.
+So we have to use GARCH model to modeling this.
+
+Checking fitted GARCH model
+============================
+### LG Display Co. Ltd
+```{r, eval=FALSE}
+vol.lg <- garch(lg.return)
+summary(vol.lg)
+```
+
+Checking fitted GARCH model
+============================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+vol.lg <- garch(lg.return)
+```
+***
+```{r fig.align='center', echo=FALSE}
+summary(vol.lg)
+```
+
+Checking fitted GARCH model
+============================
+#### Interpretation
+Refer to approximation t-test, we can say estimated parameters are not equal to 0. And in Jarque Bera test, p-value is less than 0.05. That means residuals are not normality. Also in Box-Ljung test, p-value is greater than 0.05. So, GARCH(1,1) is well fitted volatility.
+
+Autocorrelation check for residuals
+=====================================
+```{r, eval=FALSE}
+acf(lg.return)
+acf(lg.return^2)
+acf(vol.lg$residuals[-1])
+acf(vol.lg$residuals[-1]^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+acf(lg.return)
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+acf(lg.return^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+vol.lg.res <- garch(lg.return)$residuals[-1]
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+acf(vol.lg.res)
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+vol.lg.res <- garch(lg.return)$residuals[-1]
+```
+
+Autocorrelation check for residuals
+=====================================
+### LG Display Co. Ltd 
+```{r fig.align='center', echo=FALSE}
+acf(vol.lg.res^2)
+```
+
+Autocorrelation check for residuals
+=====================================
+#### Interpretation
+Refer to the autocorrelation function of residuals, almost residuals are in the confidence interval. So we can say residuals have not autocorrelation. That means GARCH(1,1) model is well fitted volatility.
+
+Modeling daily returns
+=======================
+If r ~ N( 0 , sigma^2 ) , it is not true..
+
+r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+
+e(t) is called random shocks..
+
+GARCH(1,1) -> sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2
+
++ beta(1)*sigma(t-1)^2
+
+Refer to Jarque Bera Test, e(t) is nonnormal~~!!
+
+Checking distribution of epsilon
+=================================
+### LG Display Co. Ltd
+```{r,eval=FALSE}
+vol.lg <- garch(lg.return)
+res.lg <- vol.lg$residuals[-1]
+nigFit(res.lg)
+hist(res.lg,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.52580370,-0.01264153,1.53086941,-0.00903504),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+dat.lg <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.lg$Close
+lg.return <- diff(log(lg))
+res.lg <- garch(lg.return)$residuals[-1]
+```
+
+Checking distribution of epsilon
+=================================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+hist(res.lg,prob=T,nclass=50)
+x <- seq(-4,2,by=0.001)
+lines(x,dnorm(x),col=2)
+lines(x,dnig(x,1.52580370,-0.01264153,1.53086941,-0.00903504),col=3)
+```
+
+Checking distribution of epsilon
+=================================
+#### Interpretation
+Refer to the histogram and graph, when use NIG assumption, residuals from the GARCH(1,1) are well fitted.
+
+Time varying Value-at Risk
+===========================
+P(r(t) <= x ) = 0.01 (Value-at-Risk)
+
+P(sigma(t)*e(t) <=
+
+sigma(t)*y ) = 0.01 (Find y!!)
+
+We have to find y. And product estimated sigma(t) from the GARCH(1,1) model. Let's calculate this and plot it.
+
+Time varying Value-at Risk
+===========================
+### LG Display Co. Ltd
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- garch(lg.return)$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+n <- length(lg.return)
+plot(lg.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Time varying Value-at Risk
+===========================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- garch(lg.return)$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+```
+
+Time varying Value-at Risk
+===========================
+### LG Display Co. Ltd
+```{r fig.align='center', echo=FALSE}
+n <- length(lg.return)
+plot(lg.return,type="l",ylim=c(-0.15,0.15))
+lines(2:n,VaR.95,col=2)
+lines(2:n,VaR.99,col=3)
+lines(2:n,VaR.995,col=4)
+legend("topleft",c("95% VaR","99% VaR","99.5% VaR"),lty=rep(1,3),col=c(2,3,4))
+```
+
+Checking accuracy
+===================
+### LG Display Co. Ltd
+```{r,eval=FALSE}
+vol.lg <- garch(lg.return)
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.05-mean(lg.return[-1] < VaR.N95)),abs(0.05-mean(lg.return[-1] < VaR.95))))
+print(c(abs(0.01-mean(lg.return[-1] < VaR.N99)),abs(0.01-mean(lg.return[-1] < VaR.99))))
+print(c(abs(0.005-mean(lg.return[-1] < VaR.N995)),abs(0.005-mean(lg.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+### LG Display Co. Ltd
+```{r}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.95 <- sigma.t*q.05
+print(c(abs(0.05-mean(lg.return[-1] < VaR.N95)),abs(0.05-mean(lg.return[-1] < VaR.95))))
+```
+
+Checking accuracy
+===================
+### LG Display Co. Ltd
+```{r}
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.99 <- sigma.t*q.01
+print(c(abs(0.01-mean(lg.return[-1] < VaR.N99)),abs(0.01-mean(lg.return[-1] < VaR.99))))
+```
+
+Checking accuracy
+===================
+### LG Display Co. Ltd
+```{r}
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- vol.lg$fitted.values[-1,1]
+VaR.N995 <- sigma.t*qnorm(0.005)
+VaR.995 <- sigma.t*q.005
+print(c(abs(0.005-mean(lg.return[-1] < VaR.N995)),abs(0.005-mean(lg.return[-1] < VaR.995))))
+```
+
+Checking accuracy
+===================
+#### Interpretation
+According to the result, Normal Inverse Gaussian Distribution is better than Normal Distribution when checking Value-at-Risk of daily returns. In addition, Normal distribution is underestimated risk of daily returns.
+
+Backtest Value-at-Risk
+=======================
+Suppose that N is number of 100*(1-p)% VaR violations and T is the total number of observations.
+
+H0 : N ~ B(T,p) vs H1 : not H0
+
+LRT statistic = - 2*log{((1-p)^(T-N))
+*((p)^(N))} + 
+2*log{((1-N/T)^(T-N)
+)*((N/T)^(N))}
+
+-->d (Convergence in distribution) Chi-square distribution with df=1 under H0
+
+(LRT statistic = -2*log(L0/L))
+
+Backtest Value-at-Risk
+=======================
+### Make function for backtest Value-at-Risk
+```{r,eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r,eval=FALSE}
+q.05 <- qnig(0.05,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.01 <- qnig(0.01,1.52580370,-0.01264153,1.53086941,-0.00903504)
+q.005 <- qnig(0.005,1.52580370,-0.01264153,1.53086941,-0.00903504)
+sigma.t <- garch(lg.return)$fitted.values[-1,1]
+VaR.95 <- sigma.t*q.05
+VaR.99 <- sigma.t*q.01
+VaR.995 <- sigma.t*q.005
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (NIG assumption)
+========================================
+#### Interpretation
+Refer to the backtest in NIG assumption, p-value is greater than 0.05. So we can conclude Normal Inverse Gaussian Distribution is well fitted daily returns.
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r,eval=FALSE}
+sigma.t <- garch(lg.return)$fitted.values[-1,1]
+VaR.N95 <- sigma.t*qnorm(0.05)
+VaR.N99 <- sigma.t*qnorm(0.01)
+VaR.N995 <- sigma.t*qnorm(0.005)
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N95),length(lg.return[-1]),0.05)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N99),length(lg.return[-1]),0.01)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, eval=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+### LG Display Co. Ltd 
+```{r, echo=FALSE}
+backtest.VaR <- function(N.violations, N.total, p) {
+  p.hat <- N.violations/N.total
+  LR <- -2*log((1-p)^(N.total-N.violations)*p^N.violations)+2*log((1-p.hat)^(N.total-N.violations)*p.hat^N.violations)
+  p.value <- 1-pchisq(LR,1)
+  return(list(excess.prob=p.hat, LR=LR, p.value=p.value))
+}
+backtest.VaR(sum(lg.return[-1] < VaR.N995),length(lg.return[-1]),0.005)
+```
+
+Backtest Value-at-Risk (Normality assumption)
+===============================================
+#### Interpretation
+Refer to the backtest result, in general, p-value is not always greater than 0.05. So it is wrong method to use Normal Distribution when analyze daily returns. Be careful!!

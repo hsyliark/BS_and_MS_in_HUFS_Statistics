@@ -1,0 +1,4 @@
+2: In if (lambda <= 0) stop("Lambda is non-positive value. Please insert positive value of lambda.") :
+  the condition has length > 1 and only the first element will be used
+3: In lambda * W.inverse :
+  longer object length is not a multiple of shorter object length

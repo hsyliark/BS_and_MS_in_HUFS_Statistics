@@ -1,0 +1,27 @@
+> german <- read.csv("C:/Users/hufs/Desktop/ºñ¸ğ¼ö/germancredit.csv",sep=",",header=T)> View(german)
+> install.packages("SemiPar") ; library(SemiPar)
+
+> glm.german <- glm(Default~checkingstatus1+duration+savings+installment+others+otherplans+housing,data=german,family="binomial")
+> spm.german <- spm(Default~checkingstatus1+f(duration)+history+savings+employ+installment+others+property+otherplans+housing,family="binomial")
+> summary(glm.german)
+> summary(spm.german)
+
+> pre.glm <- german[,c(2,3,7,9,11,15,16)]
+> head(pre.glm)
+> pre1 <- predict(glm.german,pre.glm,type="response")
+> res1 <- rep(0,1000)
+> res1[pre1>=0.5] <- 1
+> table(res1)
+> test1 <- rep(0,1000)
+> test1[german$Default==res1] <- 1
+> table(test1)
+
+> pre.spm <- german[,c(2,3,4,7,8,9,11,13,15,16)]
+> head(pre.spm)
+> lgt <- predict(spm.german,pre.spm)
+> pre2 <- exp(lgt)/(1+exp(lgt))
+> res2 <- rep(0,1000)
+> table(res2)
+> test2 <- rep(0,1000)
+> test2[german$Default==res2] <- 1
+> table(test2)

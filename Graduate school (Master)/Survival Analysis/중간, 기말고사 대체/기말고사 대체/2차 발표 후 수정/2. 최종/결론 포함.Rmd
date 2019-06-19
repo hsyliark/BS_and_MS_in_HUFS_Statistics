@@ -1,0 +1,468 @@
+---
+title: "Survival Analysis"
+output:
+  html_document:
+    toc: yes
+---
+
+
+## 1. Load Packages
+
+```{r, message = FALSE, warning=FALSE}
+library(survival)
+library(survminer)
+library(stringr)
+library(dplyr)
+library(MASS)
+library(lmtest)
+```
+
+
+## 2. Data
+
+* pharynx : 구강내 악성종양이 있는 환자들을 연구한 기록을 나타낸 데이터이다.
+
+```{r, message = FALSE, warning=FALSE}
+pharynx <- read.csv('pharynx.csv', header=T)
+
+str(pharynx)
+```
+
+* pharynx data는 13개의 변수와 195개의 관측치로 구성되어 있음
+* `CASE` : 사례 id (각 데이터 또는 환자의 id로 봐도 무방)
+* `INST` : 참여 기관 (1~6까지 6개의 기관이 있음)
+* `SEX` : 환자의 성별
+       + 1 : 남자
+       + 2 : 여자
+* `TX` : 치료
+       + 1 : 방사선치료 + a
+       + 2 : 방사선치료
+* `GRADE` : 악성종양이 숙주세포와 유사한 정도
+       + 1 : 매우
+       + 2 : 보통
+       + 3 : 저조
+       + 9 : 결측치
+* `AGE` : 진단 당시의 나이
+* `COND` : 진단 당시의 건강 상태
+       + 1 : 일상생활에 지장없음
+       + 2 : 일상생활이 다소 제한됨
+       + 3 : 자기 관리 및 도움 필요
+       + 4 : 침대 위
+       + 9 : 결측치
+* `SITE` : 부위(위치)
+       + 1 = faucial arch
+       + 2 = tonsillar fossa 
+       + 3 = posterior pillar
+       + 4 = pharyngeal tongue
+       + 5 = posterior wall
+* `T_STAGE` : 종양 크기에 따른 단계
+       + 1 = 최대 직경 2cm 이하의 원발 종양
+       + 2 = 최대 직경 2~4cm의 원발 종양
+       + 3 = 4cm 이상의 원발 종양
+       + 4 = 거대 침습성 종양(-침습성증식 : 분열로 증식하는 종양세포가 주위의 고유조직세포사이에 퍼져가는데 이때 정상조직을 파괴하면서 확대하는 현상)
+* `N_STAGE` : 암세포의 전이 정도에 따른 단계
+       + 0 = 림프절에 전이한 임상적 증거 없음
+       + 1 = 직경 3cm 이하의 양성 노드 1개 존재, 고정되지 않음
+       + 2 = 직경 3cm 이상의 양성 노드 1개 존재, 고정되지 않음
+       + 3 = 여러 개의 양성 노드 또는 고정된 양성 노드 존재
+* `ENTRY_DT` : 연구 시작 날짜: Day of year and year, dddyy
+* `STATUS` : censoring 여부
+       + 0 = censored
+       + 1 = dead
+* `TIME` : 진단 당시부터의 생존 시간
+
+<br>     
+
+## 3. The Purpose of Analysis
+
+* 구강내 악성종양이 있는 환자들의 생존시간 시간을 바탕으로 Cox PH(Proportional Hazard) 모형과 AFT(Accelerated Failure Time) 모형 각각 적합 및 비교
+
+<br>
+
+## 4. Data Exploration
+
+* Data를 분석하기 전 데이터의 구성을 살펴보기 위해 Data Exploration를 진행함
+
+<br>
+
+### 결측치(NA)
+
+```{r}
+pharynx <- filter(pharynx, pharynx$GRADE != 9,  pharynx$COND != 0, pharynx$COND != 9)  # missing value
+str(pharynx)
+```
+
+* 결측치가 있는 데이터는 분석에서 제외하여, 총 192개의 관측치로 구성된다.
+
+<br>
+
+### Event(사망) 비율 탐색
+
+```{r}
+data.frame(N = nrow(pharynx), Event = sum(pharynx$STATUS==1), Censored = sum(pharynx$STATUS==0), 
+           Ratio = round(sum(pharynx$STATUS==1)/nrow(pharynx), digits = 2))
+```
+
+* 전체 192개의 관측치 중 Event(사망)는 139개가 발생하였고, 53개는 Censored되어 전체 데이터 중 Event는 약 72% 정도 발생하였다.
+
+<br>
+
+### Kaplan Meier Curve
+
+* 추후 Cox PH 및 AFT 모형 적합시 그룹간 Curve의 차이가 비교적 뚜렷하게 존재하는 편이 더 좋은 결과를 도출하고 해석을 용이하게 할 수 있다.
+* 범주형으로 구성되어 있는 설명변수의 경우 Kaplan Meier Curve와 범주의 의미 및 순서를 고려하여 새로운 범주를 부여 후 분석을 진행하였다.
+* 새로운 범주를 부여한 설명변수 : `GRADE`, `COND`, `T_STAGE`, `N_STAGE`
+* 기존 범주를 이용한 설명변수
+    + `INST`, `SITE` : 새로운 범주 부여시 의미 해석이 난해하여 범주를 재구성하지 않음.
+    + `SEX`, `TX` : 기존 범주가 2개이므로 범주 재구성에 대한 필요성 없음.
+
+<br>
+
+#### `GRADE(악성종양과 숙주세포의 유사정도)` 
+
+* GRADE의 Kaplan Meier Curve
+
+```{r}
+attach(pharynx)
+Y <- Surv(TIME, STATUS) 
+
+KM_GRADE = survfit(Y ~ GRADE)
+ggsurvplot(KM_GRADE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '숙주세포와의 유사도 :', legend.labs = c('매우', '보통', '저조'), pval = T)
+survdiff(Y ~ GRADE)
+```
+
+* 악성종양과 숙주세포간 유사성이 저조한 경우의 Kaplan Meier Curve가 타그룹의 Curve에 비해 비교적 뚜렷하게 다른 것을 확인할 수 있다.
+* `GRADE` 범주의 의미와 순서를 고려하여 악성종양이 숙주세포와 보통 이상 유사하면 1(유사), 그렇지 않으면 2(유사하지 않음)으로 재구성하여 Kaplan Meier Curve를 다시 그린 결과는 다음과 같다.
+
+```{r}
+GRADE[GRADE <= 2] <- 1
+GRADE[GRADE == 3] <- 2
+
+KM_GRADE = survfit(Y ~ GRADE)
+ggsurvplot(KM_GRADE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '숙주세포와의 유사 여부 :', legend.labs = c('유사', '유사하지 않음'), pval = T)
+survdiff(Y ~ GRADE)
+```
+
+* 새로운 범주로 구성한 결과 신뢰구간을 포함한 Kaplan Meier Curve가 겹치는 부분이 거의 없다.
+* 또한, p-value가 매우 유의하다.
+* 따라서 두 그룹의 Kaplan Meier Curve에 서로 차이가 있다.
+* 추후 분석시 기존 `GRADE(범주 4개)` 대신 범주 2개로 구성된 현재의 `GRADE`를 활용한다.
+
+<br>
+
+#### `COND(진단 당시의 건강상태)`
+
+* `COND`의 Kaplan Meier Curve
+
+```{r}
+KM_COND = survfit(Y ~ COND)
+ggsurvplot(KM_COND, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('일상생활 지장 없음', '다소 제한', '자기관리 및 도움 필요', '침대 위'), pval = T)
+survdiff(Y ~ COND)
+```
+
+* 환자의 건강상태가 일상생활에 지장이 없는 경우의 Kaplan Meier Curve가 다소 제한된 경우의 Curve에 비해 비교적 뚜렷하게 다른 것을 확인할 수 있다.
+* 나머지 그룹(자기관리 및 도움 필요, 침대 위)의 경우 데이터가 부족하여 그래프상에서 위와같은 형태로 나타났다.
+* 어느 한 범주라도 데이터가 매우 부족하면 p-value에 큰 영향을 주어 결과 해석이 달라질 수 있다.
+* `COND` 범주의 의미와 순서를 고려하여 일상생활에 지장이 없으면 1, 지장이 있으면(나머지 그룹 모두) 2로 재구성하여 Kaplan Meier Curve를 다시 그린 결과는 다음과 같다.
+
+```{r}
+COND[COND == 1] <- 1
+COND[COND >= 2] <- 2
+KM_COND = survfit(Y ~ COND)
+ggsurvplot(KM_COND, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '건강 상태 :', legend.labs = c('일상생활 지장 없음', '일상생활 지장 있음'), pval=T)
+survdiff(Y ~ COND)
+```
+
+* 새로운 범주로 구성한 결과 신뢰구간을 포함한 Kaplan Meier Curve가 겹치는 부분이 거의 없다.
+* 또한, p-value가 매우 유의하다.
+* 따라서 두 그룹의 Kaplan Meier Curve에 서로 차이가 있다
+* 추후 분석시 기존 `COND(범주 4개)` 대신 범주 2개로 구성된 현재의 `COND`를 활용한다.
+
+<br>
+
+#### `T_STAGE(종양의 크기)`
+
+* `T_STAGE`의 Kaplan Meier Curve
+
+```{r}
+KM_T_STAGE = survfit(Y ~ T_STAGE)
+ggsurvplot(KM_T_STAGE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '종양의 크기 :', legend.labs = c('지름 2cm 미만', '지름 2~4cm', '지름 4cm 이상', '거대 침습성'), pval=T)
+survdiff(Y ~ T_STAGE)
+```
+
+* p-value는 유의하나 종양의 크기에 따라 그룹별 신뢰구간을 포함한 Kaplan Meier Curve의 차이가 크게 존재하지 않는 것처럼 보인다.
+* 종양의 지름 크기가 2cm 미만인 경우 데이터가 부족하여 위와같이 신뢰구간의 폭이 매우 넓은 형태로 나타났다.
+* 어느 한 범주라도 데이터가 매우 부족하면 p-value에 큰 영향을 주어 결과 해석이 달라질 수 있다.
+* `T_STAGE` 범주의 의미와 순서를 고려하여 거대 침습성 종양이 없으면 1, 있으면 2로 재구성하여 Kaplan Meier Curve를 다시 그린 결과는 다음과 같다.
+
+```{r}
+T_STAGE[T_STAGE <= 3] <- 1
+T_STAGE[T_STAGE == 4] <- 2
+
+KM_T_STAGE = survfit(Y ~ T_STAGE)
+ggsurvplot(KM_T_STAGE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '거대 침습성 종양 존재유무 :', legend.labs = c('존재하지 않음', '존재'), pval=T)
+survdiff(Y ~ T_STAGE)
+```
+
+* 새로운 범주로 구성한 결과 신뢰구간을 포함한 Kaplan Meier Curve가 겹치는 부분이 거의 없다.
+* 또한, p-value가 매우 유의하다.
+* 따라서 두 그룹의 Kaplan Meier Curve에 서로 차이가 있다.
+* 추후 분석시 기존 `T_STAGE(범주 4개)` 대신 범주 2개로 구성된 현재의 `T_STAGE`를 활용한다.
+
+<br>
+
+#### `N_STAGE(암세포의 전이 정도)`
+
+* `N_STAGE`의 Kaplan Meier Curve
+
+```{r}
+KM_N_stage <- survfit(Y~N_STAGE)
+ggsurvplot(KM_N_stage, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '전이의 정도 :', legend.labs = c('임상적 증거 없음', '단일 양성노드(≤3cm, not fixed)', '단일 양성노드(>3cm, not fixed)', '다수 양성노드 또는 fixed'), pval=T)
+survdiff(Y ~ N_STAGE)
+```
+
+* 위 `T_STAGE`의 결과와 유사하게 p-value는 유의하나 암세포의 전이 정도에 따라 그룹별 신뢰구간을 포함한 Kaplan Meier Curve의 차이가 크게 존재하지 않는 것처럼 보인다.
+* 그룹간 차이를 보다 더 명확히 하기 위해 `N_STAGE` 범주의 의미와 순서를 고려하여 다수 또는 고정된 양성노드가 없으면 1, 있으면 2로 재구성하였다.
+
+```{r}
+N_STAGE[N_STAGE <= 2] <- 1
+N_STAGE[N_STAGE == 3] <- 2
+KM_N_stage <- survfit(Y~N_STAGE)
+ggsurvplot(KM_N_stage, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '다수 또는 고정된 양성노드 존재유무 :', legend.labs = c('존재하지 않음', '존재'), pval=T)
+survdiff(Y ~ N_STAGE)
+```
+
+* 새로운 범주로 구성한 결과 신뢰구간을 포함한 Kaplan Meier Curve가 겹치는 부분이 거의 없다.
+* 또한, p-value가 매우 유의하다.
+* 따라서 두 그룹의 Kaplan Meier Curve는 서로 차이가 있다.
+* 추후 분석시 기존 `N_STAGE(범주 4개)` 대신 범주 2개로 구성된 현재의 `N_STAGE`를 활용한다.
+
+<br>
+<br>
+
+## 5. Select Variable
+
+* COX Model을 적용하기 전 `TIME(생존시간)` 에 많은 영향을 주는 변수를 선정한다.
+* 이때, __Stepwise__ 방법을 이용하는데 이 중 `CASE`, `ENTRY_DT`, `STATUS`는 설명변수로 의미가 없으므로 제외한다.
+
+```{r}
+ph <- coxph(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE))
+stepAIC(ph, direction = "both")
+```
+
+* AIC가 최소일 때의 Model을 최종적인 모형으로 출력함.
+* 선택된 설명변수는 다음과 같다.
+    + `SEX`, `GRADE`, `COND`, `T_STAGE`, `N_STAGE`
+    + 여기서, `SEX`는 Kaplan Meier Curve를 그려보았을 때 큰 차이가 없으므로 제외한다.
+
+```{r}
+KM_SEX <- survfit(Y~SEX)
+ggsurvplot(KM_SEX, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '성별 :', legend.labs = c('남성', '여성'), pval=T)
+survdiff(Y ~ SEX)
+```
+
+* 즉, 최종적인 변수는 다음과 같다.
+    + `GRADE`, `COND`, `T_STAGE`, `N_STAGE`
+
+<br>
+
+## 6. COX Model
+
+* 선택된 설명변수로 COX Model을 생성하고, COX PH Assumption을 만족하는지 검정한다.
+
+```{r}
+ph <- coxph(Y ~  factor(GRADE) + factor(COND) + factor(T_STAGE) + factor(N_STAGE))
+summary(ph)
+cox.zph(ph,transform=rank)
+```
+
+* 그 결과 위의 Model은 COX PH Assumption을 만족하지 않는다. 
+* 그 원인을 살펴보았을 때 다른 설명변수는 PH Assumption을 만족하지만 `COND` 설명변수가 PH Assumption을 만족하지 않기 때문이다.
+* 따라서, `COND`는 층화변수로 설정하고 Cox Model을 적용한다.
+
+<br>
+
+```{r}
+model1 <- coxph(Y ~ factor(GRADE) + strata(factor(COND)) + factor(T_STAGE) + factor(N_STAGE))
+cox.zph(model1,transform=rank)
+summary(model1)
+```
+
+* 그 결과 PH Assumption을 만족하는 것을 확인할 수 있다.
+* 또한 Cox Model의 Summary를 살펴보면 다음과 같다.
+* 악성종양과 숙주세포가 서로 유사하면(`GRADE`=1), 유사하지 않을 때보다 hazard가 exp(0.4162), 약 1.52배이다.
+* 거대 침습성 종양이 존재하면(`T_STAGE`=2), 존재하지 않을 때보다 hazard가 exp(0.4621), 약 1.59배이다.
+* 다수 또는 고정된 양성노드가 존재하면(`N_STAGE`=2), 존재하지 않을 때보다 hazard가 exp(0.3986), 약 1.49배이다.
+* 환자의 건강상태(`COND`)는 층화하였기 때문에 특정그룹에 대한 hazard를 표현하기 어렵다. 따라서 다른 설명변수들의 조건이 동일할 때 건강상태에 따른 차이를 아래의 plot으로 알아보았다.
+* 설명변수 조건 설정 : 악성종양이 숙주세포와 유사하고, 거대 침윤성 종양 및 2개 이상의 양성노드를 가진 환자의 경우 다음과 같은 패턴을 확인할 수 있다.
+
+```{r}
+pattern1 <- data.frame(GRADE = factor(1), T_STAGE = factor(2), N_STAGE = factor(2))
+ggsurvplot(survfit(model1, newdata=pattern1), conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '일상생활 지장 유무', legend.labs = c('지장 없음', '지장 있음'), main='Survival curves for COND')
+```
+
+* 설명변수의 조건을 동일하게 설정한 상태에서 `COND`를 층화하였을 때, 전시점에서 일상생활에 지장이 없는 그룹의 생존확률이 지장있는 그룹보다 항상 높다는 것을 확인할 수 있다.
+
+<br>
+
+## 7. AFT Model
+
+### The Assumption of Distribution
+
+* AFT Model을 적용하기 전 분포를 가정한다.
+    + 분포는 weibull, exponential, lognormal, loglogistic 적용
+    + AIC가 최소인 분포를 선정
+    + AIC = -2*Loglikihood + 2(q + 2 + k) 이용
+       + q : 공변량 수
+       + k : 0(exponential), 1(weibull, loglogistic, lognormal), 2(gamma)
+
+```{r}
+# exponential
+AFT_model_exponential <- survreg(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE), dist = "exponential")
+
+# weibull
+AFT_model_weibull <- survreg(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE), dist = "weibull")
+
+# lognormal
+AFT_model_lognormal <- survreg(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE), dist = "lognormal")
+
+# loglogistic
+AFT_model_loglogistic <- survreg(Y ~ factor(INST) + factor(SEX) + factor(TX) + factor(GRADE) + AGE + factor(COND) + factor(SITE) + factor(T_STAGE) + factor(N_STAGE), dist = "loglogistic")
+
+# AIC
+AIC_weibull <- -2*AFT_model_weibull$loglik[2] + 2*(9 + 2 + 1)
+AIC_exponential <- -2*AFT_model_exponential$loglik[2] + 2*(9 + 2 + 0)
+AIC_lognormal <- -2*AFT_model_lognormal$loglik[2] + 2*(9 + 2 + 1)
+AIC_loglogistic <- -2*AFT_model_loglogistic$loglik[2] + 2*(9 + 2 + 1)
+data.frame(AIC_weibull=AIC_weibull, AIC_exponential=AIC_exponential, AIC_lognormal=AIC_lognormal, AIC_loglogistic=AIC_loglogistic)
+```
+
+* AIC가 최소인 분포로 log-logistic 이 2064.996으로 가장 작았으므로 AFT 모형 적용 시 log-logistic 분포를 선정한다.
+
+<br>
+
+### Select Variable
+
+* AFT 모형구축 과정에 관한 방법은 아래의 그림과 같다.
+
+![](C:\Users\Seonhwa\Desktop\Dropbox\대학원\생존분석(통계학 세미나)\중간, 기말고사 대체\기말고사 대체\2차 발표 준비\AFT 모형 변수 선정 과정.PNG)
+
+* 위의 그림은 __AFT 생존분석 기법을 이용한 고속도로 교통사고 지속시간 예측모형(2007, 정연식 외 2명)__ 논문을 참고하였다.
+
+* 전체 설명변수에 대해서 Log Rank Test한 결과,
+    + `GRADE`, `COND`, `T_STAGE`, `N_STAGE` 가 p-value < 0.2를 만족하므로 AFT 모형 적합에 포함시킨다.
+    + 유의하지 않은 설명변수(`SEX`, `TX`, `INST`, `SITE`, `AGE`)애 대해 LRT(likelihood Ratio Test)를 실시한다.
+
+```{r}
+## Full Model
+full_AFT_model <- survreg(Y ~ factor(SEX) + factor(TX) + factor(SITE) + AGE + factor(COND) + factor(T_STAGE) + factor(N_STAGE), dist = "loglogistic")
+
+## Reduced Model
+reduced_AFT_model <- survreg(Y ~ factor(GRADE) + factor(COND) + factor(T_STAGE) + factor(N_STAGE), dist = "loglogistic")
+
+lrtest(full_AFT_model, reduced_AFT_model)
+```
+
+* 전체 설명변수(Full Model)와 Log Rank Test가 유의한 설명변수(Reduced Model)의 LRT Test결과 p-value가 0.8653으로 귀무가설을 기각하지 못한다.
+    + 따라서, Reduced Model을 선택한다.
+    + 이 과정에서 `SEX`와 `GRADE`, `COND`, `T_STAGE`, `N_STAGE`인 Full Model과 Reduced Model을 검정했을 때 귀무가설을 기각한다.
+    + 그러나, `SEX`는 Kaplan Meier Curve를 그렸을 때 큰 차이가 없었으므로 `SEX`는 제거하여 최종적인 Model을 구성한다.
+
+<br>
+
+### proportional odds assumption
+
+* 위에서 구성한 AFT model에서 각 공변량에 대해 비례 odds 가정을 만족하는지 확인하면 다음과 같다.
+
+```{r}
+plot(log(KM_GRADE$time), log(KM_GRADE$surv/(1-KM_GRADE$surv)), xlab='log Time', ylab='log odds', main='proportional odds assumption for GRADE')
+```
+
+* `GRADE(악성종양과 숙주세포와의 유사도)`에서는 GRADE=1에 대한 plot은 직선 형태를 보이지만, GRADE=2에 대해서는 데이터가 다소 부족하여 plot 형태를 판단하기 어렵다. 따라서, 데이터가 더 많이 충족될 때 비례 odds 가정을 만족하는지 보다 더 정확하게 확인할 수 있을 것이다.
+
+<br>
+
+```{r}
+plot(log(KM_COND$time), log(KM_COND$surv/(1-KM_COND$surv)), xlab='log Time', ylab='log odds', main='proportional odds assumption for COND')
+```
+
+* `COND(환자의 건강상태)`에서는 두 그룹의 plot이 비교적 직선 형태를 띄고, 서로 평행한 것을 보아 비례 odds 가정을 만족한다고 볼 수 있다.
+
+<br>
+
+```{r}
+plot(log(KM_T_STAGE$time), log(KM_T_STAGE$surv/(1-KM_T_STAGE$surv)), xlab='log Time', ylab='log odds', main='proportional odds assumption for T STAGE')
+```
+
+* `T_STAGE(종양의 크기)`에서 또한 두 그룹의 plot이 비교적 직선 형태를 띄고, 서로 평행한 것을 보아 비례 odds 가정을 만족한다고 볼 수 있다.
+
+<br>
+
+```{r}
+plot(log(KM_N_stage$time), log(KM_N_stage$surv/(1-KM_N_stage$surv)), xlab='log Time', ylab='log odds', main='proportional odds assumption for N STAGE')
+```
+
+* `N_STAGE(암세포의 전이 정도)` 역시 두 그룹의 plot이 비교적 직선 형태를 띄고, 서로 평행한 것을 보아 비례 odds 가정을 만족한다고 볼 수 있다.
+
+<br>
+
+### AFT Model
+```{r}
+(reduced_AFT_model <- survreg(Y ~ factor(GRADE) + factor(COND) + factor(T_STAGE) + factor(N_STAGE), dist = "loglogistic"))
+```
+
+* 따라서, 최종적인 설명변수는 다음과 같다. 이는 Cox PH 모형에 쓰인 변수들과 동일하다.
+    + `GRADE`, `COND`, `T_STAGE`, `N_STAGE`
+* 이를 바탕으로 해석하면 다음과 같다.
+* % 환산 : 100*(exp(beta)-1)을 하여 양수가 나오면 생존시간이 길어지는 것으로, 음수가 나오면 단축되는 것으로 해석한다.
+     + 악성종양과 숙주세포가 서로 유사하지 않으면(`GRADE`=2), 유사할 때보다 생존시간이 exp(0.271), 약 1.31배이다. 즉, 생존시간이 31% 정도 길어진다.
+     + 환자의 건강상태가 일상생활에 지장이 있으면(`COND`=2), 지장없을 때보다 생존시간이 exp(-1.019), 약 0.36배이다.(환자의 건강상태가 일상생활에 지장이 없으면, 지장있을 때보다 생존시간이 exp(1.019), 약 2.77배이다.) 즉, 생존시간이 64% 정도 짧아진다.
+     + 거대 침습성 종양이 존재하면(`T_STAGE`=2), 존재하지 않을 때보다 생존시간이 exp(-0.49), 약 0.61배이다.(거대 침습성 종양이 존재하지 않으면, 존재할 때보다 생존시간이 exp(0.49), 약 1.64배이다.) 즉, 생존시간이 39% 정도 감소한다.
+     + 다수 또는 고정된 양성노드가 존재하면(`N_STAGE`=2), 존재하지 않을 때보다 생존시간이 exp(-0.369), 약 0.69배이다.(거대 침습성 종양이 존재하지 않으면, 존재할 때보다 생존시간이 exp(0.369), 약 1.45배이다.) 즉, 생존시간이 31% 정도 감소한다.
+
+<br>
+
+## 8. 결론
+* Cox PH 및 AFT 모형을 이용할 때, 큰 맥락으로 판단할 경우 서로 다른 그룹에 대한 비교, 해석시 비슷한 결과가 도출된다는 것을 알 수 있다.
+* 그러나 세부적으로 판단할 경우 hazard 개념을 이용한 Cox PH 모형보다는 __생존시간을 이용한 AFT 모형이 해석에 있어서 더 직관적이고 이해하기 쉽다.__
+
+<br>
+
+## Appendix
+
+#### `INST(연구기관)의 Kaplan Meier Curve` 
+
+```{r}
+KM_INST = survfit(Y ~ INST)
+ggsurvplot(KM_INST, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '연구기관 :', legend.labs = c(1:6), pval = T)
+survdiff(Y ~ INST)
+```
+
+<br>
+
+#### `TX(치료요법)의 Kaplan Meier Curve` 
+
+```{r}
+KM_TX = survfit(Y ~ TX)
+ggsurvplot(KM_TX, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '치료요법', legend.lab = c('방사선+a', '방사선'), pval = T)
+survdiff(Y ~ TX)
+```
+
+<br>
+
+#### `SITE(종양의 부위)의 Kaplan Meier Curve` 
+
+```{r}
+KM_SITE = survfit(Y ~ SITE)
+ggsurvplot(KM_SITE, conf.int = T, break.time.by = 250, linetype = 'strata', legend.title = '부위', legend.lab = c('faucial arch', 'tonsillar fossa', 'pharyngeal tongue'), pval = T)
+survdiff(Y ~ SITE)
+```
+
+<br>
+
+----------
+
+* 한국외대 통계학과
+* 김종영, 김선화, 김준영
+
+----------

@@ -1,0 +1,189 @@
+Assignment (Due to April. 9th. 2014)
+========================================================
+200903877 황 성 윤
+-------------------------
+GARCH model (Generalized Autoregressive Conditional Heteroscedastic Model)
+---------------------------------------------------------------------------
+
+### 5개 기업에 대한 수익률 생성 및 해당 패키지 설치
+
+```{r fig.width=13, fig.height=10}
+dat.1 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv",sep=",",header=T)
+samsung <- dat.1$Close
+samsung.return <- diff(log(samsung))
+dat.2 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv",sep=",",header=T)
+kt <- dat.2$Close
+kt.return <- diff(log(kt))
+dat.3 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv",sep=",",header=T)
+lg <- dat.3$Close
+lg.return <- diff(log(lg)) 
+dat.4 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv",sep=",",header=T)
+bmw <- dat.4$Close
+bmw.return <- diff(log(bmw)) 
+dat.5 <- read.csv("C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv",sep=",",header=T)
+apple <- dat.5$Close
+apple.return <- diff(log(apple)) 
+install.packages("tseries")
+library(tseries)
+```
+
+
+## Finance time series model
+
+### Conditional Heteroscedastic Model
+### S(t) : asset price
+### r(t) = log(S(t))-log(S(t-1)) : log-return or return
+### r(t) = sigma(t)*e(t) , e(t) ~ WN(0,1) (e : epsilon)
+### sigma(t)^2 = Var(r(t) | r(t-1), r(t-2), ...)
+### = E(r(t)^2 | r(t-1), r(t-2), ...)
+### GARCH 모형에서 모수를 추정 후 잔차를 이용하여 검진실시.
+### (잔차에 대한 acf 그림을 그린다.
+### 그리고 Box-Ljung test 실시. H0 : 상관관계 없음.)
+
+### Generalized Autoregressive Conditional Heteroscedastic Model
+### (GARCH Model) 
+### (자기회귀 & 이분산성 (과거의 기록을 조건부로 이용))
+### Engle -> Bollerslev
+### Volatility 를 모형화하기 위한 model
+
+### ARCH(p) --> 
+### sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+### alpha(2)*r(t-2)^2 + ... + alpha(p)*r(t-p)^2 (t=1,2,...,T)
+
+### GARCH(p,q) -->
+### sigma(t)^2 = alpha(0) + alpha(1)*r(t-1)^2 +
+### alpha(2)*r(t-2)^2 + ... + alpha(p)*r(t-p)^2 +
+### beta(1)*sigma(t-1)^2 + beta(2)*sigma(t-2)^2 +
+### beta(q)*sigma(t-q)^2 (t=1,2,...,T)
+### 일반적으로 GARCH(1,1) 으로 충분하다고 알려져있음.
+
+
+### 수익률, 자료에 적합된 GARCH model에 의해 추정된 변동성 및 잔차에 관한 그래프 (여기에서는 GARCH(1,1) 모형을 가정하고 분석할 것임.)
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+vol.samsung <- garch(samsung.return)
+par(mfrow=c(3,1))
+plot(samsung.return,type="l",main="Samsung returns")
+plot(vol.samsung$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.samsung$residuals,type="l",main="Residuals")
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+vol.kt <- garch(kt.return)
+par(mfrow=c(3,1))
+plot(kt.return,type="l",main="KT returns")
+plot(vol.kt$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.kt$residuals,type="l",main="Residuals")
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+vol.lg <- garch(lg.return)
+par(mfrow=c(3,1))
+plot(lg.return,type="l",main="LG returns")
+plot(vol.lg$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.lg$residuals,type="l",main="Residuals")
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+vol.bmw <- garch(bmw.return)
+par(mfrow=c(3,1))
+plot(bmw.return,type="l",main="BMW returns")
+plot(vol.bmw$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.bmw$residuals,type="l",main="Residuals")
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+vol.apple <- garch(apple.return)
+par(mfrow=c(3,1))
+plot(apple.return,type="l",main="Apple returns")
+plot(vol.apple$fitted.values[,1],type="l",main="Estimated volatility")
+plot(vol.apple$residuals,type="l",main="Residuals")
+```
+
+#### Summary interpretation
+공통적으로 수익률의 변동성이 시간에 따라 달라지는 것으로 보아 GARCH model을 적합시켜 분석해볼 필요가 있겠다.
+
+### 적합된 GARCH model에 대한 검진(GARCH(1,1))
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+summary(vol.samsung)
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+summary(vol.kt)
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+summary(vol.lg)
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+summary(vol.bmw)
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+summary(vol.apple)
+```
+
+#### Summary interpretation
+5개의 자료 모두 approximation t-test에 의하면 추정된 모수가 모두 유의한 것으로 나타났고 Jarque Bera test 결과 유의확률이 0.05본다 매우 작은 값으로 나타나므로 변동성을 분석할 때 정규분포를 가정하는 것에는 무리가 있다고 할 수 있다. 또한 Box-Ljung test 결과 유의확률이 0.05보다  큰 값으로 나타나고 있으므로 모형이 자료를 잘 적합시키고 있다고 판단할 수 있겠다.
+
+### 잔차의 ACF를 이용한 모형의 검진
+
+#### 1. Samsung eletronics 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(samsung.return)
+acf(samsung.return^2)
+acf(vol.samsung$residuals[-1])
+acf(vol.samsung$residuals[-1]^2)
+```
+
+#### 2. KT corporation
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(kt.return)
+acf(kt.return^2)
+acf(vol.kt$residuals[-1])
+acf(vol.kt$residuals[-1]^2)
+```
+
+#### 3. LG Display Co. Ltd 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(lg.return)
+acf(lg.return^2)
+acf(vol.lg$residuals[-1])
+acf(vol.lg$residuals[-1]^2)
+```
+
+#### 4. BMW 
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(bmw.return)
+acf(bmw.return^2)
+acf(vol.bmw$residuals[-1])
+acf(vol.bmw$residuals[-1]^2)
+```
+
+#### 5. Apple Inc
+```{r fig.width=13, fig.height=10}
+par(mfrow=c(2,2))
+acf(apple.return)
+acf(apple.return^2)
+acf(vol.apple$residuals[-1])
+acf(vol.apple$residuals[-1]^2)
+```
+
+#### Summary interpretation
+5개의 기업 모두 공통적으로 잔차에 대한 ACF와 잔차를 제곱한 값에 대한 ACF가 대부분 신뢰구간 안에 들어가 있으므로 모형적합이 잘 되었다고 말할 수 있다. 그리고 수익률에 대한 ACF를 통하여 수익률 자체를 분석하는 것 보다는 그것을 제곱하여 얻어진 값들을 분석하는 것이 더 타당하다고 할 수 있겠다.

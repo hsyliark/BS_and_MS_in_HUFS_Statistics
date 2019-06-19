@@ -1,0 +1,2853 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Assignment (Due to April. 2nd. 2014)</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>Assignment (Due to April. 2nd. 2014)</h1>
+
+<h2>200903877 황 성 윤</h2>
+
+<h2>Genelarized Hyperbolic Distribution (Normal-Inverse Gaussian Distribution)</h2>
+
+<h3>5개 기업에 대한 수익률 생성, 변동성 구하는 함수 작성 및 해당 패키지 설치</h3>
+
+<pre><code class="r">dat.1 &lt;- read.csv(&quot;C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Samsung eletronics/samsung_daily.csv&quot;, 
+    sep = &quot;,&quot;, header = T)
+samsung &lt;- dat.1$Close
+samsung.return &lt;- diff(log(samsung))
+dat.2 &lt;- read.csv(&quot;C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/KT Corporation/kt_daily.csv&quot;, 
+    sep = &quot;,&quot;, header = T)
+kt &lt;- dat.2$Close
+kt.return &lt;- diff(log(kt))
+dat.3 &lt;- read.csv(&quot;C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/LG Display Co., Ltd/lg_daily.csv&quot;, 
+    sep = &quot;,&quot;, header = T)
+lg &lt;- dat.3$Close
+lg.return &lt;- diff(log(lg))
+dat.4 &lt;- read.csv(&quot;C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/BMW/BMW_daily.csv&quot;, 
+    sep = &quot;,&quot;, header = T)
+bmw &lt;- dat.4$Close
+bmw.return &lt;- diff(log(bmw))
+dat.5 &lt;- read.csv(&quot;C:/Users/user/Desktop/Sung-yoon.R/Mid-term Exam/Apple Inc/apple_daily.csv&quot;, 
+    sep = &quot;,&quot;, header = T)
+apple &lt;- dat.5$Close
+apple.return &lt;- diff(log(apple))
+install.packages(&quot;fBasics&quot;)
+</code></pre>
+
+<pre><code>## Error: trying to use CRAN without setting a mirror
+</code></pre>
+
+<pre><code class="r">library(fBasics)
+</code></pre>
+
+<pre><code>## Loading required package: MASS
+## Loading required package: timeDate
+## Loading required package: timeSeries
+## 
+## Attaching package: &#39;fBasics&#39;
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     norm
+</code></pre>
+
+<pre><code class="r">nig.volatility &lt;- function(alpha, beta, delta, mu) {
+    gamma &lt;- sqrt(alpha^2 - beta^2)
+    ans &lt;- sqrt(delta * alpha^2/gamma^3)
+    return(ans)
+}
+</code></pre>
+
+<h3>5개의 자료에 대한 모수 추정 (Normal-Inverse Gaussian Distribution) 및 히스토그램과 그래프</h3>
+
+<h4>1. Samsung eletronics</h4>
+
+<pre><code class="r">par(mfrow = c(1, 2))
+nigFit(samsung.return)
+</code></pre>
+
+<pre><code>## 
+##  Objective Function Value:   -1526
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1526
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1526
+##  Parameter Estimates:        1 1.49e-08 1 0 
+## 
+##  Objective Function Value:   -1526
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1526
+##  Parameter Estimates:        1 0 1 1.49e-08 
+## 
+##  Objective Function Value:   -2002
+##  Parameter Estimates:        0.7437 0.4934 1.831 0.02262 
+## 
+##  Objective Function Value:   -1524
+##  Parameter Estimates:        0.9744 0.04934 1.083 0.002262 
+## 
+##  Objective Function Value:   -1524
+##  Parameter Estimates:        0.9744 0.04934 1.083 0.002262 
+## 
+##  Objective Function Value:   -1524
+##  Parameter Estimates:        0.9744 0.0493 1.083 0.002262 
+## 
+##  Objective Function Value:   -1524
+##  Parameter Estimates:        0.9744 0.04934 1.083 0.002262 
+## 
+##  Objective Function Value:   -1524
+##  Parameter Estimates:        0.9744 0.04934 1.083 0.002225 
+## 
+##  Objective Function Value:   -1527
+##  Parameter Estimates:        0.9917 0.01284 1.117 -0.08278 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        0.9836 0.03053 1.082 -0.02552 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        0.9836 0.03053 1.082 -0.02552 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        0.9836 0.03053 1.082 -0.02552 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        0.9836 0.03053 1.082 -0.02552 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        0.9836 0.03053 1.082 -0.02552 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        1.007 0.05591 1.085 -0.02506 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        1.007 0.05591 1.085 -0.02506 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        1.007 0.05591 1.085 -0.02506 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        1.007 0.05591 1.085 -0.02506 
+## 
+##  Objective Function Value:   -1523
+##  Parameter Estimates:        1.007 0.05591 1.085 -0.02506 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.047 0.07103 1.12 -0.06811 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.047 0.07103 1.12 -0.06811 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.047 0.07103 1.12 -0.06811 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.047 0.07103 1.12 -0.06811 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.047 0.07103 1.12 -0.06811 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.086 0.08902 1.173 -0.05904 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.086 0.08902 1.173 -0.05904 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.086 0.08902 1.173 -0.05904 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.086 0.08902 1.173 -0.05904 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.086 0.08902 1.173 -0.05904 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.153 0.06937 1.174 -0.05137 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.153 0.06937 1.174 -0.05137 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.153 0.06937 1.174 -0.05137 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.153 0.06937 1.174 -0.05137 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.153 0.06937 1.174 -0.05137 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.166 0.08209 1.237 -0.07433 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.166 0.08209 1.237 -0.07433 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.166 0.08209 1.237 -0.07433 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.166 0.08209 1.237 -0.07433 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.166 0.08209 1.237 -0.07433 
+## 
+##  Objective Function Value:   -1522
+##  Parameter Estimates:        1.216 0.1268 1.25 -0.05985 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.177 0.09389 1.231 -0.06496 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.177 0.09389 1.231 -0.06496 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.177 0.09388 1.231 -0.06496 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.177 0.09389 1.231 -0.06496 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.177 0.09389 1.231 -0.06496 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.191 0.09054 1.232 -0.07864 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.191 0.09054 1.232 -0.07864 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.191 0.09054 1.232 -0.07864 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.191 0.09054 1.232 -0.07864 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.191 0.09054 1.232 -0.07863 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.205 0.09692 1.244 -0.07556 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.205 0.09692 1.244 -0.07556 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.205 0.09691 1.244 -0.07556 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.205 0.09692 1.244 -0.07556 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.205 0.09692 1.244 -0.07556 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.235 0.09549 1.269 -0.08155 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.235 0.09549 1.269 -0.08155 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.235 0.09549 1.269 -0.08155 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.235 0.09549 1.269 -0.08155 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.235 0.09549 1.269 -0.08155 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.265 0.1501 1.284 -0.1281 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.265 0.1501 1.284 -0.1281 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.265 0.1501 1.284 -0.1281 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.265 0.1501 1.284 -0.1281 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.265 0.1501 1.284 -0.1281 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.33 0.1367 1.306 -0.08973 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.285 0.1414 1.281 -0.106 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.285 0.1414 1.281 -0.106 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.285 0.1414 1.281 -0.106 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.285 0.1414 1.281 -0.106 
+## 
+##  Objective Function Value:   -1521
+##  Parameter Estimates:        1.285 0.1414 1.281 -0.106 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.304 0.1353 1.304 -0.1129 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.304 0.1353 1.304 -0.1129 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.304 0.1353 1.304 -0.1129 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.304 0.1353 1.304 -0.1129 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.304 0.1353 1.304 -0.1129 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.321 0.1364 1.33 -0.1086 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.346 0.1361 1.347 -0.113 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.346 0.1361 1.347 -0.113 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.346 0.1361 1.347 -0.113 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.346 0.1361 1.347 -0.113 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.346 0.1361 1.347 -0.113 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.373 0.1376 1.363 -0.1119 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.39 0.1283 1.386 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.39 0.1283 1.386 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.39 0.1283 1.386 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.39 0.1283 1.386 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.39 0.1283 1.386 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1287 1.378 -0.1052 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1289 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.1289 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1053 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   -1520
+##  Parameter Estimates:        1.384 0.129 1.378 -0.1054 
+## 
+##  Objective Function Value:   2857
+##  Parameter Estimates:        78.24 7.288 0.02439 -0.001864
+</code></pre>
+
+<pre><code>## Warning: NaN이 생성되었습니다
+</code></pre>
+
+<pre><code>## 
+## Title:
+##  Normal Inverse Gaussian Parameter Estimation 
+## 
+## Call:
+##  .nigFit.mle(x = x, alpha = alpha, beta = beta, delta = delta, 
+##     mu = mu, scale = scale, doplot = doplot, span = span, trace = trace, 
+##     title = title, description = description)
+## 
+## Model:
+##  Normal Inverse Gaussian Distribution
+## 
+## Estimated Parameter(s):
+##     alpha      beta     delta        mu 
+## 78.239151  7.288384  0.024390 -0.001864 
+## 
+## Description:
+##  Fri Apr 11 23:47:23 2014 by user: user
+</code></pre>
+
+<pre><code class="r">hist(samsung.return, prob = T, nclass = 50)
+x &lt;- seq(from = -0.05, to = 0.05, by = 1e-04)
+lines(x, dnorm(x, mean(samsung.return), sd(samsung.return)), col = 2)
+lines(x, dnig(x, 78.239151023, 7.288384337, 0.024389717, -0.001864134), col = 3)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6gAAALQCAMAAACqma0CAAAApVBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrUAzQA5AAA5ADk5AGU5OWU5OY85ZrU5j485j9pGgrRlAABlADllAGVlOQBlOTllOY9lZgBlZjllZmVlZrVltbVltf2POQCPOTmPOWWPZgCPj2WP29qP2/21ZgC1ZmW1tWW124+1/rW1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AABWRne7AAAAN3RSTlP//////////////////////////////////////////////////////////////////////wD/rn+PdAAAAAlwSFlzAAALEgAACxIB0t1+/AAAIABJREFUeJzt3Yl64lqWYOFSRFakcd2ObOMb1bOdtzrD3Zl2V4WNxfs/WqNZwBaazrC3zlpf5g2MsYAj/9aAEP+UE5H6/in2AyCi8YBKZCCgEhkIqEQGAiqRgYBKZCCgEhkIqEQGAiqRgYBKZCCgEhkIqEQGAiqRgYBKZCCgEhkIqEQGAiqRgYBKZCCgEhkIqEQGAiqRgYBKZCCgEhkIqEQGAiqRgbRDPTxmT3n++fz19fD49bW4lGXZl5/tN4ue5k3yRbx9Pa1m0vUNqzsdmMrwN+miZuY1s7FJnhcT+7g/m11OW/XAfGQA6rdf3Rw+zZueTQHXeC8y7OtpDdxwwjfpsg7q2dXrRtHjPNA3ew1AzR5aqKfl6V25VD3hLb9Z/PtyusF7Zezz+ct/P/1bf/We/fk5+/r6Vrl+K32XS+S75qvmB9ppFRV/DMq7Ot2wuNOzyVST7r5ZTemh/CX8v8XPxRsqzV0sUftD3I5gMW++/uM0G27NxaLq9uVPV/Osmlwzc85/ov5e+TfiUE68mU/N3eV593vQ/yXp/Ujxzb/FncH6oX79b8Usrebwx305rh+/vdbfrKFWi8NiSIt//r3+6j1rOg3vS3nhof7lqL/qze0Waj2t/+hB7SZz9c16SnfVlMrfO7ruHOrZKJ6P4J/ub87Fovr2/VlX3fIg/ET3m9Gqu7y7Ypr1xM5+Sc5/pHq08WawAah/v39o5vD7+Tidra52S9zmq/esoJ09HR6//CyJl0NfrNW0X/V/IKtmaf3HoFr9uZxMM+n2mx/3pyuL75ymVCzY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" alt="plot of chunk unnamed-chunk-2"/> </p>
+
+<h4>2. KT corporation</h4>
+
+<pre><code class="r">par(mfrow = c(1, 2))
+nigFit(kt.return)
+</code></pre>
+
+<pre><code>## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1 1.49e-08 1 0 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1 0 1 1.49e-08 
+## 
+##  Objective Function Value:   -2352
+##  Parameter Estimates:        1.097 -0.6549 0.4453 -0.504 
+## 
+##  Objective Function Value:   -1451
+##  Parameter Estimates:        1.01 -0.06549 0.9445 -0.0504 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.008723 0.9926 -0.006713 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.008723 0.9926 -0.006713 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.008687 0.9926 -0.006713 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.008723 0.9926 -0.006713 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.008723 0.9926 -0.006677 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.006823 0.9825 0.001802 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.006823 0.9825 0.001802 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.006824 0.9825 0.001802 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.006823 0.9826 0.001802 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        1.001 -0.006823 0.9825 0.001801 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9967 -0.01637 0.9761 -0.00312 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9967 -0.01637 0.9761 -0.00312 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9967 -0.01637 0.9761 -0.00312 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9967 -0.01637 0.9761 -0.00312 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9967 -0.01637 0.9761 -0.003119 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9873 -0.01601 0.9712 0.005037 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9874 -0.01601 0.9712 0.005037 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9873 -0.01601 0.9712 0.005037 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9873 -0.01601 0.9712 0.005037 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9873 -0.01601 0.9712 0.005036 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9654 -0.02332 0.9581 0.003768 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9654 -0.02332 0.9581 0.003768 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9654 -0.02332 0.9581 0.003768 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9654 -0.02332 0.9581 0.003768 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9654 -0.02332 0.9581 0.003769 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9395 3.204e-06 0.9192 -0.006903 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9545 -0.01137 0.9408 0.002805 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9545 -0.01137 0.9408 0.002805 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9545 -0.01137 0.9408 0.002805 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9545 -0.01137 0.9409 0.002805 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9545 -0.01137 0.9408 0.002803 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9309 -0.01269 0.9409 0.002202 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9309 -0.01269 0.9409 0.002202 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9309 -0.01269 0.9409 0.002202 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9309 -0.01269 0.9409 0.002202 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9309 -0.01269 0.9409 0.002203 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9383 -0.02409 0.9222 -0.002603 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01608 0.9354 0.0007755 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01608 0.9354 0.0007755 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01607 0.9354 0.0007755 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01608 0.9354 0.0007755 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01608 0.9354 0.0007795 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.0137 0.9324 0.006666 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01517 0.9343 0.003012 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9332 -0.01517 0.9343 0.003012 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01517 0.9343 0.003012 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01517 0.9343 0.003012 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01517 0.9343 0.003012 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9331 -0.01517 0.9343 0.00301 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002915 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002915 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002915 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002915 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002919 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9327 -0.01712 0.9325 0.002912 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9304 -0.01928 0.9314 0.007091 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9305 -0.01928 0.9314 0.007091 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9304 -0.01928 0.9314 0.007091 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9304 -0.01929 0.9314 0.007091 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9304 -0.01928 0.9314 0.007091 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9304 -0.01928 0.9314 0.00709 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9264 -0.01921 0.9286 0.005061 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9264 -0.01921 0.9286 0.005061 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9264 -0.01921 0.9286 0.005061 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9264 -0.01921 0.9286 0.005061 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9264 -0.01921 0.9286 0.005062 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9226 -0.01686 0.9258 0.004761 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9226 -0.01686 0.9258 0.004761 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9226 -0.01686 0.9258 0.004761 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9226 -0.01686 0.9258 0.004761 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9226 -0.01686 0.9258 0.00476 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9191 -0.02016 0.9246 0.006797 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9191 -0.02016 0.9246 0.006797 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9191 -0.02016 0.9246 0.006797 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9191 -0.02016 0.9246 0.006797 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9191 -0.02016 0.9246 0.006799 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9183 -0.02027 0.9203 0.003715 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006256 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006256 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006256 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006256 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006256 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9195 -0.02047 0.9236 0.006258 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9187 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.006311 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9186 -0.01993 0.9231 0.00631 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01966 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01968 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005951 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005959 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01967 0.9224 0.005942 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9176 -0.02021 0.9215 0.006427 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9178 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.00618 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.006181 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9177 -0.01985 0.922 0.006178 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.0198 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01982 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006252 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006257 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9173 -0.01981 0.9219 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9216 0.006247 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006251 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01988 0.9217 0.006244 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9168 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01985 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.0199 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006255 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006221 
+## 
+##  Objective Function Value:   -1445
+##  Parameter Estimates:        0.9169 -0.01987 0.9216 0.006238 
+## 
+##  Objective Function Value:   2907
+##  Parameter Estimates:        55.41 -1.201 0.01525 0.0001032
+</code></pre>
+
+<pre><code>## Warning: NaN이 생성되었습니다
+</code></pre>
+
+<pre><code>## 
+## Title:
+##  Normal Inverse Gaussian Parameter Estimation 
+## 
+## Call:
+##  .nigFit.mle(x = x, alpha = alpha, beta = beta, delta = delta, 
+##     mu = mu, scale = scale, doplot = doplot, span = span, trace = trace, 
+##     title = title, description = description)
+## 
+## Model:
+##  Normal Inverse Gaussian Distribution
+## 
+## Estimated Parameter(s):
+##      alpha       beta      delta         mu 
+## 55.4120323 -1.2010780  0.0152491  0.0001032 
+## 
+## Description:
+##  Fri Apr 11 23:47:23 2014 by user: user
+</code></pre>
+
+<pre><code class="r">hist(kt.return, prob = T, nclass = 50)
+x &lt;- seq(from = -0.05, to = 0.05, by = 1e-04)
+lines(x, dnorm(x, mean(kt.return), sd(kt.return)), col = 2)
+lines(x, dnig(x, 55.4120323065, -1.2010779678, 0.0152491054, 0.0001032147), 
+    col = 3)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6gAAALQCAMAAACqma0CAAAApVBMVEX9/v0AAAAAADkAAGUAOTkAOY8AZo8AZrUAzQA5AAA5ADk5AGU5OQA5OWU5OY85ZrU5j485j9pGgrRlAABlADllAGVlOQBlOY9lZgBlZjllZmVlZrVltbVltdpltf2POQCPOTmPOWWPZgCP29qP2/21ZgC1ZmW1tWW124+1/rW1/tq1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AAAUsXdyAAAAN3RSTlP//////////////////////////////////////////////////////////////////////wD/rn+PdAAAAAlwSFlzAAALEgAACxIB0t1+/AAAIABJREFUeJzt3Ql728qVoOGGfd2m5vY4Lel6elYr6VgzyUiTtkSB//+nDQv7zgJQyzmo73tyY1qSQQLFV1gIgv+UE5H4/in2AyCi2wGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBUmHen7MfuT5x9Pnl/Pj5xdzK8uyTz+bb5p+rJvk8+TPV9OqJ139YHmnM1OZ/ybZVo9qPb5104Nk2ftdOY7tJOcmt+tugqYA6pdf7UBeh6BjcwLX7Z6nYY+nNfODFt8k61qovS/vW7zPzfOjmuzc5BSNogKo2X0D9bo+/VqsVa94i2+aP5+vP/BWGvt4+vTfrn9Wf3vL/vkp+/zyWrp+LXwXa+Sv9d/qf9BMy2R+GRR3df1Bc6e9yZSTbr9ZTum+eK79H/Pv4i0qlQ3WqN1l3yxaM2if/34dn6XhNZU/X/zrYjCrp8z/qibXDnf3uVD8kjg3U/+r0HGUD/XzfzVLuxzI97tiAN5/f6m+WUEtV4dmWZs//lH97S2ruy735+LGffUcqP7WG9QKajWt/+hAbScz+mY1pa/llKrnA1nXh9pbvP1F+9vd4vCaqp/vQ33Nfnx0oBbf6j0XOlCb+xY4jgqg/u3uvh7It/4C7G2utmvc+m9vmaGd/Tg/fvpZEC/GxGzuNH/r/oOsHP/ql0G5XTScTD3p5pvvd9cvmu9cp2RW7PVqmeyqFnvW+0WcV4NULdr3u+sCfy1/D88Mr/la8/PdTd/rkydvN3HLCfSfC12o5eaayHFUAPXl2WyPtFDfmt+h5ShXW67lNlNtyfzN/HTJt9xcKn/WDE7zt/ofdKAWN8z0W6jtZOpJ975ptrl+FN9tt5/Jrj7U3rJvFm1xo9o4nRle89Xm5ztQP/1LcbOFan60/1zobvr+rH5E4DhqgHp+/Ofupm8XarU8y2NM9ZjVfytHshwBC6jdfdT6B1uo5WTqSU9BrcY7xlLS28Q+ajtI01CnhtdMagpqx73JCqrMcdQA1ez7NweTzBKsDxI2y/P1urliNpDKZV3/rS+sXvTNpq9pCmr9Q1NQ60lPbfrKHGDhTbw8Uy/7qU3fueE1/25y0/fF/PQAav+5cH1O/ehMXeo4qoBqjvr1X575Wn2zWp5vWXeNWv+tN5LP1ZatufG1+dto0zf70Vlp1geThivmzjc7RzxkDrDw+lB7y37qYNLs8Jrqn+9BrQfpa2creem5IHUcVUDN37LmN+5ze5SvszyvX72vdxSbv/VH8rk6Fnh9MpRDVL5AO4Ja/DKoNrG+/ONx7N1Muvlm9+UZkQMsvIlN33rZ/2penrmOTf3yzOzwmuqf772O+lasgMvRqn+091wwI/8/2fQlcpHAA7FBAypJr9rYuY/9OKIGVBLfm8hTEMIGVCIFAZVIQUAlUhBQiRQEVCIFAZVIQUAlUhBQiRQEVCIFAZVIQUAlUhBQiRQEVCIFAZVIQUAlUhBQiRQEVCIFAZVIQUAlUhBQiRS0B2pGsXI2/qSkXVCdPQpaF0s+uYCqMZZ8cgFVYyz55AKqxljyyQVUjbHkkwuoGmPJJxdQNcaSn+90iv0IvARUjbHkZzsV/zteQNUYS36200HXqUDVGEt+rlPzfwcLqBpjyc8F1Il4usSKJT8XUCfi6RIrlvxMp94fRwqoGmPJzwTUqXi6xIolPxNQp+LpEiuW/HSnwZ8HCqgaY8lPdxrdOExA1RhLfjqgTsbTJVYs+emAOhlPl1ix5KcD6mSqny4PDw+xH8L2VC95H1XXfDs1V347nNQ0oZZK9VLVu+Q9VS6QU3sbqJ3UPl0KoOZXr1aqape8r4C6lNanS8HTPPgse9A5DzoftceAupTSp8tDuUuTFzOgU6rKB+0zoC6l9OnykFdIi/9UbvwqXfL+AupSOp8uD/Vmb7VW1ShV55L3GFCXUvl0eWg3e8sDShr3U/U9Ys91cQJ1mMany0O9Nq2/kFWbwqpS94B9N4J6OKlpQu18AahHCKhLKXy6tAeS6lQe+VX3gH0H1KX0PV0ezD7p4NNFr39XdzxJ35L3HFCXUvd0yR5mHrQ2qeqWvO+AupS6pwtQjxpQl1L3dKlPHZz8hqbULXnfjaEeTWpKUB9G+6edb6lK25L3nlkgp87tHKidtD1d5jVqO+lB16MNEFCX0vV0WTi4q+4lGlUPNkRAXUrV02XpxAagag+oS6l6ugD1yAF1KVVPl9mXZopvKjvpQdWSDxFQl1L1dHmYPeJbfT/UA3GRqiUfIqAuperpchOiJqmqlnyIsg5MoA5T9XQBaqf3u+J9859fnDwaAfWgdi4dGvMxuS0NqDb7oAlB/Xj6Ufz59uWXgwcjoYk1qvmCnmfozZKAandUV5HUnUv+/P2l96f+gLqUmsUA1H6sUfWVCFSLqzhoeoVm75I/Px55H7X6E6h1ehaDxbm8qk56UPNAQwXUpRQthtsry8zqp4Tkfslndc6nHCSgLqVnMVgITArq+112/zy56atnTHsBdSk9i8FGoKbTCB0cTHq+Kn3/NjqYpGdMewF1KTWLwRZgKlDNyzJv95Mvz6gZ035TUK9fUTo3UwF10w9GztHLM0dao546t6uAWqVjMazZpE0Ean5+NFJfj7SPCtT5VCyGdQeJlEj1t+RVjOk4oC6lYjGse30UqN6m7DWgLqViMQBVyJS9BtSldCyGNVcY1HI1QqAOAupSShaD/VpSzWmEQB0E1KWULAagipiy1yah5ielczPVbajaTzdbsdup5jRCoA7KOhdeSRSq+tPN1sjTchohUAcBdep0M13vtFgpD6gaA6r+082AKmPKXgOq+tPN1sIDqsaAupT8xbBln1ODVKAOAupS4hfDppdbHhTsewN1EFCXEr8YtkC1uhBa7IA6CKhLiV8MQBU0Za8BdSn5i2HDLqqKs5OAOgioS2lYDOsPDWk45wGog7qfCAXUYQoWwyZzQFXXNNQjfaIbUB39o6ABdRBQl5I/qNvIAVVdQF1K/qBuJCdeKlAHAXUp+YO6Far0NxwAdRBQl5I/qBuhmuO+omcOqIOAupT8QQWqnCl7DahLyR7UHW8CB6q2gLqU6EHddVkV6SfmA3UQUJcSPai7TgWUftgXqIOAupToQd13zq5wqUAdNAM1O47Uw0LddzFtoKqqd1IvUIcJH9Rd2GRLBWo/oC4mfFCBKmrKPgPqYsIHdSdUyWcnAbUfUBcTPqj7oJqZEzuDQO0H1MVkD+q+jVegagqoi8ke1J17meafi51BoPYD6mKyB3UvVPZR9QTUxUQP6t7DtqIP+wK1H1AXEz2ou6FJlgrUfkBdTO6guvj4RKDqCaiLiR3UXe+caRIsFai9TjlQlxI7qEAVOGWPzUM9zvtnjgrVwdXugaoloC4nd1CdXO0eqFoC6nKCB9UFMqBqCajLCR5UJ8jknvMA1F5AXU7woLqBmkudR6D2AupyggcVqOKm7DGgLid4UJ1AlXvVUKD2AupycgfV0XEgsVcNBWovoC4nd1BdQXUzGfcBtRdQl5M7qECVN2WPAXU5mYPq4oT8KqDqaAHqYaQeDqqb83yrpEoFardTDtTFRA6qm/N8q4CqIaDeSOSgOoUqVSpQuwH1RjIH1d0uag5UFQH1RlIHFagSp+y+rOrUPycbqMOkDqpTqCJPzAeqqX6srFFvJHRQXa4FhV6HG6gmoFomdFCBKnLK7gOqZUIH1el+pcx30ADVBFTLZA6q2+M/Mt88DlQTUC2TOaiOD9SKPO4LVBNQLZM5qECVOWX3VY/1lAN1OZmDClSZU3YfUC2TN6hmh9K1LIlSgWqygnoUqYeC6vSdM3VAlRpQLRM3qEAVPGX3AdUycYPq9p0zVUCVGlAtkzeoTt85UwVUqQHVMomD6oGVQKlANQHVMomDClSpU3YfUC2TOKhAlTpl9wHVMoGD6gWVvPN9gWoCqmUCB9UP1FzavO58NOfvL/n5Mcu+/HI95aAB1TKBgwpUm65QjdX8/U+upxy08rGe2pvdLzc3gSpwUP3sTh4R6vu3X+Wa1e2Ug2YH9SBSgWox1aPto54fP/31L2aN+m207StsRhcDqmXiBtXX8Vlxx313L/mPp+xr/vZ5tEKVN6YLAdUycYMKVMFTdh9QLRM3qN5ASZPqfsnX18gVN6YLAdUyWYPq8FPcRh0N6vtd9uknB5M0dRioXt7iVncwqB9PP67/3QNVUUC16WBQS6DPX4GqpyNBdf9e1LqDQTVr1Guvv/0OVC0dBqqX96LWHQxqfn68N3+8jl+fkTWmywHVMmGD6lOTMKm8PGMCqmXCBhWooqfsPqBaJmxQvWKSJRWoJkuox5AKVAETXx1QTZ31JVCXEjaoQBU9ZfcB1TJZg+qZkiipQDUB1TJZg+obqqTTYIFqAqplsgbVL1TzIq2c+QWqCaiWiRpUzytUoMoLqJaJGlSgCp+y+yahXi6XwU+kAlXJW6J8H+zJ/J1JvD6gmiagGqVZSzUlqFreEuX9qKykw75ANY2hFkSzvJGaEtSJt0SJvBoAUIVP2X0jqCXQLG+kpgRVxVuifL5zpkmQVKCaxlCb2wlC1fCWKK/vRW0CqrCGULs6W7PJQJ1PzKBmV0RAFT5l95nHempvAnUuMYMKVAVTdt8Aav8I0qW9CVRnj2JvQV47AaqwlqFempuHkHoMqGEMyZEKVFMf6uDF0xyoTXIGFajyp+w+oFomZ1CBKn/K7utBHZ6OVEgFapGcQQ1ESIxUoJr6UHtfNgG1Ts6gAlX+lN13C+oFqGViBjUUIKCKqgt19JaZ3KxSgVokZlCBqmDK7gOqZWIGFagKpuy+DtTxm1CLrwK1SMqghvMjRSpQTV2ogy9XXwVqkZRBBaqGKbsPqJZJGdRgfIK8m84moJqsoR5BKlDtC/NuOpuAaspap1n/y3W1X6CKCKgapuw+oFomZFDDbfmGvLPFgGoCqmVCBjWcnUzKTipQTQ3USz4DtX55FagCegh6lTWgygmolskYVEMn3CMBqpyAapmMQQWqjim7D6iWiRjU4jhsatu+QDXVUC/5LNTqcBJQ4/eQh70SOFDFBFTLRAxqaDhAFRNQLRMxqMHhSJAKVJMN1FIqUOMHVCVTdl8FtXMVs/rLnZtAlTGo4dkAVUpZs0IF6mISBhWoWqbsPqBaJmBQI6gBqpSyZsv3FtQDSAWqivscBFSTFdSjrFKBquI+BwHVBFTLBAxqeDQi3kADVBNQLRMwqMHRyHhPKlBNQLUs/qBGWKFGudepR6Ftyu4roHY/sTgf3i5ump8AatzCvhfVVLwFILpUoJqAaln8QQ37Frci86sBqCICqmXRBzX0W9ya+w1/l/2AagKqZdEHFaiKpuw+A/VS3+x+eXDzAtTIhX4vanu/kQOqCaiWRR/UaGBiSwWqyQJq0SXLTlF+obsMqKruuAqopqzZRb25Rs1PmmZsKs1Qo3HJYl8wH6gmoFoWe95jQc2if7QFUE22UIudVE0zNpViqPFWqEAVUdbsogJ1MaBGfATqpuw+oFqWKtT476ABqgmolsWd96hWgCogoFoWGWqckx1E3DtQTdmp+aDxZahXqUCNVoQT8sXcO1BNQLUMqLECqgmolqUM1RxOAmrcgGpZ1HmPdUJ+c//so8ZuDVT1p+Urhhq3qPcPVFN70Beoi0VdoUW87/gPAKimdoV6C6rZ9g3xiDwG1B0PINrGN1BNQLUsaahmJzmPtQyAagKqZUAFasyAalnaUKNdscnrvR4Uan4BapQEOI35AhFQTR17QF0qeajR2rvk3++Kiwl9fnE+5ZAB1bK458THu/PmQUS7550z//H0o/jz7csvx1MOGlAtS/VM2+6jiNPOeT9/f+n96W7KQQOqZUCNFWtU0xqoHPWNElD3dX48wD7qaVokUEdFhBr3hPz6UUS7Z4765kC1L+4aVUAxL6/meop1zqfsLaDaFm1QhTjVC/X9Lvv0U/vBpHVQtR9NAuqOop2Y7+Bg0sfTPVAVpRGqFKfxzvd18vLM81eg6gmoe1IKtXp55vW33xVDvayDmgE1eEDd//LMvfnjdfz6DFCFphCqHKfmoWjcR40yZdcB1TqgRvw8OXVTdh1QrQNqrMcCVKCuCKhAjdZl5VHfzrVFVQbUfcV5MEAF6oriDKoop0CNFVDtiwRV1AmpQI3U5TQjcg6q8rN91UGNeEmxqYAaKaDaB1SgRguo9gE1jyQVqEBdURyokT/FbRhQo2SuqL0Oana66HvPbZtCqLKK8lY3oK6H2l6vW8s89tIGVZrTOCfmAxWoKwKqCagxAuqKIsywPKdRDm8BFajDqitLdq8tGfFCWCKhso8avOIjxFcf9b2Mf1hNt9eo5uI60wG1KMJjAipQx53/+Dn9DaAWATV8xeedAtUyoBYBNXxAXVP4GZboNMajAipQVwTUMqAGbwvU5rCvknnsB9T9ATV4QF1T8BmW6TTC40odanHQdz3UattXxzwOAqqDgBo4oK4q9AxLdQrU0AF1VUCtAmrggLqqCFBlvpkQqIED6qrCQw1/+rtdoaUCFagrAmpd6HV94lCNt01QS6kq5nGYIqgPuViood/qBlSgrig8VKH7qEANW7nlC1Tbws6w2GO+JqCGbCPUeidVxTwOA6qTAr95HKhAXRFQmwI/OKACdUVAbQv76NKGWh1L2gK1+Lca5nEUUN0E1HABdWVBZ1i208CPD6hAXRFQOwE1WEBdWcgZlu4UqOEC6sqA2i3kIwQqUFcE1G5ADRVQVwbUbkANVO10E1TzrxXM4zigugqogQLq2gLOsHynQA0VUNcWGKrUd87UBZQKVHNjNdRqJ1XBPI7TAfWhujfRixioYQLq2oDa7yHYOt/mbs6PXz1NOXJAXRtQ+9WP0n929/KWZZ9mPohv55RjVrwBZjvU67+XP48TVVDfig8m/rHu3wab4XKjUvo+qjiouflw25WjKnwR52lDfcuKraTrqMocVAXHfE3SoL7fmTXq+fvL7R9dOeWYJQz1/G+/6r/+b5GDqgWqsH3UL79u/9SWKcctYahbA+qgYI/TCmqxJl23PgWq2Eqo5Tr14y8yB1WLU0lQz49Z2crVqvwncdJQr7szX/PntYcIA0IVfyCpSBDU9etS+ynHrXl1Jkmo5oDSymO+IaHKf2mmLJTUhE94aFeoG6CWUsXP41QK1qjVMRoNi1cO1PP3v5cbv59l7s5sLm2oYvdRzVNN8kdZDJIDVd6UHZUy1PP/aP4q7OWZAmi5i6pi6QLVeylDlXvCQwPV+z05KpBUq+Xx+uXXq9yzzbaWNFSxpxCaewh3GoGDBEE9//Hz+r/338XtzuwrZajbDuSH2kdV8yqqSRLU7y/XderRoJYfRbwLajUNZZVQ/y7xNbdqTaoKaqBHa7fpm336ufpFN6AKrdj0fa7OYhF1KL860qvLqSSowqbsprShijyLRSfUMI83cail0xShbguoE8mB+iZvK2l/QN1QkH1UdVBDHKO2Opj0uPqcUMspx+xifvmcql219su2UOsLEepLMNQibU7DvOpredTX05QjVp5Rv32NClRfAXXyXmx+6Pne15TjlTrU+t2L63ZogDouq97r4/tebnc+4kn5TqBmGqVWa9Tit+/r17dVbzP2OKj1Dog2p2aVKmQfVdqUnZQ61PqyHetOfPD7dFF4tkNZgMcMVFOCUD+eijXql//3TcYatYaq0akYqB9P2Zd//CHzPcZbSx1qeXLS15VH9IE6mRCo11++799+rduZAarYhB71VXmeb5UQqNfdmSvUg12FsIBaOQWqbf4HFajT2a9RX6fWqEavOSg88T3ZUMsPjtkNVeMLNBVU89EHa68sCdSZ/D9q233UmTG9Qi3WtO9/2jblaCUPtT6YJGx/RqdTKVDnK7eKJ09eAqrQ+i/PCNufAepMe6E+fvqruZDd+/gg/9Ghmn+sGKrMNapSpwEeuM2Sf79bOC/puln8NX+b+C5QhSZ5HxWoc1ks+bfiKs3vd4e6wgNQNwXUmQRA/fhzeabDxNbt9BSz0VvH5GV8OYGqUCpQPSQAan28Qdxxhz2lDrX55C8Z77Rofq2rher9kQM1zxOEujU/g6r6hPwq4VAXfjMDVWhA9ZEAqItbSeVR/m1TjlgJtXYKVNv8QlXs1PuD373kz3PvqgGq0ORBVX1Cfp10qBGm7CAXUK//HKhOUwzV+wdxpAm10OUGqj6pQHWf/w13oJY384mbQB3ldVD1OgWqp4C6MaBOB1Q/AXVjQJ2JfVQvAXVjPgdVs9MirzMA1PJmPnETqKOAuhBQnecSqjqpQqGqd+p3FpKEWtLKGqdAtQ2oSwHVcUDdGlCXAqrjgLo1oC4FVMcBdWv+BvUAToHqOkdQ8xNQnXUEqD5nAqjFzXzqJlBHAXUxoLoNqFvzMKjlW9wO4dTnbKQItZLlCqo2qbehFteHnbxSgPtBzcr/gHojoBY386mbqUL9eCqvDDvx+X1AXQ6oLgPqchNXyfJ3DVig2pUw1NYpUHsFXaOW+6gHcQpUpwH1RtX17AJ+TslRoPqbEaCagGqZp0E9jFOgOqx2tR9qPQldUoHqKa8b8UA1AdUyoM5XHhYDqrOAuj2gzgdUxwF1e0Cdz+8LTUA1AdUyP4N6CKeeT4YEqgmolgH1ZkB1VOP0JkNrqLqkioN6KKdAdRVQd/xboN7Oz+wA1QRUy3wM6sGcAtVRQN3xb4F6O6C6Cag7/i1QLfIyQ0A1bYWaaTzsC1TPAdVJQN3xb4FqEVCdBNQd/9bDoB7OKVCd1J7u4BCqKqlA9Z2PWQKqCaiWOR5U758qGiegOgiocqB6PDU2Vt7O9wWqCaiWAXW5LPf1DhqgmoBqGVCXA6qz3ELVeMqDHKjH20etoHqQmhrUBhRQt+R8UI/ltN5HBerugApU35ntBAPW6fXKgWoCqmWuB/WQTvNyvurNYHdT9RNQhQZUvxVAH4C6r851WIC6PseDekSnQHUSUIHqO7Nv+sA+6r6ACtQguZ61xKB2dlHdQFUoFaghAuqugCoJ6oGd1vPmbPMXqCagWgZU28p5c3dACagmoFoGVOuKmQPqxoAqCOqhnQJ1V92PswDq+oBqXbXtyz7qli5Z1SnrLUEHUPVIBWqY3M5ealCrG+7XqEBdHVBXBNR89iZQR7kc1IM7BeqOPEDVt5MqBGr2IPEZ4jCgbg+ouRSo9WnrB86pVKDmszeBOgqoKwLq1i45UIEaLpdSgZrP3lwHVY1UGVCLN4IdPKBurIFa4ALq+twN6tGP+ZqAujGgmoAaLIczCdT5m0AdBdRVAXVbXqCqO5okAmoSToG6MaCagBosoG7qknuFqkWqBKhpOK3f6+bi+DZQ528CdRRQ1+XuQtxJQi1pAXV9QF2Zs+v7AnX+JlBHORrUw5+Q3wTUDQG1KD7UFE4frCq2fdlHXZVx5BWqEqlADZizbXygzt+0gNpc1qX4rQlUu+pDLAkkBur7XfEk/fzifMrO87VGbScHVLsenH4qi+xcSd25wD6efhR/vn355XjK7gNqmQCoTqaiIyFQz99fen+6m7L7gFoG1KA5mtkU16jV0R+grs/F4cssA+r69i7586O+fVSgbs7J64HJvIhaJARqjClvq1DkF6oOqUANmlio9cXopY2GP6jtqcNAtZjCg7jf4V4TC9X/lLcF1KrY+6hprVBdSQXq/E2gjnIxqEkdSsqFQK2OJU0dTQKq0IAaOCczvHfJfzzde5qy6xqo9bm5QF2fg0FNzqkMqPn5j5+epuy20pBnqCqkAjV0LmY5mX1UoNZFhJrayQ5VQF2RT6jthfeBeutfA3VbQJ2/CdRRu6Gm9tpMEVBXBNQ6oAbPgdT0oDYXZADq+nbvo6a45QvUNYWBqkFq1KO+QN1YKlArQEAFaoz2f8YkUOdvAnXU3kFN1KmDq7kBdf4mUEcBdVNAtc4vVDNRoN4uUadAtQ+oTUAN3/739iUCtfbjHaoCqUCN0O45Tw5qe117oK4PqFvbO+tAnb8J1FH7BjVhp0C1C6htQI0RUK3yDfU6WaDe+KeJnj5YBVSbGj1AjQU1S/WE/Cqg2hQQqnypvqFOXyk2dah7paYGtXUK1A1ZDGo2/WNArW9su+Q1UOdvpgp136UlZ6Cmdz3fYZXUueVzI6DO30wV6r5LS84+EZM+lpQD1SagdrLY9B1dWnLN55TM/FTqTuslANSF/EPNT81t6VIjvTwD1Ifyl1j937qSgNrSASpQY5WV7x7v/rfmX3t4RL6nvLqWTscpUJd7ndpPvTWo82sKnFYfYwfU+YDazSPUhScgUKvXp4A6H1C7hYA6XrMCtbhyUrVc2EedLATUzqSFS/W4j7qwxkge6s6TnVOA2oEDVL8Hk6o1xRgqTk07lgJQ528CdZTloAJ1OqAu1tnyXcUQqKNsB3W4D4bTIqAuBtReMV5HBWoRUBcDai+gxmv7cgDq/M2tUIVLBWq8usth3Us0CUDtHkvyCDXTskqNAHX/R68cpVbqypMekoJ6WscQqKO2DaqDC8UfJaDOB9R+4aE+bP6Xhwuo8wG1H1Aj1tlJZR+1X+90hzBQZUuNAHXbZYKO2OajakCdv7kSqpYXaOKsUals67IA6vxNoI7aNKg47QTUuXpvnQEqUCO3cWkAdf4mUEdtGVSc9gLqTEAdFApqfQQJqP22LY/DQ+2/x80rVCVSA0GtXyfE6SCgTgbUYUCNG1An61+GBahAjR1QJwPqMF9Qh2c1VH8H6rBNSwSo8zeBOmphULOZbwN1GFAnGlwvKRRUyVLDQsXpuC3LBKjzN1dD1bFKBWrsgDpucElfoLqF2t0vnTzz/mHj5/YeOqCOA+ooh1Dn9kvbHm7/SHoBddTwkr7BoAqWCtTYdd49br25AdT5m+uhqlilBoSaZUCdqpZhqfVBAAALk0lEQVS6YuEAdf4mUEf1ZvjmB/Jm5S6qiGeCqIA6bPjxUEB1BtXiSVZ/JCgNq6QCtQ6o4wJC5eqDMzWrVPZRy+JBlSs1HFSu5zvX+uO+x4Y6+hw331A1rFJd7qPeiLMdZgJqP6BOFPAKD0Cda/WSSQVqBQioIaHidDag9gLqRECV0Nplc2io448a9w5VgVTXUGf3VXG6EFA7AXUqx1Dnj/4CdamVSycRqDUfoIaDitPFgNoG1Kl8QJ3a/AXqYkBtA+pUHvZRJ9eqQF0MqE1jpwGgypfq4agvUNcH1CagThYIKk5vtG4BAXX+JlBHzQ3qxD4qUG8E1LoaSpadsrrOt4G6PvtBxenNVi2iA0NtnGRB16jipQJVSEAta6G2dIAKVDEBtQyo0wFVSEAtA+p0QaDi1KI1C+m4UCeO+YaBKl0qUKUUEOr5+0t+fsyyL79cT3l3QJ0pBFScWrViMe2Haqzm739yPeXdAXUmoIopKNT3b7/KNWs9xYmXLGME1JmAKqaAUB8//fUvZo36bbTtKwbqKTRU4VKBKqZwUPP84yn7mr99fhl9IzLUzgp1K8OVUNvaE6EusX9dTRQAKk4ts19Qhz3qGx5qe7OzRgUqLQTUqFDbF27ThIpT24DaPZQUEarEnVQXUJePFQLVOutFBdT5m0AdlbV/zI8vTu17uPVLrw6o8zeBOgqorrP9ANnDQz3FgNoeTgIqLZY41EsLdTtDF1AzeVK976MCdUWpQ21uAXWY96O+QF3RQ9r7qN0Vagyo7fVJ04OK01VZLi6gzt90A1WcVKCKKmmo/RPyo0KVdzjJM1ScrsxugR0cauElBtT2U6mASosBNQfqVECVFVBzoE4FVFklDHXwVtQoUCupmbxzHvxCxenqrBbZYaF23xjafgeoQBVX4lDNjQZLHVA9Q8XphmwW2hGhXuq7b/YTmwJCbfePhUkFqrSAOnokQAWqvIA6eiRABaq8EoV6qe++PTuoKSTU5qwoYWcR+oSK001ZLDag7vkJO6jCVqlAFVfaUKc+FDUs1FNqUHG6LaAOH0lQqM17YWVt+wJVXrcX3PGgViiykxyoslapt6G+32WffvY+p6RueVBxurWkoU49krBQmwur6YL68fTj+t89UAN2c9EdDupFIlRRUm9CLYE+fwVquBKEWv05/clQoaGeNEI1a9Rrr7/9DtRQATWPCTVXCTU/P96bP14/r/ssTZxuL1moMx84Exxq9ftC0nFfb0d9gbqjWwvvaFCbFaoMqM2KPQGoON1TolBPQJ3NEurr/cQXgeqt0eLr72gcDGq9iTn3ORbBoWbypAJVZMPFl+WzTzW3xYFa/jH7gTNABarQ0oTqhKETqPXGrzqoky0MKk73lRTUasv3JBGqGKlAldlI6oH3UdsVqhyo4lapfqDidG/LS/CIUE9AXQqoQltchIeC2lmhioHaXrT0EucFq1FeoOJ0f6lBXbpGaIw1arNKBSottrQQjwS1u0KVBFXYxi9QpZYW1MVLD0aCeuo8vugBVWrtQhy//eFwUE8CoeaHh4pTFzVLMctHi/pAUHsrVFlQq+NbMqQCVWz1YkwA6gmot/IAFaduSgJq36kwqNU5GCKkAlVujdQD76OWUKfuXgTUE1DpZvML8jBQi3NpT2Khlu8TEHHCL1DllgLUvOdUHNTyLbLHhIpTVx0fqllXdZ0KhGouOiFhlQpUuSUANe9deFAg1PL3yBGh4tRds8tSP9TyhPdLlvWukyQQavGLRMAqFajyao7yPsx8/QhQzf9dhpdfkQg1k7FKBaq4srxZtA8zXz8G1Ot6anBVB5lQTxJWqUAV13GhZp1ys5oavllcJNTiUR4OKk53d2CovZuVU/lQRUgFqrzafdGHma8fBeroLmVCNVIPBhWnbptZnkeAemnegzrYIp764Vtf9gxVgFS3UHHquONCvVwm3jEjdY1qpEY+ngRU2U0v0QNAnXzHjFyoRmoeM6DK7qhQp0/EFww1ttS9UPtvwQKq8yYXqXqoMyfii4RaF1fqTqhZ3p0rnLrvkFDnPl9RJNTmVlSpQBXeEaHOfmybbKj9N/oEziVUnHroeFCLA6gqoWaX9uJO068p+cvlPipQfTS1VDVDLV/o0Ak1v0xc19TvMqtzedQXqD46FtRT9YKkUqhG6tJ5j/4CqvgmFqtaqOYMn8vgflRBvT78pXcS+MshVJz66ThQO1dLUAt1+U20/gKq+I4C9dS9qoleqOXbaGcu9OQvd1Bx6imFUCcOiZ6K1VBzwqxiqNUl2aZPrfIWUOU3XrLioQ5vls/rrD2xXTPUvHh5qaUKVCrSDrV5SnfegKIa6nVGzM16voBKZaNFqwjqqV3zdN8ophtqPSvlzCmDSt7SDLWzFgrD0CfUTvVvndMpzImFQFXQEaDOn46kCGr35mXqwJi/gKog/VCXznJQCrXdlAcqVedSD6XGhXr7hPTB5uLFXBI/1BWRwkGd+v0zU747oIouK/8TBvXmz3efupfJbcRjQM2LDeBV09gaUEVXQR19uIXXO1zzMzeh3j7Uqxpq3tlXtZrG1oAqushQb2/I3fyJ4AxDQ82nzsNamMbGDWKgyq4ezsGluHdO9f2ueKJ8fhnf39zfxKg45EO6HVB15BTqx9OP4s+3L7+G3wJqnJ+4GVB15BTq+ftL78+8s0XWvx/y2ZoxA6rG/K1RSWhA1djeJX9+LH6jT+yjktCAqjGWfHIBVWMs+eQCqsZY8skFVI2x5JMLqBpjyScXUDXGkk8uoGqMJZ9cQNUYSz65gKoxlnxyAVVjLPnkAqrGWPLJBVSNseSTC6gaY8knF1A1xpJPLqBqjCWfXEDVGEs+uYCqq/ICHiz55AKqqiqlLPnkAqqqgJpqu6BSrJyNv/diL6kQhViOe6A6K8rzLp07jVr4OQ5+j0DlTvUHVDcB9fh3GjWgugmox7/TqAHVTUA9/p1GDahuAurx7zRqQHUTUI9/p1EDqptEQCWi5YBKpCCgEikIqEQKAiqRgoBKpCCgEikIqEQKAiqRgoBKpKCYUM+P2Zdf3VuvWZZ9fgl6l+0XAt6p//mMXuh5Dj6woWcwItSPpx/569furecfoe+y/ULAO/U/n9ELPc/BBzb4oEaEev7+kr///tLe+vjzz9B32X4h4J36n8/ohZ7n4AMbfFAjQn3/9is///GzvXXdhsgyr7+XRnfZfiHgnfqfz+iFnufgAxt8UCNCfftSz2t16/0//cz9/mIa3WX7hYB36n8+oxd6noMPbPBBjQT1Ocu+jn4pld/xuaqRsUYtvnrc/dQYYxt/jVp81eOgStpHLb7q9QksYx+1+OpxoZpCz3P8fdTiq8eE+vF03xw4K26ZjYiPv/hUM7rL9gsB79T/fEYv9DwHH9jggxr/dVTz26h9KeqT383Q0V2Gex016HxGL/Q8Bx/Y0DPImUlECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKiksPJS16Prgfq+8mvEgEoKA2oaPfu/mi/57Ar14+m3u+JzDt//83/5/HJ+zMr/+9vvxfWwzRf/9u3fj/MZP2lCPX//+/fD/u5NoSvU6y/bcgX6fvej/tVrhFZQr198v7svrot9iNKEmr9m97EfAu3o48//cl9v6RYXwf7jp/lsiQ7U8o/jbAwnCtV89hbp7ePpX//tVxeq+dDDTz+BerSe/zu7qJq7bvq+3nehlnsyQD1Y79/+49ifT3r0zMGkP/9soZp91OvuqPkYt+tG8OtnoB6ij6cfxznKkGTm5Zn33//vkznIW1i8bvt++nkd2M8vr1n2r9+BSkQRAiqRgoBKpCCgEikIqEQKAiqRgoBKpCCgEikIqEQKAiqRgoBKpCCgEikIqEQKAiqRgoBKpCCgEikIqEQKAiqRgv4/jUtUT0ZZq8MAAAAASUVORK5CYII=" alt="plot of chunk unnamed-chunk-3"/> </p>
+
+<h4>3. LG Display Co., Ltd</h4>
+
+<pre><code class="r">par(mfrow = c(1, 2))
+nigFit(lg.return)
+</code></pre>
+
+<pre><code>## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1 1.49e-08 1 0 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1 0 1 1.49e-08 
+## 
+##  Objective Function Value:   -2327
+##  Parameter Estimates:        0.9387 -0.4512 1.385 -0.8028 
+## 
+##  Objective Function Value:   -1466
+##  Parameter Estimates:        0.9939 -0.04512 1.038 -0.08028 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9989 -0.007874 1.007 -0.01401 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.999 -0.007874 1.007 -0.01401 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9989 -0.007838 1.007 -0.01401 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9989 -0.007874 1.007 -0.01401 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9989 -0.007874 1.007 -0.01397 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003348 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003348 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003346 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003348 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003348 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        0.9991 0.003348 1.02 -0.01347 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.006 0.0003497 1.025 -0.02826 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.006 0.0003497 1.025 -0.02826 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.006 0.0003511 1.025 -0.02826 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.006 0.0003497 1.025 -0.02826 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.006 0.0003497 1.025 -0.02826 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.018 0.01281 1.029 -0.02678 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.018 0.01281 1.029 -0.02678 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.018 0.01281 1.029 -0.02678 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.018 0.01281 1.029 -0.02678 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.018 0.01281 1.029 -0.02679 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.029 0.01305 1.04 -0.03466 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.029 0.01305 1.04 -0.03466 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.029 0.01306 1.04 -0.03466 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.029 0.01305 1.04 -0.03466 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.029 0.01305 1.04 -0.03466 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.057 0.01391 1.059 -0.0258 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.057 0.01391 1.059 -0.0258 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.057 0.01391 1.059 -0.0258 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.057 0.01391 1.059 -0.0258 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.057 0.01391 1.059 -0.0258 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.0283 1.063 -0.04491 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.068 0.01915 1.062 -0.03689 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.068 0.01915 1.062 -0.03689 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.068 0.01915 1.062 -0.03689 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.068 0.01915 1.062 -0.03689 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.068 0.01915 1.062 -0.03688 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.065 0.01984 1.078 -0.03582 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.065 0.01984 1.078 -0.03582 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.065 0.01983 1.078 -0.03582 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.065 0.01984 1.078 -0.03582 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.065 0.01984 1.078 -0.03583 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.071 0.02189 1.073 -0.03424 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.071 0.02189 1.073 -0.03424 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.071 0.02188 1.073 -0.03424 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.071 0.02189 1.073 -0.03424 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.071 0.02189 1.073 -0.03424 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.074 0.01667 1.074 -0.04002 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.072 0.02069 1.073 -0.03587 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.073 0.02168 1.074 -0.03545 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.076 0.01949 1.076 -0.03508 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.076 0.01949 1.076 -0.03508 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.076 0.01949 1.076 -0.03508 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.076 0.01949 1.076 -0.03508 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.076 0.01949 1.076 -0.03508 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.02262 1.081 -0.03671 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.02262 1.081 -0.03671 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.02262 1.081 -0.03671 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.02262 1.081 -0.03671 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.082 0.02262 1.081 -0.03671 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03303 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01854 1.084 -0.03302 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.01887 1.086 -0.04089 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01859 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01859 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01859 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01858 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01859 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.088 0.01859 1.084 -0.03414 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03406 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03406 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03406 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03406 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03405 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.089 0.01961 1.085 -0.03406 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02024 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02024 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02025 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02023 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02024 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.091 0.02024 1.085 -0.03529 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.094 0.02092 1.089 -0.03605 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.098 0.02239 1.091 -0.03684 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02325 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.03759 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02324 1.093 -0.0376 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.0232 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02315 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03752 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03754 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02321 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02316 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03751 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03755 
+## 
+##  Objective Function Value:   -1459
+##  Parameter Estimates:        1.1 0.02318 1.093 -0.03753 
+## 
+##  Objective Function Value:   2393
+##  Parameter Estimates:        41.66 0.8778 0.02886 -0.0009913
+</code></pre>
+
+<pre><code>## Warning: NaN이 생성되었습니다
+</code></pre>
+
+<pre><code>## 
+## Title:
+##  Normal Inverse Gaussian Parameter Estimation 
+## 
+## Call:
+##  .nigFit.mle(x = x, alpha = alpha, beta = beta, delta = delta, 
+##     mu = mu, scale = scale, doplot = doplot, span = span, trace = trace, 
+##     title = title, description = description)
+## 
+## Model:
+##  Normal Inverse Gaussian Distribution
+## 
+## Estimated Parameter(s):
+##      alpha       beta      delta         mu 
+## 41.6633982  0.8777504  0.0288644 -0.0009913 
+## 
+## Description:
+##  Fri Apr 11 23:47:24 2014 by user: user
+</code></pre>
+
+<pre><code class="r">hist(lg.return, prob = T, nclass = 50)
+x &lt;- seq(from = -0.1, to = 0.15, by = 1e-04)
+lines(x, dnorm(x, mean = mean(lg.return), sd(lg.return)), col = 2)
+lines(x, dnig(x, 41.6633981699, 0.8777504231, 0.0288644214, -0.0009912696), 
+    col = 3)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6gAAALQCAMAAACqma0CAAAApVBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrUAzQA5AAA5ADk5AGU5OWU5OY85ZrU5j485j9pGgrRlAABlADllAGVlOQBlOTllOY9lZgBlZjllZmVlZrVltbVltf2POQCPOTmPOWWPZgCPtY+P29qP2/21ZgC1ZmW1tWW124+1/rW1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AABUNPIWAAAAN3RSTlP//////////////////////////////////////////////////////////////////////wD/rn+PdAAAAAlwSFlzAAALEgAACxIB0t1+/AAAIABJREFUeJzt3Qt/nEp6oPFgTzzGe9ZZS8e7m+yuNZMdK5mRMrEu8P0/WpprQ3dBV0Fd3pd6nt85lloXBBR/QdOo+x8qIhLfP6SeASK6HVCJFARUIgUBlUhBQCVSEFCJFARUIgUBlUhBQCVSEFCJFARUIgUBlUhBQCVSEFCJFARUIgUBlUhBQCVSEFCJFARUIgUBlUhBQCVSEFCJFARUIgUBlUhBQCVSkHSob/fFj6p6f/j49Hb/8al5ryiKDz/HTzb9cJvko/Hr+2kNk+6/sPuhC1NZ/iTZNozqML5D5kGy7PVLN463B2jXj4maAqiffp0H8jQEE5sGXLd7NMO+ntbCF1p8kqw7Q519eN/qfRy3jxtQFY2iAqjFtxHqaX/6ud2rnvC2n2zePp6+4KUz9v7w4V9Ob/tbL8UfH4qPT8+d6+fWd7tH/jzcGr5hnFZT88ug/VGnL2x+6Gwy3aTPn+ym9K3d1v69+b50q0plF3vU6bofV20zaB//dhqfteFt6r6+/e52MNtJDt9cVefhnm4L7S+Jt3HqfxE6jvKhfvznZuS6gXz90q7w19+e+k/2ULvdYbOumzd/72+9FEOn9f7YvvOt3wb6W7NB7aH20/rPCdTzZK4+2U/pczeldvMih+ZQZ6t3vmr/8GV1eJv6r59DHb+5+Yr+U7NtYQJ1/NkCx1EB1L9++TYM5Mt8Bc4OV8973OHWS9HQLn683X/42RJvx6Q53BlvTb+h6Ma//2XQHRddTmaY9PjJ1y+nDzafOU2p2bEPu2Wyq1/txewXcdUPUr9qX7+c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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<h4>4. BMW</h4>
+
+<pre><code class="r">par(mfrow = c(1, 2))
+nigFit(bmw.return)
+</code></pre>
+
+<pre><code>## 
+##  Objective Function Value:   -1509
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1509
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1509
+##  Parameter Estimates:        1 1.49e-08 1 0 
+## 
+##  Objective Function Value:   -1509
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1509
+##  Parameter Estimates:        1 0 1 1.49e-08 
+## 
+##  Objective Function Value:   -2577
+##  Parameter Estimates:        0.9512 0.5656 1.072 0.82 
+## 
+##  Objective Function Value:   -1512
+##  Parameter Estimates:        0.9951 0.05656 1.007 0.082 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        0.9981 0.02219 1.003 0.03217 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        0.9981 0.02219 1.003 0.03217 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        0.9981 0.02215 1.003 0.03217 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        0.9981 0.02219 1.003 0.03217 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        0.9981 0.02219 1.003 0.03213 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9887 -0.008209 1.015 0.05148 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9887 -0.008209 1.015 0.05148 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9887 -0.008208 1.015 0.05148 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9887 -0.008209 1.015 0.05148 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9887 -0.008209 1.015 0.05147 
+## 
+##  Objective Function Value:   -1508
+##  Parameter Estimates:        1.002 -0.01257 0.995 0.08211 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9918 -0.003553 1.011 0.06033 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9918 -0.003553 1.011 0.06033 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9918 -0.003555 1.011 0.06033 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9918 -0.003553 1.011 0.06033 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9918 -0.003553 1.011 0.06033 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01368 1.006 0.05958 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01368 1.006 0.05958 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01368 1.006 0.05958 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01368 1.006 0.05958 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01368 1.006 0.05958 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9952 -0.01814 1.001 0.06859 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01402 1.005 0.06362 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01402 1.005 0.06362 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01402 1.005 0.06362 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01402 1.005 0.06362 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9945 -0.01402 1.005 0.06362 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01478 1.004 0.06274 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01478 1.004 0.06274 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01478 1.004 0.06274 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01478 1.004 0.06274 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01478 1.004 0.06274 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01737 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01737 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01734 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.0174 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01737 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01737 1.002 0.06568 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01616 1.006 0.06563 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9892 -0.01775 1.003 0.06498 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9892 -0.01775 1.003 0.06498 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9892 -0.01775 1.003 0.06498 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9892 -0.01775 1.003 0.06498 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9892 -0.01775 1.003 0.06498 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06548 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06548 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06548 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06548 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06548 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9888 -0.01691 1.004 0.06547 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01725 1.004 0.06513 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9905 -0.01731 1.003 0.06529 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01706 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06518 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01707 1.004 0.06517 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01714 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06496 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01713 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9894 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06495 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9895 -0.01695 1.004 0.06494 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01693 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01692 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01695 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.06492 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01693 1.004 0.0649 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01678 1.004 0.06475 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01687 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01688 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06488 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06491 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01687 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9897 -0.01683 1.004 0.06482 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.0169 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06487 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01685 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01684 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01686 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06487 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.0168 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01685 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06482 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01684 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01682 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01685 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06484 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06486 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01684 1.004 0.06482 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9898 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.0168 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01685 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06485 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06481 
+## 
+##  Objective Function Value:   -1507
+##  Parameter Estimates:        0.9899 -0.01683 1.004 0.06483 
+## 
+##  Objective Function Value:   2809
+##  Parameter Estimates:        51.17 -0.87 0.01942 0.001254
+</code></pre>
+
+<pre><code>## Warning: NaN이 생성되었습니다
+</code></pre>
+
+<pre><code>## 
+## Title:
+##  Normal Inverse Gaussian Parameter Estimation 
+## 
+## Call:
+##  .nigFit.mle(x = x, alpha = alpha, beta = beta, delta = delta, 
+##     mu = mu, scale = scale, doplot = doplot, span = span, trace = trace, 
+##     title = title, description = description)
+## 
+## Model:
+##  Normal Inverse Gaussian Distribution
+## 
+## Estimated Parameter(s):
+##     alpha      beta     delta        mu 
+## 51.173096 -0.869999  0.019418  0.001254 
+## 
+## Description:
+##  Fri Apr 11 23:47:24 2014 by user: user
+</code></pre>
+
+<pre><code class="r">hist(bmw.return, prob = T, nclass = 50)
+x &lt;- seq(from = -0.1, to = 0.05, by = 1e-04)
+lines(x, dnorm(x, mean = mean(bmw.return), sd(bmw.return)), col = 2)
+lines(x, dnig(x, 51.173095881, -0.869998878, 0.019418487, 0.001254031), col = 3)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6gAAALQCAMAAACqma0CAAAAq1BMVEX9/v0AAAAAADkAAGUAOTkAOY8AZo8AZrUAzQA5AAA5ADk5AGU5OWU5OY85ZmU5ZrU5j485j9pGgrRlAABlADllAGVlOQBlOY9lZgBlZjllZmVlZrVlj49ltbVltf2POQCPOTmPOWWPZgCPj2WPtY+P29qP2/21ZgC1Zjm1ZmW1tWW124+1/rW1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AACbEEfOAAAAOXRSTlP/////////////////////////////////////////////////////////////////////////AP+Eine/AAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO2dC3vjOHZgw3JXLE9v7aztruxmdlOe3mTsJDP2TsqWqf//y1bgmyJI8YHHvcQ5X3cZlmSIuJdHIECI/IccAMTzD7E3AACug6gACkBUAAUgKoACEBVAAYgKoABEBVAAogIoAFEBFICoAApAVAAFICqAAhAVQAGICqAARAVQAKICKABRARSAqAAKQFQABSAqgAIQFUABiAqgAEQFUACiAigAUQEUIF3U42P2I88/n25ej483r6aUZdmX5+ZJw49lVb5YX1/VVVddvbB805Faxp+Eaepc1lmtsadmJh93ZfZMtYv/eNM7h0CBqF9/tik9J6PjpkWu67zYxR7WNfLCGU/CFVpRew9vC2r912tElZ9OBaJm942o5/70tuhVz/IWT5qfL+cXvJeOfT59+efzz+q39+wfn7Kb17fS67fC76JHvq1/q/+gqctgPgyKtzq/0Lxpr5qy6vbJsqb7Yvf4T/N38UKliIsetRvxJqAmVTd/O2dlKqmG8vXFXxcpLDNxLnZeWsj7dn5ZleY6792donjNsXnDv8hKqHxRb/6XyWGZ0o+7Iswfv75WT1ailt2hCbH58ffqt/es5hzul6JwX+0N1W+d9DaiVnX9V0fUtprBk1VNt2VNxY4GV+mL2gtqP6C/3E0m1VC9vitqNnzp29nHl3Ot78VnQJ333k7REbXZHDkJVSDqX+/u65S+9+PWO1xte9z6t/fMqJ39OD5+eS4UL1JhjnKa37p/UKW3+jAoD4cuq6mrbp78uDs/aJ4512Q69rpbhimq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" alt="plot of chunk unnamed-chunk-5"/> </p>
+
+<h4>5. Apple Inc</h4>
+
+<pre><code class="r">par(mfrow = c(1, 2))
+nigFit(apple.return)
+</code></pre>
+
+<pre><code>## 
+##  Objective Function Value:   -1447
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1447
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1447
+##  Parameter Estimates:        1 1.49e-08 1 0 
+## 
+##  Objective Function Value:   -1447
+##  Parameter Estimates:        1 0 1 0 
+## 
+##  Objective Function Value:   -1447
+##  Parameter Estimates:        1 0 1 1.49e-08 
+## 
+##  Objective Function Value:   -2451
+##  Parameter Estimates:        1.032 0.5291 1.038 0.8471 
+## 
+##  Objective Function Value:   -1448
+##  Parameter Estimates:        1.003 0.05291 1.004 0.08471 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.001 0.02331 1.002 0.03732 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.001 0.02331 1.002 0.03732 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.001 0.02328 1.002 0.03732 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.001 0.02331 1.002 0.03732 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.001 0.02331 1.002 0.03729 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.015 -0.01237 1.006 0.05899 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.015 -0.01237 1.006 0.05899 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.015 -0.01237 1.006 0.05899 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.015 -0.01237 1.006 0.05899 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.015 -0.01237 1.006 0.05899 
+## 
+##  Objective Function Value:   -1446
+##  Parameter Estimates:        1.032 -0.01596 1.067 0.1198 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.018 -0.009179 1.009 0.0758 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.018 -0.009179 1.009 0.0758 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.018 -0.00918 1.009 0.0758 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.018 -0.009179 1.009 0.0758 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.018 -0.009179 1.009 0.0758 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.019 -0.0165 1.01 0.07105 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.019 -0.0165 1.01 0.07105 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.019 -0.01649 1.01 0.07105 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.019 -0.0165 1.01 0.07105 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.019 -0.0165 1.01 0.07105 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.026 -0.03058 1.015 0.07724 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.026 -0.03058 1.015 0.07724 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.026 -0.03058 1.015 0.07724 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.026 -0.03058 1.015 0.07724 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.026 -0.03058 1.015 0.07724 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.052 -0.02539 1.038 0.0838 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.052 -0.02539 1.038 0.0838 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.052 -0.02539 1.038 0.0838 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.052 -0.02539 1.038 0.0838 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.052 -0.02539 1.038 0.0838 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.086 -0.02907 1.032 0.0782 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.062 -0.03125 1.036 0.07955 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.062 -0.03125 1.036 0.07955 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.062 -0.03125 1.036 0.07955 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.062 -0.03125 1.036 0.07955 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.062 -0.03125 1.036 0.07955 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.063 -0.0331 1.047 0.08342 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.0368 1.042 0.09119 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.0368 1.042 0.09119 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.0368 1.042 0.09119 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.0368 1.042 0.09119 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.0368 1.042 0.09119 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.067 -0.04768 1.037 0.0888 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.07 -0.04064 1.043 0.08876 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03982 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03982 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03982 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03983 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03982 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.073 -0.03982 1.046 0.091 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.08931 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.08931 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.08931 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.08931 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.08931 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.08 -0.04099 1.052 0.0893 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.074 -0.05243 1.042 0.09808 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04617 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04616 1.047 0.09474 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.078 -0.04867 1.054 0.1005 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.078 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.077 -0.04719 1.05 0.09709 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.081 -0.04855 1.051 0.09647 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04805 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.084 -0.04804 1.053 0.09727 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.04925 1.055 0.09744 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.087 -0.05167 1.056 0.1001 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.09 -0.05189 1.058 0.1004 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05214 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05213 1.06 0.1007 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05343 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05298 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.05303 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1009 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   -1444
+##  Parameter Estimates:        1.094 -0.053 1.061 0.1008 
+## 
+##  Objective Function Value:   2850
+##  Parameter Estimates:        62.81 -3.042 0.01848 0.001757
+</code></pre>
+
+<pre><code>## Warning: NaN이 생성되었습니다
+</code></pre>
+
+<pre><code>## 
+## Title:
+##  Normal Inverse Gaussian Parameter Estimation 
+## 
+## Call:
+##  .nigFit.mle(x = x, alpha = alpha, beta = beta, delta = delta, 
+##     mu = mu, scale = scale, doplot = doplot, span = span, trace = trace, 
+##     title = title, description = description)
+## 
+## Model:
+##  Normal Inverse Gaussian Distribution
+## 
+## Estimated Parameter(s):
+##     alpha      beta     delta        mu 
+## 62.809409 -3.042336  0.018477  0.001757 
+## 
+## Description:
+##  Fri Apr 11 23:47:25 2014 by user: user
+</code></pre>
+
+<pre><code class="r">hist(apple.return, prob = T, nclass = 50)
+x &lt;- seq(from = -0.1, to = 0.05, by = 1e-04)
+lines(x, dnorm(x, mean(apple.return), sd(apple.return)), col = 2)
+lines(x, dnig(x, 62.809409119, -3.042336396, 0.018477287, 0.001756665), col = 3)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6gAAALQCAMAAACqma0CAAAApVBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrUAzQA5AAA5ADk5AGU5OWU5OY85ZrU5j485j9pGgrRlAABlADllAGVlOQBlOY9lZgBlZjllZmVlZrVltbVltf2POQCPOTmPOWWPZgCPjzmPtY+P29qP2/21ZgC1ZmW1tWW124+1/rW1/v3ajzna24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3/AAB8xAnOAAAAN3RSTlP//////////////////////////////////////////////////////////////////////wD/rn+PdAAAAAlwSFlzAAALEgAACxIB0t1+/AAAIABJREFUeJzt3Qt/o0qamPGle9JreU96Yvv0JpvEnpNk2smMvbPtS+n7f7QIChCIiwqoy/sWz/ObM/KtkaD0Nxdh9E+GiMT3T6kfABFdD6hECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpCKhECgIqkYKASqQgoBIpSDrUj4fi0ZjPp68vHw9fX8qPiqL48rP9Ztnjskk+j/58Pa1m0vUP2judmMr0N2mmZiCbIW0aHxfH3m97Qzd5t3NtegChUwD126/zqJ7Go2NzBNf1nsdhD6c18YMO36S5zlB7X962RK//66tQZQ+pAqjFXQv1tD69qdaqJ7zVN8vb59MPvFljn09f/u10W3/2VvzzU/H15dW6fq18V2vkm+az5h+00yorfxlUd3X6wfJOe5Oxkz5/007prnri/b/y36VbVFq6WKN2F3e7NMtx+vr305DMjWiZ/fnqX9vxa58J9XC0H5xHq/63zdh3nxjVr4+P9n7/KmdQ5UP9+t/KYbSj+n5bjcb7by/1N2uodnVYLt7y5h/1Z29F02lRP1cf3NVPiPqzzgi3UOtp/UcH6nkyg2/WU7qxU6qeazRfH2pvifaX5p9uZ0e0rP757jB2ngm9DzqjdVf92/of9Z4YHajto5IxqAqg/u32rhnVt/4y622unte4zWdvRUm7ePx4+PKzIl4NQ7mF037W/Qf1gNa/DOym0OVkmkm333y/PX2x/M5pSuWKvVkt02T1ki56v3tNPS710ny/PS3jV+tsYkTLr7U/39turZ8Jd9UBjvaD9s6ajW476f4TowvVbrtJGVQFUF+ey02QM9S39heqHfJ6y9VuQDWWys/Kn7aDZred7M+W49F+1vyDDtTqg3L6Z6jnyTST7n2z3KB6rL573n6myfpQe4u7XZrVB/Um6MSIll9tf74DtXkm2A3du/aDzsaR/cd2Iv0nRnfT92f9IzIGVQPUj4d/7m76dqHWi9AeY2oGsPnMDqtd6A5Qu/uozQ+eodrJNJMeg1oPcYqlpKqRfdTzuIxDHRvRclJDqOdngh+oYgZVA9Ryd789mFQutGbjpV2Ep3Ew5daSXbzNZ31hzdJuN33LxqA2PzQGtZn02KavmDEV3sjLM83iHtv0nRrR8t8NN33Pz4TJTd+m5ndA94lx+unHzv0KGlQVUMtDgP2XZ27qb9aL8K3orlGbz3rD+lxv2ZYf3LSfDTZ9i8fOSrM5mHS5Yu58s3P4Q8yYCq8Ptbe4xw4mTY5oWfPzLdTzM2HmYJL9pJ7I3BND0KCqgGreivbX73NxPl5+XoSnr941O4rtZ/1hfbbDUVq3o2JfoB1ArX4Z1Ntb3/7xMPReTrr9ZvflGSljKryRTd9mcf9qX545DUfz8szkiJY1P9/uo7bPhPKFFXucyH5g77Ye9+6Obu+JUT4N/iebvkTubTnc2p5PMTixQmlAJYHV2zd3qycAVKIIvZ2PRKwKqEQUP6ASKQioRAoCKpGCgEqkIKASKQioRAoCKpGCgEqkIKASKQioRAoCKpGCgEqkIKASKQioRAoCKpGCgEqkIKASKQioRAoCKpGCtkAtKFXexn9fHS5uFbUJqrdHQctiya8LqBQ1lvy6gEpRY8mvC6gUNZb8uoBKUWPJrwuoFDWW/LoOgw/UBFSNseRXdRj5SEtA1RhLflVApbix5FcFVIobS35VQKW4seRXBVSKG0t+VUCluLHkVwVUihtLflVApbix5FcFVIobS35Vh9EPdQRUjbHkVwVUihtLfk2HiY9VBFSNseTXBFSKHEt+TUDNuPv7+9QPYaQ9LHm/lVeEO3QuCwfUnLJKBVLNfsl7r1xiB3NeckDNqPv7+hewOKq5L3n/ATXXiuK+qG7K/weq9oCaaad5K6GWTCupsqjmvOTDBNRMK040G6jVWlWU1JyXfJguoaqTCtSRTjLvTSPU2P+AqjqgZli1rVsfyT9jlSQ11yUfrqKmCdSMqvdPO59WXgVJzXXJhwuoGVZu53bnrRB36DfXJR8uoOZYcX85a9VaVY7UbJd8sICaZQOSQFVeC7UJqBk0IlLWSzTZLvlgXa5Rgaq9maNGwy3iVEl5HHoCambNHDW6OBicMiEPQ1FAzSyg5hlQM2tGo6CXaHJc8mEDam7N7IiWB5RkSM1yyQcNqLl1RSJQdTaAqu2FVKBedA1qIWGuJTwGXQE1t+ahXp5dmCgBD0FZDUygZtKVFSpQlQbUzLoKVcRLNAIegrKAmlMOf8om46/dslvywQNqRrmtLu9NkfyAUur71xdQM8pxu/beJJ/13JZ8+ICaUY5HioCqMKDmlNufx5R7qUBVFlBzyvE4UfqTHlLfv76AmlOuB3TvTeIDStkt+eABNafcoTbX+01Udks+eEDNKOdXSIGqriFUZVKBeg6o+QbUXFp0ylHqkx6yWvJRav7+FKjKW3gSb+LzCHNa8nECaiYt/LMYoCoLqJkE1LwDai4tu2gvUJUF1GxaZi+t1LyWfIyAmksL5QFVV0DNpaXykr5Ck9WSjxJQM2nxGvI+5TkPOS35OAE1k4Cad0DNoZl3cJsMqKoCagatu7TgPfuoigJqBq2EGuCRuJbLko8XUDNo5VW1E0rNZcnHq1HZgapLKlDN0rOSmoCqKKBm0Tpz6aRuXPIfP17Mx0NRfPvl5+EoCKhZtD+opVXz/mc/D0dBQM2hleI0Q33//suuWXcSUHNod1Afvvz1j3KN+n03275AzaC14NRCNebzqbgxb193s0IFag6tBpdMai5LPl5AVd+612aqMoJaNHmfsoyAqr1N7yGe6jTCrXf6flt8+Tl6MCmLMR0JqNrbBtWkWQob7/Pz6fH03x1QFQXUHUK1QJ9vgKqn3UPd9N5sSqGWa9RTr3/6DahaAuqmI0KJ3oFx651+PNyVN6/D12fyGNNhQNXetiO3iY77hlvyWYzpSEDV3kZqaaQCdWljUFVJBWrSf74yoC4NqNoDaqQpJ+3QA2rqEzwOik7w2DvUrdCAqqIh1OqriuYXqKknsCagLgyo2gNqrCknDai623BCflsKqUBdGFBVt+n0wSagKgioqgNqxCknDaiq8wI1hVSgLgyouvNyqm6C832BujCg6s7HyrB8f6nYSwKoC9sD1IyvBuBloxWoCtoB1JyvBuAHqpcd3aX3qW/KaaqvBLUDqCNXA8jlQliejgL5eDF26V0qnHKa6vnZAdSMrwbg7XBt9OO+QHVtFupJqpr5vb6Pmu/VAIAac8pp2hHU6dTM5GhFAdSYU07TJUigasvnMSCgig2oRvmgAjXylNMEVKN8UL2+/BlbKlBdA6rRPqg+z/wDqtSAarQPqldckaUC1TWgGu2D6hdq3LM/gOoaUI3yQfXqNPb5vkB1DahG86AWHl9EraYHVKEB1Sge1KLcVvU7wbgn5gPVNaAaxYPqHWrsE/OB6hpQjeJB9Q818mFfoLoGVKN5UAOsAKNKBaprQDWqB9U/K6CKDKhG9aAGYBVTKlBdA6pRPahAjT7lNAHVaB7UEKiAKrF5qOc/KBcfUL1NM+JFpIDq2iXU4/HY+TpQBef7rKR2uhHPTgKqa9X8nC9idmJqpQJVeuWDBmqCKafpEmp5ezRAlR9QE005TX2oRwNULQWDGvM0QqC6Nga1lApU8QXaRTUxj/sC1bUe1KMBqqaAmmLKaRqF2qxZgSq6YJ6AKq8u1CNQVRXOUzSpQHWtB9W0UI9AlR9Qk0w5TeNQDVAVFJBTLKlAdQ2oRuughsQEVGl1oHbPSAKq/ICaZsppmoJqz/gFqtyCWgKqtCagGqBKD6iJppwmoBqlgxrWUqQr5gPVtTPU3p+3NVDLb+lob1DDOo11Yj5QXSvn52CGUItmlZriQa1pX1DDnedbTz/ShbiB6hpQjcJBLfxfz/fyDoAqK6AahYMaHGrwVXZzNwqnnKYW6vH8uTFAlV2MFR5QRQVUo3FQI/xtN1BFNQm13hQGqsgiKAKqqIBqNA4qUNNNOU0N1GPnc3sLVMHFUBTjPoDqGlCNxkEFaroppwmoRuGgxjkVN8K9ANW1aaj2S0CVGFATTjlNQDX6BjXS37YAVVBANfoGFagpp5ymGuqxA7S5BarUYv21aPj7AaprQDX6BhWoKaecJqAadYMa7WKeQJVTUe+ijkCtpAJVXtGukxL+L2iA6hpQjbZBjXg9o+Cn/gPVtWtQCy1SdwQ1zuWMgCoqC/VogKqlcoUa5QEDVVJANcoGNRrU0z5q8J1UoLo2B7V6G0agCiseVBN+fxiorgHVKBvU0y5qxMcbWCpQXQOqUTao8d5lOMK9AdU1oBpdgxrXKVClBFSja1AjQw19RX6FU05TBfVogKqk2E6BKqRZqOWaFqiiAmryKacJqEbVoAI1+ZTTBFSjalBjnT/YuceQEweqa0A1mgY16tkO57sMFlBdA6rRNKgJoAaVClTXSqhHA1QdVSfJAzXtlNMEVKNoUO9N1PMHq/PygSqiq1C1/On4TqDGrVqBS4b6fluUfX3xPmVpFXYXdQJq+QflQJVSpDcX7t6jkQ318+mxun379svzlMUFVKNlUGO8e/HgLu3dBr2DDX38eOnd+puyuIBqtAxqAqh2l1guVNaoQJVXuQ2a5pGGk7p1fj4edrSPerS3zee9W6AKKv5ZSc0dB5syR31dA6rRMqjRT/ONcM/+l3zR5H3KaQOqAWq6e/bw8syXn3s5mDQH9bT/ClQhpYMa7q49HEz6fLoDKlAFBdRBFujzDVCBKqT4Jzt0kwq1fnnm9U+/ARWoEioiXLV+rlBSt788c1fevA5fn5E/pssCqtEwqClOdmjvO+CJ+bw841pzVBeooksINehphEB1DahGxaAWybZ8gSoioBodg5rsWBJQRVTYXdRJqMURqBJKeMw35In5QHXtOlQlq1SganwAQHUNqEbDoCZ3CtTEAdVoGNT0UMM8BKC61ly8DKhyi/DO3w4BNWlANdIHtXx0QJUz5TQB1Ugf1NSnD9YBNWlANdIHFaiyppymq1CNkhdS84Wa8Kyk80MIdL4vUF0DqpE/qMn3UKuzk4CaMqAa8YOa3Gm40wiB6hpQjfhBBaqoKacJqEb8oKaHWr83lf8HAlTXjkAVP6gCoNqAmi6gGtGDKuOspDqgpguoRvKgCjkrqQ6o6boOlRMeEibkZIcm71KB6hpQjeRBBaq8KacJqEb0oEraRQVqwhqFO4Cq9G3kJUH1/mCA6poDVB1Hk65CVfqmt6KcAjVVx/1AHXkbeQ1v0QdUaVNO0o6g6lyjynIK1FTtCKrOt5EXBDXEZUOB6th1qEVxPMjeOLRletRXDtQgJ+YD1TGXNWp5wEn+bAM1cBaq5wcEVMeAWiZ37uQ4BWrSgFomd+4EQQ3yp25AdQyoZWLnTpLTOqAmCahlYudOIFS/jwmojgG1TOrcSXQK1BQdXU4hBGqqREL1+qiA6hZQq4TOnYDr+Y4F1PgBtUrm3JVnF0h7ZL4vxA1Ut46HOaDN7eGoYLYzhHov7pF5PzsJqG4BtUrm3EmF6nOLHKhuuUE9bfvKn+38oN7LO8W6WaN6e1xAdQuoVTLnTuIx38LupAI1ckCtkjl3EqEae74vUON2NEAtkzl3QqFW11vztVUOVKeAahM5d1KdlpWPzctCA6pTQLWJnDugCp1ygoBqkzh3kp0CNXJAtUmcO9lQ2UeNmjPUo/zZBmrMfD06oDoFVJvEuQOq1CknCKg2gXMn26m3xwdUp4BqEzh3QBU75fgdDVCr5M2ddKdAjRlQ6+TNHVDlTjl+QK0TN3finQI1ZkCtEzd38qF6eohAdenYOZMBqJICquApx88darnyFR5QI3fv4+QkoLrkDLW8GIv0coKqwamfC8UA1SWg1kkbVBVQvVzoAaguAbVO2KBqcArUiAG1TtigqoDq5/LgQHUJqHVSBrX+4zEdUL08TKA6dDRAtQkZ1KL+r/qzbHGXCh3mQSpQHQJqk5BBraHenz+UHVDjBNQmIYNqdd6fP5TedqlAdWgJ1EK81Ayg2u1doHpJ/tJzDqhNogbVPvs17KPWv1O2PFKgOgTUJlGDquSYb9l9YZWuX35AdWgZ1MIW8fEtSzvUZtkqctqeRgjUoK1Zo8qdfeVQ2+e7Sqirf4MD1aFj963EgZq27muoaqpOI9y0+QvU61UrVKCWCZgrlVCb0wiBGjKgtkmYK7te8vc+aXGqD1EboIZrCdT2jAe5s68dqu1exwuobfUGAPuoAQNqm5y5Ugp1dUC93jKo9cVY5M4+UJO0USpQrwfUNjFzda/klKRzQA0eUNvEzJWuY75V2x4yUK8H1DYpc6XQKVCDB9Q2KXOlEeq2Bw3U6wG1TcpcNc95VfupQA1bCQ+oNilz1bwqaeQ8pOsBNWxAPSdkrtoVqhHzkBwCatiAek7IXOmEukkqUK9md1GBWiZjrs5PeFX7qEAN21KoVqrc2c8JqrI2PPCNS/7jx4v5eCiKb798T1lOQD0nYq7UOk0LtbRq3v/se8pyAuo5EXMF1OWdlL5//2XXrH6nLKdlUIsDUAMH1OV9PHz56x/lGvX7YNtXxJj6CKjnJMyVXqdbHvvmJf/5VNyYt6+DFaqIMfUSUM9JmCv1UFcdquao77Xql1GBWiZgrjQ7tX+eZ9YsR/9LviikX9h2WUDtJGCugOo5AWPqJaB2EjBXQPWcgDH1ElA7CZgr9VDD7aN+PNxMf6vezh0eTRIwpl5aDrX6J3JnXzdU3U7XP363Jf9WFF9+jn7n8+lu05TllyvUt+oX7OOyf5t6rooCqFf6fBof1Y/fxwUnH1Nf5Qn1rai2kk6juohq4rmq3hki7UPY3EqpbrP9fluuUUdOP9o8ZfllCfXjv7YnqPxfRYMK1Nk+HkbOufcyZQ1lCXVtQN1cSKjVmnTZ+jT5mPqqcZobVLtO/fxD16DW77WkunVSr893e2B34WpV/xKtOpqiOHRP4MgE6ml35sY8TxwinCz1XGk/lFQWCurydan7lBV0gprlGtWUB5QWHvNNP1dA9V/qMfVUtlA1rlFzcBpu0/fH3x8mzmnYOGUV5QpV4z5qFk5XzgZr1Csthlpf40Hu7Fcvz/yP9lNFL88ANURyn6mLyhOqzhMeMoG6aj6clvzrt1+v6s4281SmUFWeQgjU+T5+/3n63/tvmnZnvJUn1HUH8hPPVS5Ow0H98XJapwLVlgnUv+t7zQ2o13otvvxc/KKb3GfqovKEap4n/zxxtpRzlY3TVbPCwaT5jiZPqArPYgFqmOQ+U5eULdR1AdVPy+fFacm/adtK8hdQewHVT2GgfjwsPifUccryO9pzjQxQqxLOVU5OezPjdgklTsqfD6i9gOqnzswUxmmxOi3556nrIm2esvjWQa2OFUutPpj0sOawb7q5yspp7y1eTbVSvbZk3TZ9972PmiVU+9v39eZt0Z8ZA9VTF1DN1UXLUd/5soXaXLZj2YkPQPVV713Tgbq5FVDtTqrc2bdQ7XVeX7/9+/B9+GZKNle5Oe3PkC+on0/Ft39MXRZ005SlV/1laZZQ7clJNwuP6APVW32pXvZRT79837//WrYzA9Q4D3BFGo/65ud06Sw5vjxzgrrLqxACtR9QvRUAql2jvrJGdblVA7V864OlV5ZMNVcZOg0BVdWY+i1fqM3BJBW/ffODWix9Fx2O+s62Fqo5yp39/sszKvZnsoNaLkegeixfqKxRU1a9HrNorlyW/Pvt8vOSgBrl8a1J3z5qdk5bqO7vaezwc2/VVZrfb/d4hYeMoc5k37xvbLsYqJ4qhd67nOjQ/oOrP/H5F3umw/uiU1gygmqd7gjq59NjtWUsBWrt1H3toyTPUJvhUnLcwW+5Qm3f+Wtsj8aO9PONLKgLntRaugeqp0qnWUKdrVyjnnr90/C6k0D12b3XfVSg2o/3A/W0vq3+APn1vLotmgI+rqmaLV+Tx3Oq24Kdbweoc1tJm6Ysv51CnS4h1Pz2UT1DXVsOS3U9VPtPRaYMaoaHfNsW/AUNUOdaB7X+03GpOUJ9Hbv+TiqoGa5Ny3rXODOzixeocwH1okRQc9w/rXK/yBlQ5wLqRUD1G1D9tGeoo3UHNc7m6H1ztzk8n4Z1pfaX5+WnwR5CDgsWqBcV/Q8jjHH9Imqe+6gzh8ouFy9QZ7LYgHouHNQJivfT38qjKalAXRBQLwsGdWJqWe+gVgHVQ3bLtyPQ4XY3UP2u6PYItVqA09u+7KM6B9TLgg1qpXEoP2eodr5cz+cA6kxAvSzg02X0cvE5n+1Qz6+jVKDOtAVqIVaqTKija86cTx8Eqr+AehlQPVZvKbjNJFBnAuplQQd1sImbt9MmoG5uLdRSKlC3B9RzQJ0JqJcB1X9jczk8fgbUmYB6GVADNJzNkd11oE5Xn5gE1HOD3/MhXznZiVOgbg2og0aePcHGeS9OR+YUqIsC6iCghmhklco+6oLqP3ID6rl2Zu0TCahecjnfF6jTbYMq9iRCD1BboCH3UYHa/T0I1OmAOugSasD243RyXoHqFlAHATVIQN0UUAdd7KMGbE9Op6Wyj+oSUAfFG1Sg9gPqZM2FWIB6Ltqg7supw/wCdTKgDgNqoIC6vg1Qq38F1A0B9SKgTgbUYbEGdW9OgbohoA4DaqiuzTFQJ9sKVapUBVD35/TqOwIAdTKgDgNqsK5cGRWokzVvPAPUc2EGdacXS+oH1LUBdViQQR0+Pc9QM72m70hAXRtQh8WBej/9rXy7cq1xoE7VvkMUUM9Fger+7r5ZNb+9D9SpgDpSlH1UoI4E1KmAOlKUQe0+Y/ezj3pFKlCnAupI0aHuKaCuahNUe0k0mVKlQ92r0/mTHoA6FVBHCj6op2fpzqFO7JYDdSqgjhR6UE/Tv9f+xFkfUNcE1JGAGjKgrqk53wGoncJDvVf/xNnQzEkPQJ3qeFpgxaFoFxtQTYx91B2vUGePowF1omM1A6xR+4Uf1P0eSiqbnnugTgTUsYIP6r6dAnV5QB0LqGED6uJ8QJUpVTLUnTude7+ojRN+vy0PtxRfX7xPOXFAHQuogQsF9fPpsbp9+/bL85RTtxFq9S+BurTdQ519Z7cNffx46d36m3LqgDoWUEMXCCprVKB6DKehoJqPB/ZRe7dAXR9Ow0GdTjfUowHqSEAN3sx7pfqtaPI+5ZgBdTSgBi8a1PBTjpGFWmkD6jmghm98KQB1PKCOFnRQcVoVBGp9LGnsaBJQjUypvqF628sBqm10OWxdxp9PdxPfAarZBdRi/MvLw2ldEKjm4/ef498AqgHqgnDaFAbqZEA1QF0QUJuAuiCgjhZwHxWobWOLAqjjbYZaiD3sK/SoL1DbgOpcCQyow8INKk47jSwMoI4G1PGquQty1hlQO428+w5QR7NQ7X4mUM8Vnf+8htNuI+9nB9TRfEGVKBWo4gOqa0AdD6hxGr7nOlBHA+p4ofZRcdqvu0plH3UmoI4XalCBetFggQB1NKCOF2hQcXoZUJ2qeAF1GFAjBVSnfEAV+xepQFUQUJ0C6kRAjdXlIgHqWECdKMyg4nQYUF0C6kRBBhWnY10sFaCOZaFap9ugCpQKVBUB1SGgThRiUHE6Xn+5AHUsoE4E1HgB9XpAnQioqQLqSBYXUIcBNVVAHQmoUwUYVJw6BdSRgDqV/0HFqVtAHckPVKkvpAJVY0AdySdUeVKBqjGgjmRt1U6B2gmoqQLqSECdyvug4tQxoI4E1Kn8Q9X+jtexAupIQJ3K96DeFzMTxXAnoA6raQF1mOdBvTczUOcM7y+gDgPqZEBNFVCHAXUy71Bntm+B2g2ow3xBFXrGgyyoc3fGPuo5oA6rjyXNCJy5HUAVJ1UOVF6bcQ+ow4A6GVBTBdRhQJ3M66DidEFAHQbUyYCaKqAOao4lAXUYUFMF1EFAnc7noE465WjvSEAdBNTpYkDl9dOxgDoIqFXvv70Mv+hxUKdXqH7vJ5OAOsgfVJlSr0L9eChsXwdUgZoqoA7aPdST1BPRZGtU9lHHAuqg5o/c9gu1pPrt38NC5ZDvsoA6CKhl77fdDd+iydujAOqygDoIqNN5G1ScLgyol7V/OwPUYUBNFVAvA6rt9W7ki74GFadLA+pl/qEKkwpUjQH1MqDagCoqoF7mE6rIbV8B+6g4XRxQL2uvFQrUYUBNFVAvA+pMfgYVp8sD6kXnK5sBdRhQUwXUi4A6F1BTBdSLgDqXl0HF6YqAehFQ5wJqqoB6UQiosqSmhorTNQH1Ir9QJa5SgaoxoF50fstFoA4DaqqAehFQ5wJqqoB6EVDn8jCoOF0VUPt13skNqMO2DypO1wXUfkCdDaipAmq/MFBFSU0KFacrA2o/oM4G1FQBtd/5WBJQRwJqqoDazzdUgTupQNUYUPv5g1q3D6iuV/zF6dqA2quzi8oadaSJQS2mv9ULp6sDai+gzgfUVAG1F1DnA2qqgNqrBFXuWHbfZ8UHVElSE+6jAnV1QO1VQa1xAXXYtkHF6fqA2ss/VHmHfZNBxemGgNqt4gTU6YCaKqB2A+qVgJoqoHYD6pWAmiqgdgsHVZDUVFBxuiWgdgsC1Z5KmAlU13MFRwLq6rYs9usTDzblcFmo9TqQNeow1zMbRsLp6jYsdcepaysEVHHnJqWBitP1AfUyoF4JqCkC6kUWE1CnW7+zBNQNsY/aD6jXWj+oC6GGfGaqDKidQkKVc9g3CdSlTrfcV5YBtVPn8g4GqGOtHdSlG75AvQyobUVx7Fw8xR/U+q9bgbrwftQ9gYIG1LYi0BoVqCsOJbGPehFQ2xpKQJ0uGlS6aCOnjx8v5uOhKL798j3l+AH1erw2k6rtUEur5v3PvqccP6BeD6ip2g71/fsvu2Ztpti09aHFrqZ0cBfo+GP1pdKkSI0PFafb2wr14ctf/yjXqN8H275AbW/tO9kAldacZvxBAAAKLklEQVS3mdPnU3Fj3r6+DL4B1PYWqLQ1jvq2AfV6qwYVpx4CaltzLAmo0wE1VUBta053AOp0awYVpz4CaltoqFKkRoaKUy8BtS0c1FIqUGlLQG0D6vWAmiqgNh2Bej2gpgqoTUf7gIE61/JBxamfgNp07JCqAuqwxYOKU08BtSkoVLueliEVqBoDalNIqAaotC2gNgHVIaCmCqh1R3tqAlBnWzqoOPUVUOtqqAaocy0cVJx6C6h1MaDKkApUjQG1LizU+m9ygEorA2odUF0CaqqAWldBra9uZAPqsGWDes2pwgtrJQuotqMBqkNeoRaLJ7jjgGoLDvVQ30v6okG9ukJdOsE9B1RbaKiC3nwxFtSrO6hAXRBQbRXUA1Cv5BUq+6gLAqrNQq0+BOp0fqGSe0CtKgEB9XpATRVQq8JDLcQcTYoEFadeA2pVBfUQHqoEqXGg4tRvQK2yUO3HQJ0OqKkCahVQ3QJqqoBaVvEJDVXKTipQNQbUshhQ7aGqY3qpUaDi1HNALav0TLzTuF+oAlapMaDi1HdALQOqY0BNFVDLokA1QnZSgaoxoJrG6XqBjj8GVFodUE1kqMmlRoCKU+8B1cSFmn6VGh4qTv0HVGPtHCJAlbHtC1SNAbXeGp18Fzd/UIXspAaHitMAAbU95gvU6wE1VUCNCVWEVKBqDKj1Luomga4/tguoOA0RUJtdVKA6BNRUAbU9LQmo13MYVJwGCajNlm8UqBKkAlVjQI0JVcQqFagaA2p7Qj5Qr3d9UHEaJqA2K9QoUKt7AiotDqixoNqqExXTSg0KFaeBAurRzL+Vhec1KlBpTbuHWr6KOns9X79QBWz7AlVjQDUJoCaVGhIqTkMF1GbLNyLUtKtUoGps71DPW76RoBbJt32vQ32/ffx8KopvvwbfuTKoOA3W7qG2K1SgNn0+PZrnx5PX7wOpQE0VUK9dfdA71NRSr0L9+PHy+Zef1e3lt+YHFafhAmpsqMmP+17f9D2tTt/ujHm7GXwHqKnaOdTTLmrjFKjnnquTMzpOi6bZfwbUcO0dqokPNbXUYEd9cRqwPUM9rSCOxdWrDwK1E1BTtWuodoUaH+pBA9TXu5Evzg0qTkO2d6iHBFDLVWrCk5OAqrHdQ/Uq0PHH0q5SgaqxXUOtVqiDI5rhoRoNUEebGVScBm3vUE2KNWraVSpQNbZvqC5/hxoCatJVahioOA3bnqEenf5gPAzUQ2ZQcRq4fUOtbiJDrS/Jkm6VClSN7Rjq0e3vUIOsUcs/ogEqubdrqPY2EdRDqpdSgaqxHUM9hBHo+mPJVqkhoOI0dPuFekgNNdUqNQBUnAZvt1DP5w4mglpKXffQNwZUje0XajiBrj8GVHJuj1Crl0cO7TmDyaAmkhoK6rU/K6ct7RJqvdmZHmoSqf6h3jffkjvm6tsnVCskOdT2AohR8w71vv2W3DFX3y6h1muy9FCTbPwCVWN7hNq8MCIAqkmwSg0ElX3UoO0QantCvASox/hbv6GgUsj2B/VwKI5yoLYnMsbLN1ScxihnqKMXoy3Xp/WOYVKobcfqlaKIS8szVJxGKWuoF7emZNr5+zIJa9Ti9GvjcIi6tICqsX1BPfTenVQGVCtVLVScxmlXUGunsQS6/tjx/AcCMQKqxnYE1R5fPa1PpUHtvVOVy3u8bAuoGtsN1EPrVB5UM/nLI0ReoeI0UjuBWjO1+6cCoU5tjocIqBrbBdSGqemdkSQI6uSR6BD5hIrTWOUP9dAyLU4rrpFL4ouAevGaL1CpX+ZQK6X1IzlenOggC+r4t0MEVI1lDPXQrEsn9gOBuryLx4XTaGUKtULaffKPHO0F6vKAmqpYUL2+Pjh6Em/99cPhYk1a7ZseZ96uTSTUqYYzvHix+oOK03htlfN+Wz1Rvr5cmbLXNcXls9vUq9CGaPfOjsepfVPRUK9MZf7L8wFVYxvlfD49Vrdv337NT9k31MNl3ak3O6U1UkkCgUqr2ijn48dL79ZMbY5NbsvNNuDYdnRo3X2qbMmYBXp/VApauDUqCQ2oGtu65D8eqt/oI/uoJDSgaowlv7uAqjGW/O4CqsZY8rsLqBpjye8uoGqMJb+7gKoxlvzuAqrGWPK7C6gaY8nvLqBqjCW/u4CqMZb87gKqxljyuwuoGmPJ7y6gaowlv7uAqjGW/O4CqsZY8rsLqBpjye8uoGqMJb+7gKoxlvzuAqrGWPK7axNUSpW38Q9R6oUTsXgLdQvUzXmfzx1OUGB+53E/U5sNqMonKDDJGCRPbTagKp+gwCRjkDy12YCqfIICk4xB8tRmA6ryCQpMMgbJU5sNqMonKDDJGCRPbTagKp+gwCRjkDy12ZJCJSK3gEqkIKASKQioRAoCKpGCgEqkIKASKQioRAoCKpGCgEqkoBRQPx6Kb7/qj99/e+l/YdsE649ei6L4+uJtcsIen9D8DqvPZeZ3QNOMZgKon0+P5vXGfvxWzmH3C9sm2Hz0/Ojl8dUfCXt8QvM7rD6Xmd8BTTSaCaB+/Hixv3FPs/jl/5w+6Hxh4wTrjz7/8tPL46s/Evb4hOZ3WH0uM78Dmmg0E0B9//7LfPxez1w5y70vbJpg/dFpk6QoVv+aG0xO2OMTmt9h9bnM/A5ootFMAPXt28WI9r6waYL1R+//8tOs/z03mJywxyc0v8Pqc5n5HdBEoxkZ6nNR3Hj91dufYHdKq/ccwq9Rtz0+gfkdVt9jGniNuuGRLSjtPqodUe/7gNVXVy+68Puo2x6f0PwOq89lFngfdcMjW1CSo75352Nu5Yz2vrBpgvVH5TbJ5x9rZQ0mJ+zxCc3vsPpcZn4HNNFopnsd1f4u8vg6avVbvH1l68v6TdXB5IQ9PqH5HVafy8zvgKYZTc5MIlIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJdVNXfZzy/VdJQZUUh1Qc+5524V6KU3vt+WbvHz8+N/l5Tnrm/qynfZtD9//879+fak+K//vb79VF8guv/i37/9L+bv97BPqx4+//8jrF+4eKt8+orzO/cO3X29fm5sSavt79/32sfktXAqtoZ6++H57V10oW2/7hGpei7vUD4HW9PHjJPSxfFOm+qaU+/vP6u0l6nfSsJ91oNob5RvDO4VavgMXqeu5fGvv6n2Znh/rm2oVW9TXqq+3g8vPgJpFz/+dXVR1levQegVarlHtTf2eT7bmvansh0BV3/v3/8jt7Ul3UKXtX07bvNUbM9U39T6q3QGtLNrPatGvX4Gqt8+nR+WHFvbZa1H8p389bfP+W3XU197UW7v2o+a9qU6ffT59fTn9/H/5AVSiFNXvHbzlraUVBlRSFlCJSGhAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBQGVSEFAJVIQUIkUBFQiBf1/1AMKmZ2eM34AAAAASUVORK5CYII=" alt="plot of chunk unnamed-chunk-6"/> </p>
+
+<h4>Summary interpretation</h4>
+
+<p>수익률의 분포는 정규분포와 거리가 멀다는 것을 확인할 수 있다. 그래프에서 확인할 수 있듯이 Normal-Inverse Gaussian Distribution 에 의한 곡선이 자료의 히스토그램과 더 잘 맞는다는 것을 알 수 있겠다.</p>
+
+<h3>Volatility at Risk</h3>
+
+<h4>1. Samsung eletronics</h4>
+
+<pre><code class="r">vol.samsung &lt;- nig.volatility(78.239151023, 7.288384337, 0.024389717, -0.001864134)
+std.samsung &lt;- sd(samsung.return)
+print(c(vol.samsung, std.samsung))
+</code></pre>
+
+<pre><code>## [1] 0.01777 0.01769
+</code></pre>
+
+<h4>2. KT corporation</h4>
+
+<pre><code class="r">vol.kt &lt;- nig.volatility(55.4120323065, -1.2010779678, 0.0152491054, 0.0001032147)
+std.kt &lt;- sd(kt.return)
+print(c(vol.kt, std.kt))
+</code></pre>
+
+<pre><code>## [1] 0.01659 0.01655
+</code></pre>
+
+<h4>3. LG Display Co., Ltd</h4>
+
+<pre><code class="r">vol.lg &lt;- nig.volatility(41.6633981699, 0.8777504231, 0.0288644214, -0.0009912696)
+std.lg &lt;- sd(lg.return)
+print(c(vol.lg, std.lg))
+</code></pre>
+
+<pre><code>## [1] 0.02633 0.02641
+</code></pre>
+
+<h4>4. BMW</h4>
+
+<pre><code class="r">vol.bmw &lt;- nig.volatility(51.173095881, -0.869998878, 0.019418487, 0.001254031)
+std.bmw &lt;- sd(bmw.return)
+print(c(vol.bmw, std.bmw))
+</code></pre>
+
+<pre><code>## [1] 0.01948 0.01934
+</code></pre>
+
+<h4>5. Apple Inc</h4>
+
+<pre><code class="r">vol.apple &lt;- nig.volatility(62.809409119, -3.042336396, 0.018477287, 0.001756665)
+std.apple &lt;- sd(apple.return)
+print(c(vol.apple, std.apple))
+</code></pre>
+
+<pre><code>## [1] 0.01718 0.01742
+</code></pre>
+
+<h4>Summary interpretation</h4>
+
+<p>분포에 의해서 추정된 변동성(volatility)(표준편차)의 값이 실제 자료에 의해서 얻어진 값과 매우 비슷하다.</p>
+
+<h3>Value-at Risk</h3>
+
+<h4>1. Samsung eletronics</h4>
+
+<pre><code class="r">a1 &lt;- qnig(0.05, 78.239151023, 7.288384337, 0.024389717, -0.001864134)  # 95% VaR
+a2 &lt;- qnorm(0.05, mean(samsung.return), sd(samsung.return))  # 95% VaR
+print(c(a1, a2))
+</code></pre>
+
+<pre><code>## [1] -0.02757 -0.02869
+</code></pre>
+
+<pre><code class="r">a3 &lt;- qnig(0.005, 78.239151023, 7.288384337, 0.024389717, -0.001864134)  # 99.5% VaR
+a4 &lt;- qnorm(0.005, mean(samsung.return), sd(samsung.return))  # 99.5% VaR
+print(c(a3, a4))
+</code></pre>
+
+<pre><code>## [1] -0.05004 -0.04516
+</code></pre>
+
+<pre><code class="r">a5 &lt;- qnig(0.01, 78.239151023, 7.288384337, 0.024389717, -0.001864134)  # 99% VaR
+a6 &lt;- qnorm(0.01, mean(samsung.return), sd(samsung.return))  # 99% VaR
+print(c(a5, a6))
+</code></pre>
+
+<pre><code>## [1] -0.04327 -0.04074
+</code></pre>
+
+<h4>2. KT corporation</h4>
+
+<pre><code class="r">a1 &lt;- qnig(0.05, 55.4120323065, -1.2010779678, 0.0152491054, 0.0001032147)  # 95% VaR
+a2 &lt;- qnorm(0.05, mean(kt.return), sd(kt.return))  # 95% VaR
+print(c(a1, a2))
+</code></pre>
+
+<pre><code>## [1] -0.02668 -0.02744
+</code></pre>
+
+<pre><code class="r">a3 &lt;- qnig(0.005, 55.4120323065, -1.2010779678, 0.0152491054, 0.0001032147)  # 99.5% VaR
+a4 &lt;- qnorm(0.005, mean(kt.return), sd(kt.return))  # 99.5% VaR
+print(c(a3, a4))
+</code></pre>
+
+<pre><code>## [1] -0.05529 -0.04285
+</code></pre>
+
+<pre><code class="r">a5 &lt;- qnig(0.01, 55.4120323065, -1.2010779678, 0.0152491054, 0.0001032147)  # 99% VaR
+a6 &lt;- qnorm(0.01, mean(kt.return), sd(kt.return))  # 99% VaR
+print(c(a5, a6))
+</code></pre>
+
+<pre><code>## [1] -0.04623 -0.03872
+</code></pre>
+
+<h4>3. LG Display Co., Ltd</h4>
+
+<pre><code class="r">a1 &lt;- qnig(0.05, 41.6633981699, 0.8777504231, 0.0288644214, -0.0009912696)  # 95% VaR
+a2 &lt;- qnorm(0.05, mean(lg.return), sd(lg.return))  # 95% VaR
+print(c(a1, a2))
+</code></pre>
+
+<pre><code>## [1] -0.04222 -0.04382
+</code></pre>
+
+<pre><code class="r">a3 &lt;- qnig(0.005, 41.6633981699, 0.8777504231, 0.0288644214, -0.0009912696)  # 99.5% VaR
+a4 &lt;- qnorm(0.005, mean(lg.return), sd(lg.return))  # 99.5% VaR
+print(c(a3, a4))
+</code></pre>
+
+<pre><code>## [1] -0.08205 -0.06841
+</code></pre>
+
+<pre><code class="r">a5 &lt;- qnig(0.01, 41.6633981699, 0.8777504231, 0.0288644214, -0.0009912696)  # 99% VaR
+a6 &lt;- qnorm(0.01, mean(lg.return), sd(lg.return))  # 99% VaR
+print(c(a5, a6))
+</code></pre>
+
+<pre><code>## [1] -0.06971 -0.06182
+</code></pre>
+
+<h4>4. BMW</h4>
+
+<pre><code class="r">a1 &lt;- qnig(0.05, 51.173095881, -0.869998878, 0.019418487, 0.001254031)  # 95% VaR
+a2 &lt;- qnorm(0.05, mean(bmw.return), sd(bmw.return))  # 95% VaR
+print(c(a1, a2))
+</code></pre>
+
+<pre><code>## [1] -0.03025 -0.03089
+</code></pre>
+
+<pre><code class="r">a3 &lt;- qnig(0.005, 51.173095881, -0.869998878, 0.019418487, 0.001254031)  # 99.5% VaR
+a4 &lt;- qnorm(0.005, mean(bmw.return), sd(bmw.return))  # 99.5% VaR
+print(c(a3, a4))
+</code></pre>
+
+<pre><code>## [1] -0.06226 -0.04890
+</code></pre>
+
+<pre><code class="r">a5 &lt;- qnig(0.01, 51.173095881, -0.869998878, 0.019418487, 0.001254031)  # 99% VaR
+a6 &lt;- qnorm(0.01, mean(bmw.return), sd(bmw.return))  # 99% VaR
+print(c(a5, a6))
+</code></pre>
+
+<pre><code>## [1] -0.05225 -0.04408
+</code></pre>
+
+<h4>5. Apple Inc</h4>
+
+<pre><code class="r">a1 &lt;- qnig(0.05, 62.809409119, -3.042336396, 0.018477287, 0.001756665)  # 95% VaR
+a2 &lt;- qnorm(0.05, mean(apple.return), sd(apple.return))  # 95% VaR
+print(c(a1, a2))
+</code></pre>
+
+<pre><code>## [1] -0.0270 -0.0278
+</code></pre>
+
+<pre><code class="r">a3 &lt;- qnig(0.005, 62.809409119, -3.042336396, 0.018477287, 0.001756665)  # 99.5% VaR
+a4 &lt;- qnorm(0.005, mean(apple.return), sd(apple.return))  # 99.5% VaR
+print(c(a3, a4))
+</code></pre>
+
+<pre><code>## [1] -0.05484 -0.04401
+</code></pre>
+
+<pre><code class="r">a5 &lt;- qnig(0.01, 62.809409119, -3.042336396, 0.018477287, 0.001756665)  # 99% VaR
+a6 &lt;- qnorm(0.01, mean(apple.return), sd(apple.return))  # 99% VaR
+print(c(a5, a6))
+</code></pre>
+
+<pre><code>## [1] -0.04620 -0.03967
+</code></pre>
+
+<h3>Summary interpretation</h3>
+
+<p>금융자료에서 나오는 수익률은 정규분포와는 거리가 멀다.
+하지만 Normal-Inverse Gaussian Distribution을 가정하면 그래프를 통해 알 수 있듯이 더 fitting이 바람직하게 됨을 확인할 수 있다.
+따라서 Normal-Inverse Gaussian Distribution을 이용하여 분석하는 것이
+더 현명한 방법이라고 할 수 있으며
+Value-at-Risk 에서도 알 수 있듯이 정규분포는 위험을 더 과소평가하는 경향이 있으므로 정규분포임을 가정하여 수익률을 분석할 경우 잘못된 해석결과가 나올 수 있으니 조심해야 하겠다.</p>
+
+</body>
+
+</html>
+

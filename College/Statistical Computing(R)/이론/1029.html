@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>10월 29일 통계계산 과제</title>
+
+<base target="_blank"/>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>10월 29일 통계계산 과제</h1>
+
+<p>Package인 MASS를 loading하여 Data frame인 cabbages를 사용하여 아래 물음 및 지시에 해당하는 R 프로그램을 작성하라.</p>
+
+<pre><code class="r">library(MASS)
+cabbages
+</code></pre>
+
+<pre><code>##    Cult Date HeadWt VitC
+## 1   c39  d16    2.5   51
+## 2   c39  d16    2.2   55
+## 3   c39  d16    3.1   45
+## 4   c39  d16    4.3   42
+## 5   c39  d16    2.5   53
+## 6   c39  d16    4.3   50
+## 7   c39  d16    3.8   50
+## 8   c39  d16    4.3   52
+## 9   c39  d16    1.7   56
+## 10  c39  d16    3.1   49
+## 11  c39  d20    3.0   65
+## 12  c39  d20    2.8   52
+## 13  c39  d20    2.8   41
+## 14  c39  d20    2.7   51
+## 15  c39  d20    2.6   41
+## 16  c39  d20    2.8   45
+## 17  c39  d20    2.6   51
+## 18  c39  d20    2.6   45
+## 19  c39  d20    2.6   61
+## 20  c39  d20    3.5   42
+## 21  c39  d21    2.2   54
+## 22  c39  d21    1.8   59
+## 23  c39  d21    1.6   66
+## 24  c39  d21    2.1   54
+## 25  c39  d21    3.3   45
+## 26  c39  d21    3.8   49
+## 27  c39  d21    3.2   49
+## 28  c39  d21    3.6   55
+## 29  c39  d21    4.2   49
+## 30  c39  d21    1.6   68
+## 31  c52  d16    2.0   58
+## 32  c52  d16    2.4   55
+## 33  c52  d16    1.9   67
+## 34  c52  d16    2.8   61
+## 35  c52  d16    1.7   67
+## 36  c52  d16    3.2   68
+## 37  c52  d16    2.0   58
+## 38  c52  d16    2.2   63
+## 39  c52  d16    2.2   56
+## 40  c52  d16    2.2   72
+## 41  c52  d20    4.0   52
+## 42  c52  d20    2.8   70
+## 43  c52  d20    3.1   57
+## 44  c52  d20    4.2   58
+## 45  c52  d20    3.7   47
+## 46  c52  d20    3.0   56
+## 47  c52  d20    2.2   72
+## 48  c52  d20    2.3   63
+## 49  c52  d20    3.8   54
+## 50  c52  d20    2.0   60
+## 51  c52  d21    1.5   78
+## 52  c52  d21    1.4   75
+## 53  c52  d21    1.7   70
+## 54  c52  d21    1.3   84
+## 55  c52  d21    1.7   71
+## 56  c52  d21    1.6   72
+## 57  c52  d21    1.4   62
+## 58  c52  d21    1.0   68
+## 59  c52  d21    1.5   66
+## 60  c52  d21    1.6   72
+</code></pre>
+
+<pre><code class="r">attach(cabbages)
+</code></pre>
+
+<ol>
+<li>Data frame의 변수 이름을 확인하여 보아라.</li>
+</ol>
+
+<pre><code class="r">names(cabbages)
+</code></pre>
+
+<pre><code>## [1] &quot;Cult&quot;   &quot;Date&quot;   &quot;HeadWt&quot; &quot;VitC&quot;
+</code></pre>
+
+<ol>
+<li>함수 dim을 이용하여 Data frame의 관측치 개수만을 알아 보아라. (변수의 개수는 출력에서 제외)</li>
+</ol>
+
+<pre><code class="r">dim(cabbages)[1]
+</code></pre>
+
+<pre><code>## [1] 60
+</code></pre>
+
+<ol>
+<li>명령문 for를 이용하여 각 변수가 factor인지를 살펴 그 여부를 출력하라.</li>
+</ol>
+
+<pre><code class="r">col &lt;- c()
+for (i in 1:length(cabbages[1, ])) {
+    col[i] &lt;- is.factor(cabbages[, i])
+}
+print(col)
+</code></pre>
+
+<pre><code>## [1]  TRUE  TRUE FALSE FALSE
+</code></pre>
+
+<ol>
+<li>변수 cult 중, c39에 대하여 VitC에 대한 평균과 분산을 구하여라. </li>
+</ol>
+
+<pre><code class="r">a &lt;- list(mean = mean(VitC[Cult == &quot;c39&quot;]), variance = var(VitC[Cult == &quot;c39&quot;]))
+a
+</code></pre>
+
+<pre><code>## $mean
+## [1] 51.5
+## 
+## $variance
+## [1] 50.74
+</code></pre>
+
+<ol>
+<li>명령문 while을 이용하여 VitC 값을 차례대로 더하여 500을 초과하면 몇 개의 관측치를 더하여 어떤 값을 얻었는지를 출력하여라.</li>
+</ol>
+
+<pre><code class="r">sum &lt;- 0
+n &lt;- 0
+while (sum &lt;= 500) {
+    n &lt;- n + 1
+    sum &lt;- sum + VitC[i]
+}
+list(sum = sum, n = n)
+</code></pre>
+
+<pre><code>## $sum
+## [1] 504
+## 
+## $n
+## [1] 12
+</code></pre>
+
+<ol>
+<li>Date별로 VitC의 평균을 구하고, 명령어 barplot을 이용하여 아래 그림을 그려라.</li>
+</ol>
+
+<pre><code class="r">d16 &lt;- mean(VitC[Date == &quot;d16&quot;])
+d20 &lt;- mean(VitC[Date == &quot;d20&quot;])
+d21 &lt;- mean(VitC[Date == &quot;d21&quot;])
+date &lt;- cbind(d16, d20, d21)
+</code></pre>
+
+<pre><code class="r">barplot(date, ylim = c(0, 80), col = &quot;gray&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAADFBMVEX9/v0AAAC+vr79/v1XecznAAAABHRSTlP///8AQCqp9AAAAAlwSFlzAAALEgAACxIB0t1+/AAACjpJREFUeJztndtO40oABNeH///ns7vsDUhDADWupKsk8MMIVDOF7XEI4tuDTPLtbAE5B8OPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD/KFeGPR/ou8oW8Hf54dpS7wPCjGH4U7/GjuKsf5SPhj8OLwM1z3aX+4WJlw98w123ufn+8HJEbxfCjGH4U7/GjfOZxzvA3jOFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4FseX8y49w7c4/vtiDM/A8KMYfhTDj2L4UQw/iuFHuf3w8eUBw7/GzYc/nh1fjsglDD+K4Ue5+fDe4z/G7YfPU/vE194/dxj+Y78HXOP2wx+PqS8OSOTmwx+/Cru5ex+GH8Xwo9x8eB/nPsbth89T+8TX3j+GH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwo+yE/7o/BL+JN4IMhWfP9KuBL4fhW8CXw/At4Mth+Bbw5TB8C/hyGL4FfDkM3wK+HIZvAV8Ow7eAL4fhW8CX4/7CU145hixH4g7DMzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHgHDlzQwHoErwsd/pGn4VzQwHoG3wx/Pji9HWDOFaGA8AoYvaWA8AoYvaWA8At7jSxoYj4C7+pIGxiPwkfDHcfEiAJkpRAPjEbg2/KXvavhXNDAegSs2d5fP7wfDv6qB8Qhctbl7GflxADlTiAbGI3DVpf57esO/UwPjEbjyHn/pac7wr2lgPAI+zpU0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB4Bw5c0MB6BK8Ifj1wYQM4UooHxCLwd/nh2fDnCmilEA+MRMHxJA+MRMHxJA+MR8B5f0sB4BNzVlzQwHoGPhD+OixcByEwhGhiPwHWX+p+HlwPImUI0MB6B6zZ3P9Ib/l0aGI/Atbv6w/Dv08B4BK5+nLuwrTf8KxoYj8A19/gnh5cDsJlCNDAeAR/nShoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj4DhSxoYj8AV4Y9HLgwgZwrRwHgE3g5/PDu+HGHNFKKB8Qh8JPxxXLwIHF/OZV+GBsYj8JkzXm6Yz9zj5Yb5zK5ebhjDj2L4UQw/iuFHMfwohh/F8KMYfhTDj2L4UQw/iuFHMfwohh/l1PDHn08Pp/7C//grcKbHPxr9t72cHv74U//UFT+eHM7WeOj/+J0X/vvcfs70n9P+RI9fEueFf6Zxv+GPf0/2HzM9qf3x9/Q6M/xTjXu+1P9Z4l+31tPOtN8Kfy+z52sMhX8wvOEXPZ5qGP7rPJ6e9Sdr3HP4h9/v1T/7Of7R4/efDpzm8VTjnsPLqRh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/CiGH8Xwoxh+FMOPYvhRDD+K4Ucx/Cj/A5JsKeE9iOYeAAAAAElFTkSuQmCC" alt="plot of chunk unnamed-chunk-8"/> </p>
+
+<ol>
+<li>명령어 plot을 이용하여 다음 그림을 그려라. 단, 수직선은 y=100-15x에 해당된다.</li>
+</ol>
+
+<pre><code class="r">plot(HeadWt, VitC, xlim = c(1, 4.5), ylim = c(40, 85), xlab = &quot;Head Weight&quot;, 
+    ylab = &quot;Vitamin C&quot;, type = &quot;p&quot;, cex = 0.5, lwd = 2)
+lines(HeadWt, 100 - 15 * HeadWt, type = &quot;l&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-9"/> </p>
+
+</body>
+
+</html>
+

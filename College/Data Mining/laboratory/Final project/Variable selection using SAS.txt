@@ -1,0 +1,18 @@
+proc import out=final
+datafile="D:\수업자료\대학\(3)Junior\3-2\데이터마이닝실습(1전공)\Final project\Data for analysis\초등학생 취학률\Data for analysis (Final).csv"
+dbms=csv replace ;
+run ;
+proc print data=final ;
+run ;
+proc reg data=final ;
+model percent = vaccine oneparents household nurture parking hospital score tubercle basic infect school roadkill violence /
+selection=forward sle=0.15 ;
+run ; quit ;
+proc reg data=final ;
+model percent = vaccine oneparents household nurture parking hospital score tubercle basic infect school roadkill violence /
+selection=backward sls=0.2 ;
+run ; quit ;
+proc reg data=final ;
+model percent = vaccine oneparents household nurture parking hospital score tubercle basic infect school roadkill violence /
+selection=stepwise sle=0.15 sls=0.2 ;
+run ; quit ;

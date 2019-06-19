@@ -1,0 +1,47 @@
+library(ggmap)
+library(ggplot2)
+library(devtools)
+install_github("ggmap", "haven-jeon")
+
+final <- read.csv("D:/수업자료/대학/(3)Junior/3-2/데이터마이닝실습(1전공)/Final project/Data for analysis/
+Data for analysis(final).csv",sep=",",header=T)
+final$year <- as.factor(final$year)
+str(final)
+
+seoul <- get_map(location = "seoul")
+seoulmap <- ggmap(seoul, extent = "device")
+seoulmap + geom_point(aes(x = LNG, y = LAT, colour = percent, size = percent), data = final)
+
+colMeans(final[,21:22])
+cent <- c(126.99318,37.55028)
+
+## level 수를 적절히 정하고 중심위치를 이동하고 싶은 경우 cent 값을 바꾼다. ##
+seoulmap_1 <- ggmap(get_navermap(center = cent, level = 7, baselayer = "default",
+overlayers = c("anno_satellite", "traffic"),
+marker = data.frame(cent[1], cent[2]), key = "c75a09166a38196955adee04d3a51bf8",
+uri = "www.r-project.org"), 
+extent = "device", base_layer = ggplot(final, aes(x = LNG, y = LAT)))
+
+theme_set(theme_bw(16))
+seoulmap_1 + geom_point(aes(x = LNG, y = LAT, colour = percent,
+size = percent), data = final)
+
+seoulmap_1 + stat_density2d(aes(x = LNG, y = LAT, fill = ..level..,
+alpha = ..level..), size = 2, bins = 4, data = final, geom = "polygon")
+
+seoulmap_1 + stat_density2d(aes(x = LNG, y = LAT, fill = ..level..,
+alpha = ..level..), bins = 3, geom = "polygon", data = final) + 
+scale_fill_gradient(low = "black", high = "blue")
+
+seoulmap_1 + stat_density2d(aes(x = LNG, y = LAT, fill = ..level..,
+alpha = ..level..), bins = 4, geom = "polygon", data = final) + 
+scale_fill_gradient(low = "green", high = "blue") + facet_wrap(~year)
+
+seoulmap_2 <- qmap("seoul",zoom=12)
+
+mlongitude <- tapply(final$LNG, final$region1, mean, na.rm = TRUE)
+mlatitude <- tapply(final$LAT, final$region1, mean, na.rm = TRUE)
+
+강북구, 용산구, 양천구, 광진구
+
+

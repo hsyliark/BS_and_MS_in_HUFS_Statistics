@@ -1,0 +1,25 @@
+data empinfo;
+	infile empdata;
+	input @9 FirstName $5. @1 LastName $7. +7 JobTitle 3.
+	@19 Salary comma9.;
+run;
+proc print data=empinfo;
+run;
+
+data survey;
+	infile credit;
+	input Gender $ Age Bankcard FreqBank Deptcard FreqDept;
+run;
+
+data survey;
+	infile credit dlm=',';
+	input Gender $ Age Bankcard FreqBank Deptcard FreqDept;
+run;
+
+data mixed;
+	infile rawdata;
+	input SSN $ 1-11 @13 HireDate date7. @21 Salary comma6.
+	Department : $9. Phone;
+run;
+proc print data=mixed;
+run;

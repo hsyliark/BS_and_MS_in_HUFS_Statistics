@@ -1,0 +1,258 @@
+Drawing p.m.f(discrete) or p.d.f(continuous) of some probability distributions
+========================================================
+
+1. Discrete case
+-------------------------
+
+### Binomial Distribution (이항분포) [X ~ B(n,p)]
+
+베르누이시행을 n번 독립적으로 반복했을 때 성공의 횟수에 대한 분포 
+
+```{r}
+x <- rbinom(1000,6,1/6)
+y <- table(x)
+w <- prop.table(y)
+w
+barplot(w,width=0.8,xlim=c(0,6),ylim=c(0,0.4),col="yellow",main="X~B(6,1/6)")
+z <- 0:6
+lines(z,dbinom(z,6,1/6),col="blue",lwd=3,type="s")
+mean(x)
+```
+
+### Geometric Distribution (기하분포) [X ~ Geometric(p)]
+
+베르누이시행을 독립적으로 시행할 때 성공이 일어날 때까지의 횟수에 관한 분포 (단, R에서는 실패횟수에 관심을 가진다.)
+
+```{r}
+x <- rgeom(1000,0.4)
+y <- table(x)
+w <- prop.table(y)
+w
+barplot(w,width=0.8,xlim=c(0,11),ylim=c(0,0.5),col="yellow",main="X~Geometric(0.4)")
+z <- 0:11
+lines(z,dgeom(z,0.4),col="blue",lwd=3,type="s")
+mean(x)
+```
+
+### Poisson Distribution (포아송분포) [X ~ Poisson(λ)]
+
+일정한 시간 또는 공간 내에서 일어나는 사건의 횟수에 관한 분포
+
+```{r}
+x <- rpois(1000,5)
+y <- table(x)
+w <- prop.table(y)
+w
+barplot(w,width=0.8,xlim=c(0,14),ylim=c(0,0.25),col="yellow",main="X~Poisson(5)")
+z <- 0:14
+lines(z,dpois(z,5),col="blue",lwd=3,type="s")
+mean(x)
+```
+
+### Negative Binomial Distribution (음이항분포) [X ~ NB(r,p)]
+
+베르누이시행을 독립적으로 시행할 때 성공이 r번 일어날 때까지의 횟수에 관한 분포 (단, R에서는 실패횟수에 관심을 가진다.) 
+
+```{r}
+x <- rnbinom(1000,3,0.7)
+y <- table(x)
+w <- prop.table(y)
+w
+barplot(w,width=0.8,xlim=c(0,7),ylim=c(0,0.4),col="yellow",main="X~NB(3,0.7)")
+z <- 0:7
+lines(z,dnbinom(z,3,0.7),col="blue",lwd=3,type="s")
+mean(x)
+```
+
+### Hypergeometric Distribution (초기하분포) [X ~ Hypergeometric(N,M,k)]
+
+특정한 원소의 개수가 M개 포함되어있는 원소가 N개인 집단에서 k개를 비복원으로 추출 시 나타나는 특정한 원소의 개수에 대한 분포 (단, R에서는 총원소의 개수를 N+M개로, 특정한 원소의 개수를 M개로 인식한다.)
+
+```{r}
+x <- rhyper(1000,30,70,10)
+y <- table(x)
+w <- prop.table(y)
+w
+barplot(w,width=0.8,xlim=c(0,8),ylim=c(0,0.3),col="yellow",main="X~Hypergeometric(70,30,10)")
+z <- 0:8
+lines(z,dhyper(z,30,70,10),col="blue",lwd=3,type="s")
+mean(x)
+```
+
+2. Continuous case
+-------------------------
+
+### Uniform Distribution (균일분포) [X ~ Uniform(a,b)]
+
+연속형 확률분포 중 가장 간단한 분포 
+
+```{r}
+x <- runif(1000,3,4)
+hist(x,prob=T,xlim=c(3,4),ylim=c(0,1.5),col="green",main="X~Uniform(3,4)")
+z <- seq(3,4,0.001)
+lines(z,dunif(z,3,4),col="red",lwd=3)
+mean(x)
+```
+
+### Exponential Distribution (지수분포) [X ~ Exp(λ)]
+
+포아송분포를 따르는 사건에서 사건과 사건 사이의 대기시간에 관한 분포 
+
+```{r}
+x <- rexp(1000,3)
+hist(x,prob=T,xlim=c(0,3),ylim=c(0,3),col="green",main="X~Exp(3)")
+z <- seq(0,3,0.001)
+lines(z,dexp(z,3),col="red",lwd=3)
+mean(x)
+```
+
+### Gamma Distribution (감마분포) [X ~ Gamma(α,β)]
+
+포아송분포를 따르는 사건이 α회 일어날 때까지 걸리는 시간에 관한 분포 (단, R에서는 X ~ Gamma(α,β) 라고 표기할 때 평균이 α/β 인 분포로 인식한다.)
+
+```{r}
+x <- rgamma(1000,3,4)
+hist(x,prob=T,xlim=c(0,3),ylim=c(0,1.5),col="green",main="X~Gamma(3,4)")
+z <- seq(0,3,0.001)
+lines(z,dgamma(z,3,4),col="red",lwd=3)
+mean(x)
+```
+
+### Chi-square Distribution (카이제곱분포) [X~χ²(s)]
+
+감마분포에서 모수가 s/2, 2 인 경우이다. 즉, 카이제곱분포는 감마분포의 특수한 경우이며 모분산에 관한 신뢰구간 및 가설검정, 적합도 검정, 독립성 및 동질성 검정에 사용되는 중요한 분포 중 하나이다. 여기서 s은 자유도이다.
+
+
+```{r}
+x <- rchisq(1000,5)
+hist(x,prob=T,xlim=c(0,20),ylim=c(0,0.2),col="green",main="X~χ²(5)")
+z <- seq(0,20,0.001)
+lines(z,dchisq(z,5),col="red",lwd=3)
+mean(x)
+```
+
+### Normal Distribution (정규분포) [X ~ N(μ,σ²)]
+
+통계적으로 가장 중요한 확률분포이다. 모든 확률분포는 표본의 크기가 충분히 클 때 그 표본의 평균에 관한 분포는 근사적으로 정규분포를 따르게 된다. 이 정리가 바로 중심극한정리(Central Limit Theorem)이다. 또한 통계적인 추론을 할 때 모집단이 정규분포를 따른다는 가정을 하고 분석을 하는 경우가 많다. 그만큼 중요한 분포이다.
+
+```{r}
+x <- rnorm(1000,3,1)
+hist(x,prob=T,xlim=c(0,6),ylim=c(0,0.5),col="green",main="X~N(3,1²)")
+z <- seq(0,6,0.001)
+lines(z,dnorm(z,3,1),col="red",lwd=3)
+mean(x)
+```
+
+### Beta Distribution (베타분포) [X ~ Beta(α,β)]
+
+```{r}
+x <- rbeta(1000,2,4)
+hist(x,prob=T,xlim=c(0,1),ylim=c(0,3),col="green",main="X~Beta(2,4)")
+z <- seq(0,1,0.001)
+lines(z,dbeta(z,2,4),col="red",lwd=3)
+mean(x)
+```
+
+### Cauchy Distribution (코쉬분포) [X ~ C(θ,σ)]
+
+코쉬분포의 평균과 분산은 존재하지 않는다.
+
+```{r}
+x <- rcauchy(1000,2,1)
+hist(x,prob=T,xlim=c(-8,12),ylim=c(0,0.32),col="orange",main="X~C(2,1)")
+z <- seq(-8,12,0.001)
+lines(z,dcauchy(z,2,1),col="brown",lwd=3)
+```
+
+### T Distribution (T분포) [X ~ T(s)]
+
+T = Z/(V/s)^(1/2) (단, Z ~ N(0,1), V ~ χ²(s)) 라고 정의할 때 확률변수 T는 자유도가 s인 T분포를 따른다. 이 분포는 모평균에 대한 신뢰구간 및 가설검정, 그리고 회귀분석에서의 절편과 기울기에 관한 추론에서 많이 쓰이는 중요한 분포이다.
+
+```{r}
+x <- rt(1000,7)
+hist(x,prob=T,xlim=c(-5,5),ylim=c(0,0.5),col="orange",main="X~T(7)")
+z <- seq(-5,5,0.001)
+lines(z,dt(z,7),col="brown",lwd=3)
+mean(x)
+```
+
+### F Distribution (F분포) [X ~ F(u,v)]
+
+F = (U/u)/(V/v) (단, U ~ χ²(u), V ~ χ²(v)) 라고 정의할 때 확률변수 F는 자유도가 (u,v) 인 F분포를 따른다. 이 분포는 모분산의 비에 관한 신뢰구간 및 가설검정, 분산분석에서 많이 쓰이는 분포이다.
+
+```{r}
+x <- rf(1000,4,8)
+hist(x,prob=T,xlim=c(0,5),ylim=c(0,0.8),col="orange",main="X~F(4,8)")
+z <- seq(0,5,0.001)
+lines(z,df(z,4,8),col="brown",lwd=3)
+mean(x)
+```
+
+### 이 외에도 잘 알려지지 않은 수많은 확률분포들이 많이 존재한다.
+
+
+Creating digits from unknown probability distributions
+
+========================================================
+
+Some Examples
+
+-------------------------
+
+### X ~ Beta(4,1) 
+
+```{r}
+> u <- runif(1000,0,1)
+> x <- u^(1/4)
+> hist(x,prob=T,col="green",main="pdf of Beta(4,1)")
+> z <- seq(0,1,0.001)
+> lines(z,dbeta(z,4,1),col="blue",lwd=3)
+```
+
+### p.d.f f(x) = 2x-2 , 1 <= x <= 2 
+
+```{r}
+> u <- runif(1000,0,1)
+> x <- 1+(u^(1/2))
+> hist(x,prob=T,col="yellow",main="pdf of fX(x)")
+> z <- seq(1,2,0.001)
+> lines(z,2*z-2,col="red",lwd=3)
+```
+
+### Suppose that X ~ N(0,1), calculate P(-0.7 <= x <= 1.2) using R.
+
+```{r}
+> std.norm <- function(x) exp(-(x^2)/2)/sqrt(2*pi)
+> integrate(std.norm,lower=-0.7,upper=1.2)
+```
+
+Drawing probability distribution function of bivariate 
+
+========================================================
+
+### Bivariate normal distribution (이변량정규분포)
+
+```{r}
+my.draw <- function(f,low=-1,high=1,n=50) {
+r <- seq(low,high,length=n)
+z <- outer(r,r,f)
+persp(r,r,z,theta=25,phi=30,axes=T,box=T)
+}
+```
+
+```{r}
+f1 <- function(x,y) {
+exp(-(x^2+y^2-x*y)/(2*(1-0.5^2)))/(2*pi*sqrt(1-0.5^2))
+}
+my.draw(f1)
+```
+
+```{r}
+x <- seq(-3,3,length=100)
+y <- x
+contour(x,y,outer(x,y,f1),nlevels=10)
+```
+
+```{r}
+image(x,y,outer(x,y,f1),add=T,col=terrain.colors(12),zlim=range(outer(x,y,f1)))
+```

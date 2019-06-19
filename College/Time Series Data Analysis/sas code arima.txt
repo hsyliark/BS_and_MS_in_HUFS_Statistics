@@ -1,0 +1,298 @@
+symbol1 v=none i=join l=1 ;
+symbol2 v=none i=join l=2 ;
+symbol3 v=none i=join l=3 ;
+symbol4 v=none i=join l=4 ;
+
+/* White Noise */
+data ar0 ;
+do t=1 to 200 ;
+x=rannor(100) ;
+output ;
+end ;
+
+proc gplot data=ar0 ;
+plot x*t ;
+run ;
+
+proc arima data=ar0 ;
+identify var=x ;
+estimate p=1 plot ;
+forecast id=t lead=10 out=re_ar0 ;
+run ;
+
+/* AR(1) */
+data ar1 ;
+x=0 ;
+phi=0.5 ;
+do t=1 to 200 ;
+x=phi*x+rannor(20) ;
+output ;
+end ;
+
+proc gplot data=ar1 ;
+plot x*t ;
+run ;
+proc arima data=ar1 ;
+identify var=x ;
+estimate p=1 plot ;
+forecast lead=10 id=t out=re_ar1 ;
+run ;
+
+/* AR(1) nonstationary */
+data ar1_1 ;
+x=0 ;
+phi=1 ;
+do t=1 to 200 ;
+x=phi*x+rannor(20) ;
+output ;
+end ;
+
+proc gplot data=ar1_1 ;
+plot x*t ;
+run ;
+
+proc arima data=ar1_1 ;
+identify var=x(1) ;
+estimate p=1 plot ;
+forecast lead=10 id=t out=re_ar1_1 ;
+run ;
+
+/* MA(1) */
+data ma1 ;
+laga=0 ;
+theta1=0.7 ;
+do t=1 to 200 ;
+a=rannor(14) ;
+laga=lag(a) ;
+x=a+theta1*laga ;
+output ;
+end ;
+
+proc gplot data=ma1 ;
+plot x*t ;
+run ;
+
+proc arima data=ma1 ;
+identify var=x ;
+estimate q=1 plot noconstant ;
+forecast lead=10 id=t out=re_ma1 ;
+run ;
+
+/* AR(2) */
+data ar2 ;
+x1=0 ;
+x2=0 ;
+phi1=1.2 ;
+phi2=-0.35 ;
+do t=1 to 200 ;
+x=phi1*x1+phi2*x2+rannor(20) ;
+output ;
+x2=x1 ; x1=x ;
+end ;
+
+proc gplot data=ar2 ;
+plot x*t ;
+run ;
+
+proc arima data=ar2 ;
+identify var=x ;
+estimate p=2 plot ;
+forecast lead=10 id=t out=re_ar2 ;
+run ;
+
+/* AR(2) nonstationary */
+data ar2_1 ;
+x1=0 ;
+x2=0 ;
+phi1=1.5 ;
+phi2=-0.5 ;
+do t=1 to 200 ;
+x=phi1*x1+phi2*x2+rannor(20) ;
+output ;
+x2=x1 ; x1=x ;
+end ;
+
+proc gplot data=ar2_1 ;
+plot x*t ;
+run ;
+
+proc arima data=ar2_1 ;
+identify var=x(1) ;
+estimate p=1 plot ;
+forecast lead=10 id=t out=re_ar2_1 ;
+run ;
+
+/* AR(1)4 */
+data ar1_4 ;
+x4=0 ;
+x3=0 ;
+x2=0 ;
+x1=0 ;
+phi=0.5 ;
+do t=1 to 200 ;
+x=0*x1+0*x2+0*x3+phi*x4+rannor(20) ;
+output ;
+x4=x3 ; x3=x2 ; x2=x1 ; x1=x ;
+end ;
+run ;
+
+proc gplot data=ar1_4 ;
+plot x*t ;
+run ;
+
+proc arima data=ar1_4 ;
+identify var=x ;
+estimate p=(4) plot ;
+forecast lead=10 id=t out=re_ar1_4 ;
+run ;
+
+/* AR(1)4 nonstationary */
+data ar1_4 ;
+x4=0 ;
+x3=0 ;
+x2=0 ;
+x1=0 ;
+phi=1 ;
+do t=1 to 200 ;
+x=0*x1+0*x2+0*x3+phi*x4+rannor(20) ;
+output ;
+x4=x3 ; x3=x2 ; x2=x1 ; x1=x ;
+end ;
+run ;
+
+proc gplot data=ar1_4 ;
+plot x*t ;
+run ;
+
+proc arima data=ar1_4 ;
+identify var=x(4) ;
+estimate p=(1) plot ;
+forecast lead=10 id=t out=re_ar1_4 ;
+run ;
+
+/* AR(1)(1)4 */
+data ar1_014 ;
+x5=0 ;
+x4=0 ;
+x3=0 ;
+x2=0 ;
+x1=0 ;
+phi1=0.5 ;
+phi4=0.6 ;
+phi5=-0.3 ;
+do t=1 to 200 ;
+x=phi*x1+0*x2+0*x3+phi4*x4+phi5*x5+rannor(20) ;
+output ;
+x5=x4 ; x4=x3 ; x3=x2 ; x2=x1 ; x1=x ;
+end ;
+run ;
+
+proc gplot data=ar1_014 ;
+plot x*t ;
+run ;
+
+proc arima data=ar1_014 ;
+identify var=x(4) ;
+estimate p=(1) plot ;
+forecast lead=10 id=t out=re_ar1_014 ;
+run ;
+
+/* 추세가 있으면서 비정상 시계열이면 trend=2 사용 */
+%dftest(ar2_1 , x , dlag=1 , trend=1 , outstat=df_out) ;
+proc print data=df_out ;
+run ;
+
+/* 변환 */
+data new ;
+set ar2_1 ;
+y=x+1000 ;
+
+%logtest(new , y , out=new_out) ;
+proc print data=new_out ;
+run ;
+
+/* Data Analysis */
+data flight ;
+input x @@ ;
+t+1 ;
+cards ;
+63577 66317 77724 77961 85574 91296 81447 91681 96257 109469
+92904 59955 70628 73646 80735 87796 94860 92407 81746 94065
+96757 93563 69299 50308 61550 66602 69698 82855 81520 55415
+64264 71845 71971 76929 71318 53291 57982 59603 71495 89447
+95823 80016 82334 89074 82213 92468 80606 58894 71450 62856
+83960 89441 91868 83787 82924 90943 74790 105688 80042 62568
+64982 71435 80288 93634 95650 87172 95632 96630 94603 104262
+82377 63827 70402 73275 85402 106566 101289 98940 96009 105322
+104743 117395 99050 74239 77597 80402 100788 117005 118573 110577
+107208 122961 113817 122465 111066 85413 83164 91163 119810 123450
+128553 125616 127414 143005 128363 210416 133506 103371 106059 104500
+134787 141705 153339 147821 141193 158694 146620 160720 142953 110144
+109680 120234 151408 156751 161196 164874 165548 169260 192499 196202
+181840 141778 142595 144825 176833 181503 205798 196554 187305 195835
+200983 218793 184950 150272 152814 158908 189322 199489 194689 209519
+201444 214058 215148 229030 207628 175499 157192 162372 184101 199383
+216209 207933 210018 220526 211965 265759 195836 217145 197256 175627
+162117 161719 194579 184128 189356 205476 201984 266352 227534 311032
+238424 225796 178274 206077 259296 217655 219239 248521 215085 251417
+233833 272519 252327 221225 200506 212554 238296 223349 253511 260855
+250624 283244
+;
+
+proc print data=flight ;
+run ;
+
+proc gplot data=flight ;
+plot x*t ;
+run ;
+
+proc arima data=flight ;
+identify var=x nlag=36 ;
+run ;
+
+%logtest(flight , x , out=new_out) ;
+proc print data=new_out ;
+run ;
+
+data new1 ;
+set flight ;
+z=log(x) ;
+run ;
+
+proc gplot data=new1 ;
+plot z*t ;
+run ;
+
+proc arima data=new1 ;
+identify var=z nlag=36 ;
+run ;
+
+%dftest(new1 , z , dlag=12 , trend=1 , outstat=df_out) ;
+proc print data=df_out ;
+run ;
+
+proc arima data=new1 ;
+identify var=z(1) nlag=36 ;
+estimate p=(1)(12) q=(12) plot ;
+forecast lead=36 id=t out=new1_out ;
+run ;
+
+proc print data=new1_out ;
+run ;
+
+proc gplot data=new1_out ;
+plot (z forecast)*t / overlay ;
+run ;
+
+/* 실제 값 변환 */
+data origin ;
+set new1_out ;
+ori_data=exp(z) ;
+fore=exp(forecast) ;
+run ;
+
+proc gplot data=origin ;
+plot (ori_data fore)*T / overlay ;
+run ;
+
+quit ;

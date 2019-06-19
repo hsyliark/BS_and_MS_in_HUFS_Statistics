@@ -1,0 +1,118 @@
+/* 월별 관광수입(1997.1~2014.1) */
+
+proc import out=cost
+datafile="D:\수업자료\대학\(4)Senior\4-1\통계세미나(1전공)\발표\월별 관광수입(1997.1~2014.1).csv"
+dbms=csv replace ;
+run ;
+
+data cost ;
+set cost ;
+t+1 ;
+time=intnx('month','01jan97'd,_N_-1) ;
+format time monyy. ;
+run ;
+
+symbol1 v=none i=join l=1 ;
+symbol2 v=none i=join l=2 ;
+symbol3 v=none i=join l=3 ;
+symbol4 v=none i=join l=4 ;
+
+proc gplot data=cost ;
+plot cost*time ;
+run ; quit ;
+
+* Box-Cox power transformation ;
+
+ods graphics on ;
+proc transreg data=cost detail ;
+model boxcox(cost / convenient lambda=-2 to 2 by 0.01)=identity(t) ;
+run ; quit ;
+ods graphics off ;
+* Best lambda = -0.69 ;
+
+data cost ;
+set cost ;
+w=(cost**(-0.69)-1)/(-0.69) ;
+run ;
+
+proc gplot data=cost ;
+plot w*time ;
+run ; quit ;
+
+* 모형의 식별 ;
+
+proc arima data=cost ;
+identify var=w stationarity=(adf=(1,12)) ;
+run ; quit ;
+
+data cost ;
+set cost ;
+y=dif(w) ;
+run ;
+
+proc gplot data=cost ;
+plot y*t ;
+run ; quit ;
+
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+run ; quit ;
+
+* 모수의 추정 및 모형의 검진 ;
+
+** AR(1)12 ? ;
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) method=ml plot ;
+run ; quit ;
+
+** AR(1)12 no mean ? ;
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) method=ml noconstant plot ;
+run ; quit ;
+
+** ARMA(1,0)12(0,1) no mean ? ;
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) q=(1) method=ml noconstant plot ;
+run ; quit ;
+
+** ARMA(1,0)12(1,0)4(0,1) no mean ? ;
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12)(4) q=(1) method=ml noconstant plot ;
+run ; quit ;
+
+** w -> ARIMA(1,0,0)12(1,0,0)4(0,1,1) with no mean ;
+
+* 예측 (전방 24단계(2014.2~2016.1) ;
+
+ods graphics on ;
+proc arima data=cost ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12)(4) q=(1) method=ml noconstant plot ;
+forecast id=t lead=24 out=result1 ;
+run ; quit ;
+ods graphics off ;
+
+data result1 ;
+set result1 ;
+time=intnx('month','01jan97'd,_N_-1) ;
+format time monyy. ;
+z=(1-0.69*w)**(-1/0.69) ; z_forecast=(1-0.69*forecast)**(-1/0.69) ;
+lb95=(1-0.69*l95)**(-1/0.69) ; ub95=(1-0.69*u95)**(-1/0.69) ;
+run ;
+
+* 실제 vs 예측 ; 
+
+proc gplot data=result1 ;
+plot (z z_forecast)*time / overlay ;
+run ; quit ;
+
+proc gplot data=result1 ;
+plot (z z_forecast lb95 ub95)*time / overlay ;
+run ; quit ;
+* 앞으로 2년동안은 관광수입이 증가할 것으로 예상됨~~!! ;
+
+

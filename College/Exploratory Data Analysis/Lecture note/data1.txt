@@ -1,0 +1,6 @@
+no name age sex
+1 LEE 55 M
+2 PARK 47 F
+3 SO 35 M
+4 KIM 26 F
+5 YOON 29 M

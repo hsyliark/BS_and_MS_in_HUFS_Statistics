@@ -1,0 +1,189 @@
+---
+title: "통계학세미나"
+output: 
+  html_document:
+    toc: true
+---
+
+## 1. Load packages
+
+```{r, message = FALSE}
+library(survival)
+library(stringr)
+library(dplyr)
+```
+
+
+## 2. Data Load
+
+* pharynx : 구강내 악성종양이 있는 환자들을 두 그룹(방사선치료 단독 요법, 방사선 및 그 외 요법 병행)으로 나누어 연구한 기록을 나타낸 데이터임
+
+![pharynx](C:\Users\Kimjunyoung\Desktop\KJY\통계학세미나\00.PNG)
+
+
+```{r}
+pharynx <- read.csv('C:\\Users\\Seonhwa\\Desktop\\Dropbox\\대학원\\생존분석(통계학 세미나)\\pharynx.csv', head=T)
+#pharynx <- read.csv("C:/Users/Kimjunyoung/Desktop/KJY/통계학세미나/Data/pharynx.csv", header = T)
+
+str(pharynx)
+```
+
+* pharynx data는 13개의 변수와 195개의 관측치로 구성되어 있음
+* `CASE` : 사례 id (각 데이터 또는 환자의 id로 봐도 무방)
+* `INST` : 참여 기관(1~6까지 6개의 기관이 있음)
+* `SEX` : 환자의 성별
+       + 1 : 남자
+       + 2 : 여자
+* `TX` : 치료
+       + 1 : 방사선치료 + a
+       + 2 : 방사선치료
+* `GRADE` : 악성종양이 숙주세포와 유사한 정도
+       + 1 : 매우
+       + 2 : 보통
+       + 3 : 저조
+       + 9 : 결측치
+* `AGE` : 진단 당시의 나이
+* `COND` : 진단 당시의 건강 상태
+       + 1 : 일상생활에 지장없음
+       + 2 : 일상생활이 다소 제한됨
+       + 3 : 자기 관리 및 도움 필요
+       + 4 : 침대 위
+       + 9 : 결측치
+* `SITE` : 부위(위치)   → 위 이미지 참고
+       + 1 = faucial arch
+       + 2 = tonsillar fossa 
+       + 3 = posterior pillar
+       + 4 = pharyngeal tongue
+       + 5 = posterior wall
+* `T_STAGE` : 종양 크기에 따른 단계
+       + 1 = 최대 직경 2cm 이하의 원발 종양
+       + 2 = 최대 직경 2~4cm의 원발 종양
+       + 3 = 4cm 이상의 원발 종양
+       + 4 = 거대 침습성 종양(-침습성증식 : 분열로 증식하는 종양세포가 주위의 고유조직세포사이에 퍼져가는데 이때 정상조직을 파괴하면서 확대하는 현상)
+* `N_STAGE` : 암세포의 전이 정도에 따른 단계
+       + 0 = 림프절에 전이한 임상적 증거 없음
+       + 1 = 직경 3cm 이하의 양성 노드 1개 존재, 고정되지 않음
+       + 2 = 직경 3cm 이상의 양성 노드 1개 존재, 고정되지 않음
+       + 3 = 여러 개의 양성 노드 또는 고정된 양성 노드 존재
+* `ENTRY_DT` : 연구 시작 날짜: Day of year and year, dddyy
+* `STATUS` : censoring 여부
+       + 0 = censored
+       + 1 = dead
+* `TIME` : 진단 당시부터의 생존 시간
+
+<br>     
+
+## 3. Data Handling
+
+```{r}
+# 결측치 제거
+pharynx_new <- filter(pharynx, pharynx$GRADE != 9,  pharynx$COND != 0, pharynx$COND != 9)  # missing value
+
+str(pharynx_new)
+```
+
+* 결측치 값을 제외한 데이터는 13개의 변수와 192개의 관측치로 구성되어 있음
+
+<br>
+
+## 4. KM Curve
+
+```{r}
+attach(pharynx_new)
+
+# survival object 생성
+Y <- Surv(TIME,STATUS) 
+
+# KM plot + C.I
+pha_KM <- survfit(Y~1)
+summary(pha_KM)
+plot(pha_KM, xlab='Time (day)', ylab='survival probability', main='Kaplan-Meier curve and Confidence Interval')
+text(1650, 0.36, "Upper 95% C.I")
+text(1650, 0.05, "Lower 95% C.I")
+```
+
+* 구강내 악성종양 진단을 받은 환자의 절반은 465일 내(1년 3~4개월)에 사망하며 오래 사는 환자는 4년 이상 살기도 함
+
+<br>
+
+### 4.1 TX KM Curve & test
+
+```{r}
+# KM Curve
+pha_KM_tx <- survfit(Y~TX)
+summary(pha_KM_tx)
+plot(pha_KM_tx, lty=1:2, col=1:2)
+legend(1350, 1, c('방사선치료+a', '방사선치료'), lty=1:2, col=1:2)
+
+# test
+survdiff(Y~TX)
+```
+
+* p-value = 0.308 > 0.05인 것으로 보아 TX, 즉 치료요법에 따른 두 커브의 차이가 없다고 할 수 있다.
+
+```{r}
+pharynx <- 
+```
+
+
+<br>
+
+### 4.2 COND KM Curve & test
+
+```{r}
+# KM Curve
+pha_KM_cond <- survfit(Y~COND)
+summary(pha_KM_cond)
+plot(pha_KM_cond, lty=1:4, col=1:4)
+legend(820, 1, c('일상생활에 지장없음', '일상생활이 다소 제한됨', '자기 관리 및 도움 필요', '침대 위'), lty=1:4, col=1:4)
+
+# test
+survdiff(Y~COND)
+```
+
+* p-value = 1.24e-10 < 0.05인 것으로 보아 COND 차이가 없다고 할 수 없다.
+* 즉, COND(환자의 건강상태)에 따른 커브의 차이가 있다.
+
+
+<br>
+
+### 4.3 T_STAGE KM Curve & test
+
+```{r}
+# KM Curve
+pha_KM_tstage <- survfit(Y ~ T_STAGE)
+summary(pha_KM_tstage)
+plot(pha_KM_tstage, lty=1:4, col=1:4)
+legend(1200, 1, c('직경 2cm 미만 종양', '직경 2~4cm 종양', '직경 4cm 이상 종양', '거대 침윤성 종양'), lty=1:4, col=1:4)
+
+# test
+survdiff(Y ~ T_STAGE)
+```
+
+* p-value = 0.0143  < 0.05인 것으로 보아 T_STAGE 차이가 없다고 할 수 없다.
+* 즉, T_STAGE(종양의 크기)에 따른 커브의 차이가 있다.
+
+<br>
+
+### 4.4 N_STAGE KM Curve & test
+
+```{r}
+# KM Curve
+pha_KM_nstage <- survfit(Y~N_STAGE)
+summary(pha_KM_nstage)
+plot(pha_KM_nstage, lty=1:4, col=1:4)
+legend(850, 1, c('임상적 증거 없음', '양성노드(≤3cm) 1개 존재', '양성노드(>3cm) 1개 존재', '여러 개 또는 고정된 양성노드'), lty=1:4, col=1:4)
+
+# test
+survdiff(Y~N_STAGE)
+```
+
+* p-value = 0.0158 < 0.05인 것으로 보아 N_STAGE별로 차이가 없다고 할 수 없다.
+* 즉, N_STAGE(암세포의 크기, 개수, 고정여부)에 따른 커브의 차이가 있다.
+
+<br>
+
+## 5.분석방향
+
+> Cox Model과 , AFT Model 생성한 뒤, 각 Model의 결과 비교를 할 예정
+

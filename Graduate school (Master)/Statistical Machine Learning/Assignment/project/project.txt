@@ -1,0 +1,17 @@
+[1] Auto{ISLR} : 'mpg' prediction
+ 
+[2] Boston{MASS} : 'medv' prediction
+ 
+[3] Carseats{ISLR} : 'Sales' prediction
+ 
+[4] College{ISLR} : 'Apps' prediction
+ 
+[5] Default{ISLR} : 'default' classification
+ 
+[6] Hitters{ISLR} : 'Salary' prediction
+ 
+[7] OJ{ISLR} : 'Purchase' classification
+ 
+[8] Wage{ISLR} : 'wage' prediction
+ 
+[9] Spam{ESL webpage} : 'spam' classification

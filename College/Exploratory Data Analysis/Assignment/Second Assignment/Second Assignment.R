@@ -1,0 +1,53 @@
+col.table <- function(cols) {
+  n=length(cols)
+  plot(seq(n),rep(1,n),xlim=c(0,n),ylim=c(0,1),type="n",xlab="",ylab="",axes=F)
+  title(paste("Color Table by",deparse(substitute(cols))))
+  for(i in 1:n) {
+    polygon(c(i-1,i-1,i,i),c(0.4,1,1,0.4),col=cols[i])
+    polygon(c(i-0.7,i-0.7,i-0.3,i-0.3),c(0.425,0.975,0.975,0.425),col="white")
+    text(i-0.5,0.7,labels=cols[i],srt=90,adj=0.5,cex=0.67)
+    text(0,0.3,"red",cex=0.65) ; text(0,0.2,"green",cex=0.65) ; text(0,0.1,"blue",cex=0.65)
+    text(i-0.2,0.3,col2rgb(cols[i])[1],cex=0.65)
+    text(i-0.2,0.2,col2rgb(cols[i])[2],cex=0.65)
+    text(i-0.2,0.1,col2rgb(cols[i])[3],cex=0.65)
+  }
+}
+
+pdf("C:/Users/200903877/Desktop/Colortable 1 (200903877 È²¼ºÀ±).pdf")
+par(mfrow=c(6,1),mar=c(0,0,2,0))
+col.table(colors()[1:30])
+col.table(colors()[31:60])
+col.table(colors()[61:90])
+col.table(colors()[91:120])
+col.table(colors()[121:150])
+col.table(colors()[151:180])
+dev.off()
+
+pdf("C:/Users/200903877/Desktop/Colortable 2 (200903877 È²¼ºÀ±).pdf")
+par(mfrow=c(6,1),mar=c(0,0,2,0))
+col.table(colors()[181:210])
+col.table(colors()[211:240])
+col.table(colors()[241:270])
+col.table(colors()[271:300])
+col.table(colors()[301:330])
+col.table(colors()[331:360])
+dev.off()
+
+pdf("C:/Users/200903877/Desktop/Colortable 3 (200903877 È²¼ºÀ±).pdf")
+par(mfrow=c(6,1),mar=c(0,0,2,0))
+col.table(colors()[361:390])
+col.table(colors()[391:420])
+col.table(colors()[421:450])
+col.table(colors()[451:480])
+col.table(colors()[481:510])
+col.table(colors()[511:540])
+dev.off()
+
+pdf("C:/Users/200903877/Desktop/Colortable 4 (200903877 È²¼ºÀ±).pdf")
+par(mfrow=c(6,1),mar=c(0,0,2,0))
+col.table(colors()[541:570])
+col.table(colors()[571:600])
+col.table(colors()[601:630])
+col.table(colors()[631:657])
+dev.off()
+

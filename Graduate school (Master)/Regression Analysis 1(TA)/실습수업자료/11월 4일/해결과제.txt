@@ -1,0 +1,18 @@
+수요일 실습은 
+
+1) Type 1 SS 이용한 F-test 
+2) VIF 이용한 multicollinearity 여부
+3) Lagged Independent variable 이용한 회귀선
+4) Lagged Dependent variable 이용한 회귀선
+
+을 다루고자 한다.  사용하는 자료는 
+
+(1) Meddicorp data :  Type1 SS, VIF ,  Lagged Independent Variable
+
+(2)Unemployment data :  Lagged Dependent Variable
+
+
+이며 관련 sas 코드를 첨부한다.   진행은 수요일 강의를 잘 듣고 이를 확인하는 형태로 실습을 진행하길 바란다.
+
+
+박흥선.

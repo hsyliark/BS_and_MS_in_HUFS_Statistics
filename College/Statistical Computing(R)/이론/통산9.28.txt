@@ -1,0 +1,134 @@
+########################   1    ##############
+
+@ 평균구하기
+
+my.mean.summary <-function(x){
+	sum<-0
+	for(i in 1:length(x)){
+	sum<-sum+x[i]
+	}
+	mean<-sum/length(x)
+return(mean)
+}
+x<-c(1,2,3,4,5,6)
+my.mean.summary(x)
+
+@ 분산구하기
+
+my.variance.summary <- function(x){
+	sumsquare<-0
+	for(i in 1:length(x)){
+	variance<-( sumsquare+(x[i]-my.mean.summary(x))^2 )/(length(x)-1)
+	}
+return(variance)
+}
+my.variance.summary(x)
+
+@ 중앙값 구하기 
+
+my.median.function <- function(x){
+	leng <-length(x)
+	sort <- sort(x)
+	half <- ceiling(leng/2)
+	if(((leng/2)-half)==0){
+		my.median <- ( sort[half]+sort[half+1] )/2
+		}
+	else{
+		my.median <- sort[half]
+	}
+return(my.median)
+}
+c<-c(1,2,3,7,8,9)
+my.median.function(c)
+
+
+@ 사분위수 구하기
+
+
+my.quartile1.function<-function(x){
+    b<-length(x)
+    c<-sort(x)
+    a<-ceiling(b/4)
+    if(((b/4)-a)==0)
+    {
+        quartile1<-(c[a]+c[a+1])/2
+    }
+    else
+    {
+        quartile1<-c[a]
+    }
+    return(quartile1)
+}
+my.quartile1.function(c(1,2,3,4,5,6,7,8,9,10,11,12))
+
+
+my.quartile2.function<-function(x){
+    b<-length(x)
+    c<-sort(x)
+    a <-ceiling(b/2)
+    if(((b/2)-a)==0)
+     {
+        quartile2<-(c[a]+c[a+1])/2
+    }
+    else
+    {
+        quartile2<-c[a]
+    }
+    return(quartile2)
+}
+my.quartile2.function(c(1,2,3,4,5,6,7,8,9,10,11,12))
+
+
+my.quartile3.function<-function(x){
+    b<-length(x)
+    c<-sort(x)
+    a<-ceiling(b*3/4)
+    if(((b*3/4)-a)==0)
+    {
+        quartile3<-(c[a]+c[a+1])/2
+    }
+    else
+    {
+        quartile3<-c[a]
+    }
+    return(quartile3)
+}
+my.quartile3.function(c(1,2,3,4,5,6,7,8,9,10,11,12))
+
+
+
+
+########################   2    ##############
+
+for문으로
+my.for.factorial <- function(n){
+x <- 1
+for(i in 1:n) {
+x<-x*i
+}
+x
+}
+my.for.factorial(100)   
+
+log합으로
+my.log.factorial <- function(n){
+a<-seq(1,n)
+x<-sum(log(a))
+exp(x)
+}
+my.log.factorial(100) 
+
+########################   3    ##############
+
+my.sine.function <- function(x, no.term=5){
+	sin <- 0
+	for (i in 1:no.term){
+		a <- 2*i-1
+		new.term <- ((-1)^(i+1))*x^a/ my.log.factorial(a)
+		sin <- sin+ new.term
+		cat("i=",i,"New Term=", new.term, "\n")
+		}
+	return(sin)
+}
+my.sine.function(3)
+

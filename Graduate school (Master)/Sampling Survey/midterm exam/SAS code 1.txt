@@ -1,0 +1,170 @@
+/** Basic code **/
+
+data srs_ex ;
+input a @@ ;
+cards ;
+1 2 3 4 5 6 7 8 9 10
+11 12 13 14 15 16 17 18 19 20
+;
+run ;
+
+proc summary data=srs_ex ;
+var a ;
+output out=res_1 sum=sum_a ;
+run ;
+
+proc surveyselect data=srs_ex n=10 method=srs out=samplesrs ;
+run ;
+
+proc print data=samplesrs ;
+run ;
+
+proc surveymeans data=samplesrs total=10 ;
+var a ;
+ods output statistics=res1 ;
+run ;
+
+proc surveymeans data=samplesrs ;
+var a ;
+ods output statistics=res2 ;
+run ;
+
+proc surveymeans data=samplesrs total=10 sum clsum ;
+var a ;
+ods output statistics=res3 ;
+run ;
+
+proc surveymeans data=samplesrs sum clsum ;
+var a ;
+ods output statistics=res4 ;
+run ;
+
+data samplesrs ; set samplesrs ;
+wei=10/5 ;
+run ;
+
+proc surveymeans data=samplesrs total=10 ;
+var a ; weight wei ;
+ods output statistics=res5 ;
+run ;
+
+proc surveymeans data=samplesrs total=10 sum clsum ;
+var a ; weight wei ;
+ods output statistics=res6 ;
+run ;
+
+
+
+data IceCream ;
+input Grade Spending @@ ;
+if (Spending < 10) then Group='less' ;
+else Group='more' ;
+cards ;
+7 7 7 7 8 12 9 10 7 1 7 10 7 3 8 20 8 19 7 2
+7 2 9 15 8 16 7 6 7 6 7 6 9 15 8 17 8 14 9 8
+9 8 9 7 7 3 7 12 7 4 9 14 8 18 9 9 7 2 7 1
+7 4 7 11 9 8 8 10 8 13 7 2 9 6 9 11 7 2 7 9
+;
+run ;
+
+data StudentTotals ;
+input Grade _total_ @@ ;
+cards ;
+7 1824 8 1025 9 1151
+;
+run ;
+
+data IceCream ; set IceCream ;
+if Grade=7 then Prob=20/1824 ;
+if Grade=8 then Prob=9/1025 ;
+if Grade=9 then Prob=11/1151 ;
+Weight=1/Prob ;
+run ;
+
+proc print data=IceCream ;
+run ;
+
+/** Simple Random Sampling (SRS) **/
+
+proc surveymeans data=IceCream total=4000 ;
+var Spending Group ;
+ods output statistics=res1 ;
+run ;
+
+proc surveymeans data=IceCream total=4000 sum clsum ;
+var Spending Group ;
+ods output statistics=res2 ;
+run ;
+
+/** Stratified Random Sampling **/
+
+proc surveymeans data=IceCream total=StudentTotals ;
+stratum Grade / list ;
+var Spending Group ;
+weight Weight ;
+ods output statistics=res3 ;
+run ;
+
+proc surveymeans data=IceCream total=StudentTotals sum clsum ;
+stratum Grade / list ;
+var Spending Group ;
+weight Weight ;
+ods output statistics=res4 ;
+run ;
+
+
+
+/** Strata Clustered Sampling **/
+
+data IceCreamStudy ;
+input Grade StudyGroup Spending @@ ;
+if (Spending < 10) then Group='less' ;
+else Group='more' ;
+cards ;
+7 34 7  7 34 7  7 412 4  9 27 14  7 34 2  9 230 15  9 27 15  7 501 2
+9 230 8  9 230 7  7 501 3  8 59 20  7 403 4  7 403 11  8 59 13  8 59 17
+8 143 12  8 143 16  8 59 18  9 235 9  8 143 10  9 312 8  9 235 6  9 235 11
+9 312 10  7 321 6  8 156 19  8 156 14  7 321 3  7 321 12  7 489 2  7 489 9
+7 78 1  7 78 10  7 489 2  7 156 1  7 78 6  7 412 6  7 156 2  9 301 8
+;
+run ;
+
+data StudyGroups ;
+input Grade _total_ @@ ;
+cards ;
+7 608 8 252 9 403
+;
+run ;
+
+data IceCreamStudy ; set IceCreamStudy ;
+if Grade=7 then Prob=8/608 ;
+if Grade=8 then Prob=3/252 ;
+if Grade=9 then Prob=5/403 ;
+Weight=1/Prob ;
+run ;
+
+proc print data=IceCreamStudy ;
+run ;
+
+proc surveymeans data=IceCreamStudy total=StudyGroups ;
+strata Grade / list ;
+cluster StudyGroup ;
+var Spending Group ;
+weight Weight ;
+ods output stratainfo=mystrata statistics=mystat ;
+run ;
+
+proc surveymeans data=IceCreamStudy total=StudyGroups sum clsum ;
+strata Grade / list ;
+cluster StudyGroup ;
+var Spending Group ;
+weight Weight ;
+ods output stratainfo=mystrata statistics=mystat ;
+run ;
+
+proc surveymeans data=IceCreamStudy varmethod=jackknife mean clm ;
+strata Grade / list ;
+cluster StudyGroup ;
+var Spending Group ;
+weight Weight ;
+run ;

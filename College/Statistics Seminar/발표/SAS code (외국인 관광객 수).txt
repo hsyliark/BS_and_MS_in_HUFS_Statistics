@@ -1,0 +1,118 @@
+/* 월별 외국인 관광객 수 (2003.1 ~ 2014.1) */
+
+proc import out=foreigner
+datafile="D:\수업자료\대학\(4)Senior\4-1\통계세미나(1전공)\발표\월별 외국인 관광객 수(2003.1~2014.1).csv"
+dbms=csv replace ;
+run ;
+
+data foreigner ;
+set foreigner ;
+t+1 ;
+time=intnx('month','01jan03'd,_N_-1) ;
+format time monyy. ;
+run ;
+
+symbol1 v=none i=join l=1 ;
+symbol2 v=none i=join l=2 ;
+symbol3 v=none i=join l=3 ;
+symbol4 v=none i=join l=4 ;
+
+proc gplot data=foreigner ;
+plot number*time ;
+run ; quit ;
+
+* Box-Cox power transformation ;
+ods graphics on ;
+proc transreg data=foreigner detail ;
+model boxcox(number / convenient lambda=-2 to 2 by 0.01)=identity(t) ;
+run ; quit ;
+ods graphics off ;
+** Convenient lambda=0 (log transformation) ;
+
+data foreigner ;
+set foreigner ;
+w=log(number) ;
+run ;
+
+proc gplot data=foreigner ;
+plot w*time ;
+run ; quit ;
+
+* 모형의 식별 ;
+
+proc arima data=foreigner ;
+identify var=w stationarity=(adf=(1,12)) ;
+run ; quit ;
+
+data foreigner ;
+set foreigner ;
+y=dif(w) ;
+run ;
+
+proc gplot data=foreigner ;
+plot y*t ;
+run ; quit ;
+
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+run ; quit ;
+
+* 모수의 추정 및 모형의 검진 ;
+
+** AR(1)12 ? ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) method=cls plot ;
+run ; quit ;
+
+** AR(1)12 no mean ? ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) method=cls noconstant plot ;
+run ; quit ;
+
+** ARMA(1,0)12(0,1)3 no mean ? ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12) q=(3) method=cls noconstant plot ;
+run ; quit ;
+
+** ARMA(1,0)12(0,1)3(1,0)2 no mean ? ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12)(2) q=(3) method=cls noconstant plot ;
+run ; quit ;
+
+** ARMA(1,0)12(0,1)3(2,0)2 no mean ? ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12)(2,4) q=(3) method=cls noconstant plot ;
+run ; quit ;
+** w -> ARIMA(1,0,0)12(0,0,1)3(2,0,0)2(0,1,0) with no mean ;
+
+* 예측 (전방 24단계(2014.2 ~ 2016.1)) ;
+
+ods graphics on ;
+proc arima data=foreigner ;
+identify var=w(1) stationarity=(adf=(1,12)) ;
+estimate p=(12)(2,4) q=(3) method=cls noconstant plot ;
+forecast id=t lead=24 out=result2 ;
+run ; quit ;
+ods graphics off ;
+
+data result2 ;
+set result2 ;
+time=intnx('month','01jan03'd,_N_-1) ;
+format time monyy. ;
+z=exp(w) ; z_forecast=exp(forecast) ;
+lb95=exp(l95) ; ub95=exp(u95) ;
+run ;
+
+** 실제 vs 예측 ;
+proc gplot data=result2 ;
+plot (z z_forecast)*time / overlay ;
+run ; quit ;
+
+proc gplot data=result2 ;
+plot (z z_forecast lb95 ub95)*time / overlay ;
+run ; quit ;

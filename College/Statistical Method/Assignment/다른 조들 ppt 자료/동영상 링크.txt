@@ -1,0 +1,45 @@
+Principal Component Analysis : http://youtu.be/1P9enbczNa0
+
+-------------------------------------------------------------------------------------------------
+
+Association + Network Analysis
+
+First video : http://youtu.be/8hhVxxVAmvs
+
+Second video : http://youtu.be/nz3Ds2YZFtg
+
+-------------------------------------------------------------------------------------------------
+
+Random Forest : http://www.youtube.com/watch?v=p6SSlZLYJpQ
+
+-------------------------------------------------------------------------------------------------
+
+Logistic Regression 
+
+First video : http://www.youtube.com/watch?v=VYIXT6l8wzw&feature=youtu.be
+
+Second video : http://www.youtube.com/watch?v=Sa1uLLyMJEM
+
+-------------------------------------------------------------------------------------------------
+
+Decision Tree : http://youtu.be/pE0xj6il7O0
+
+-------------------------------------------------------------------------------------------------
+
+Cluster Analysis
+
+First video : http://youtu.be/kas1ZwZ4VW0
+
+Second video : http://youtu.be/xmawX6kPEdM
+
+-------------------------------------------------------------------------------------------------
+
+Neural Network : http://youtu.be/urdeFVo-UFk
+
+-------------------------------------------------------------------------------------------------
+
+Factor Analysis : http://youtu.be/qdNnTnhdVO0
+
+-------------------------------------------------------------------------------------------------
+
+Deep Learning : http://www.youtube.com/watch?v=-E0HdahcJQY&fmt=22
