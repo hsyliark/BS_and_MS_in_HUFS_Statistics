@@ -1,7 +1,7 @@
 # BS_and_MS_in_HUFS_Statistics
 ## Main Topic : Statistical Machine Learning (SML)
 
-### BS, Statistics, Hankuk University of Foreign Studies (2009.3 ~ 2015.2) <br>
+### BS, Statistics, Hankuk University of Foreign Studies (2009.3 ~ 2015.2) 
 ### MS, Statistics, Hankuk University of Foreign Studies (2015.3 ~ 2017.2)
 
 #### 수업내용, 과제, 프로젝트, 논문 등 정리...
