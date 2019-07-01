@@ -3,6 +3,8 @@
 
 ### BS, Statistics, Hankuk University of Foreign Studies (2009.3 ~ 2015.2) 
 ### MS, Statistics, Hankuk University of Foreign Studies (2015.3 ~ 2017.2)
+### http://www.hufs.ac.kr/ 
+### http://stat.hufs.ac.kr/
 
 
 #### 수업내용, 과제, 프로젝트, 논문 등 정리...
